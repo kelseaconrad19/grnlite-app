@@ -108,17 +108,24 @@
         .auth-footer a:hover {
             text-decoration: underline;
         }
+
+        /* Navigation bar logo styling */
+        .navbar .logo img {
+            height: 80px;
+            width: auto;
+        }
     </style>
 </head>
 
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="main.html" class="logo">Grn Lite</a>
+            <a href="main.html" class="logo">
+                <img src="Grn Lite Logo.png" alt="Grn Lite Logo">
+            </a>
             <div class="nav-links">
                 <a href="main.html">Home</a>
                 <a href="auth.html">Sign In</a>
-                <a href="dashboard.html">Dashboard</a>
             </div>
         </div>
     </nav>
@@ -143,7 +150,6 @@
                     <input type="password" id="password" required>
                 </div>
 
-                <!-- Bubble choices for Author/Reader selection -->
                 <div class="bubble-choice-container">
                     <div class="bubble-choice" id="readerChoice" onclick="setUserType('reader')">Reader</div>
                     <div class="bubble-choice" id="authorChoice" onclick="setUserType('author')">Author</div>
@@ -173,8 +179,12 @@
                 alert("Please select your role as Reader or Author.");
                 return;
             }
+            // TODO: Backend: Send form data (name, email, password, user type) to the backend via POST request to /signup
+            // TODO: Backend: Validate and store the user's data in the database, including user type (Reader or Author)
+            // TODO: Backend: Ensure password is hashed before saving and email is validated for uniqueness
+
             alert(`Thank you for signing up as a ${selectedUserType}!`);
-            window.location.href = `${selectedUserType}-dashboard.html`;
+            window.location.href = `${selectedUserType}-dashboard.html`; // Redirect to the appropriate dashboard after signup
         });
     </script>
 </body>

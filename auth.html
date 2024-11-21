@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -171,17 +170,24 @@
         .auth-footer a:hover {
             text-decoration: underline;
         }
+
+        /* Navigation bar logo styling */
+        .navbar .logo img {
+            height: 80px; /* Adjusted logo size for a bigger logo */
+            width: auto;
+        }
     </style>
 </head>
 
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="main.html" class="logo">Grn Lite</a>
+            <a href="main.html" class="logo">
+                <img src="Grn Lite Logo.png" alt="Grn Lite Logo"> 
+            </a>
             <div class="nav-links">
                 <a href="main.html">Home</a>
-                <a href="auth.html">Sign In</a>
-                <a href="dashboard.html">Dashboard</a>
+                <a href="signup.html">Sign Up</a>
             </div>
         </div>
     </nav>
@@ -229,7 +235,10 @@
                 alert("Please select your role as Reader or Author.");
                 return;
             }
-            window.location.href = `${selectedUserType}-dashboard.html`;
+            // TODO: Backend functionality: Send form data (email, password, user type) to backend (POST request to /login)
+            // Validate user login details (check email and password) in the backend
+
+            window.location.href = `${selectedUserType}-dashboard.html`; // Redirect to the user-specific dashboard upon successful login
         });
     </script>
 </body>

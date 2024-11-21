@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grn Lite - Reader Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="Grn Lite Logo.png" alt="Grn Lite Logo">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="main.html" class="nav-item">Home</a>
+                <a href="reader-dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="tasks.html" class="nav-item">Tasks</a>
+                <a href="preferences.html" class="nav-item">Preferences</a>
+                <a href="profile.html" class="nav-item">Profile</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+                <a href="logout.html" class="nav-item">Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Welcome Back, Reader!</h1>
+            </div>
+            <div class="tabs">
+                <button class="tab active">Available Tasks</button>
+                <button class="tab">In Progress</button>
+                <button class="tab">Completed</button>
+            </div>
+            <div class="tasks-container">
+                <div class="task-card">
+                    <div class="task-header">
+                        <h4>Review Book XYZ</h4>
+                        <span class="task-status status-available">Available</span>
+                    </div>
+                    <p>Description of the task</p>
+                    <button class="btn btn-primary">Accept Task</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
