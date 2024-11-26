@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+// Styled-components for styling the page
 const SignInContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,6 +29,7 @@ const OptionButton = styled.button`
   color: white;
   padding: 15px 30px;
   font-size: 1.2rem;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   width: 200px;
@@ -44,6 +46,7 @@ const BackToHome = styled.button`
   color: white;
   padding: 10px 20px;
   font-size: 1rem;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -57,7 +60,7 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const handleNavigation = (role) => {
-    // Navigate to the secondary sign-in page with the role
+    // Navigate to the secondary sign-in page with the selected role
     navigate(`/sign-in/${role}`);
   };
 

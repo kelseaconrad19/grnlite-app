@@ -68,6 +68,7 @@ const SignUp = () => {
       <SignUpOptions>
         <OptionButton onClick={() => handleNavigation('Author')}>Author</OptionButton>
         <OptionButton onClick={() => handleNavigation('Reader')}>Reader</OptionButton>
+        <OptionButton onClick={() => handleNavigation('Editor')}>Editor</OptionButton> {/* New Editor Button */}
       </SignUpOptions>
       <BackToHome onClick={() => navigate('/')}>Back to Home</BackToHome>
     </SignUpContainer>
