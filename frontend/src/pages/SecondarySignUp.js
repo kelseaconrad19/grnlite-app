@@ -163,42 +163,6 @@ const SecondarySignUp = () => {
             <option value="science-fiction">Science Fiction</option>
           </Select>
         )}
-        {role === 'author' && (
-          <Input
-            type="text"
-            name="preferences"
-            placeholder="Preferred Editing Style"
-            value={formData.preferences}
-            onChange={handleChange}
-            required
-          />
-        )}
-        {role === 'editor' && (
-          <>
-            <Input
-              type="text"
-              name="preferences"
-              placeholder="Specialization (e.g., Grammar, Developmental Editing)"
-              value={formData.preferences}
-              onChange={handleChange}
-              required
-            />
-            <Select
-              name="genres"
-              value={formData.genres}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled>
-                Select Genres You Edit
-              </option>
-              <option value="fiction">Fiction</option>
-              <option value="non-fiction">Non-Fiction</option>
-              <option value="fantasy">Fantasy</option>
-              <option value="biography">Biography</option>
-            </Select>
-          </>
-        )}
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Signing Up...' : 'Sign Up'}
         </Button>

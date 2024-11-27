@@ -71,7 +71,6 @@ const SignIn = () => {
       <SignInOptions>
         <OptionButton onClick={() => handleNavigation('author')}>Author</OptionButton>
         <OptionButton onClick={() => handleNavigation('reader')}>Reader</OptionButton>
-        <OptionButton onClick={() => handleNavigation('editor')}>Editor</OptionButton>
       </SignInOptions>
       <BackToHome onClick={() => navigate('/')}>Back to Home</BackToHome>
     </SignInContainer>

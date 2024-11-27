@@ -628,7 +628,7 @@ const AuthorDashboard = () => {
       <Sidebar>
       <NotificationBell
       onClick={handleNotificationClick}
-      style={{ marginLeft: '150px' }} // Adjusted to keep it on the screen
+      style={{ marginLeft: '150px' }} 
     >
       🔔 {notifications > 0 && `(${notifications})`}
     </NotificationBell>

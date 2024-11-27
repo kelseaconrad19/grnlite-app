@@ -10,8 +10,9 @@ import SignIn from './pages/SignIn';
 import SecondarySignIn from './pages/SecondarySignIn';
 import SignUp from './pages/SignUp';
 import SecondarySignUp from './pages/SecondarySignUp';
-import AuthorDashboard from './pages/AuthorDashboard'; // Import the Author Dashboard
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
+import AuthorDashboard from './pages/AuthorDashboard'; 
+import ReaderDashboard from './pages/ReaderDashboard';
+import ProtectedRoute from './components/ProtectedRoute'; 
 import './App.css';
 
 function App() {
@@ -58,9 +59,28 @@ function App() {
             }
           />
 
-          {/* Other Protected Routes for Reader and Editor Dashboards */}
-          {/* Add routes for Reader and Editor if necessary */}
-          
+          {/* Protected Reader Dashboard */}
+          <Route
+            path="/reader-dashboard"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated && isReader}>
+                <ReaderDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Future Editor Dashboard */}
+          {isEditor && (
+            <Route
+              path="/editor-dashboard"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated && isEditor}>
+                  {/* Add your EditorDashboard component here */}
+                  <div>Editor Dashboard - Coming Soon!</div>
+                </ProtectedRoute>
+              }
+            />
+          )}
         </Routes>
         <Footer />
       </div>

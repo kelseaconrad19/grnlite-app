@@ -144,10 +144,7 @@ const SecondarySignIn = ({ setUser }) => {
           resolve({ success: true });
         } else if (role === 'reader' && email === 'reader@example.com' && password === 'password123') {
           resolve({ success: true });  
-        } else if (role === 'editor' && email === 'editor@example.com' && password === 'password123') {
-          resolve({ success: true });  
-        } 
-        else {
+        } else {
           resolve({ success: false });
         }
       }, 1000); // Simulate API delay
