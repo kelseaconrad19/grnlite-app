@@ -328,6 +328,8 @@ const AuthorDashboard = () => {
   
   const [currentSection, setCurrentSection] = useState('');
 
+
+
   // Render content based on active tab
   const renderContent = () => {
     switch (activeTab) {
@@ -600,157 +602,212 @@ const AuthorDashboard = () => {
         );
 
         case 'feedback-summary':
-  return (
-    <>
-      {/* Back to Dashboard Button */}
-      <Button onClick={() => setCurrentSection('')}>Back to Dashboard</Button>
+          return (
+            <>
+              {/* Back to Dashboard Button */}
+              <Button onClick={() => setCurrentSection('')}>Back to Dashboard</Button>
+        
+              {/* Title and Description */}
+              <DashboardTitle>Feedback Summary</DashboardTitle>
+              <p>Consolidate and manage feedback from beta readers in one view. Use filters to navigate feedback efficiently.</p>
+        
+              {/* Filters */}
+              <FormGroup>
+                <label htmlFor="chapter-filter">Filter by Chapter:</label>
+                <select id="chapter-filter" style={{ width: '100%', padding: '10px', marginTop: '10px' }}>
+                  <option value="">All Chapters</option>
+                  <option value="chapter1">Chapter 1</option>
+                  <option value="chapter2">Chapter 2</option>
+                  <option value="chapter3">Chapter 3</option>
+                </select>
+              </FormGroup>
+        
+              <FormGroup>
+                <label htmlFor="reader-filter">Filter by Reader:</label>
+                <select id="reader-filter" style={{ width: '100%', padding: '10px', marginTop: '10px' }}>
+                  <option value="">All Readers</option>
+                  <option value="reader1">Jane Doe</option>
+                  <option value="reader2">John Smith</option>
+                  <option value="reader3">Emily Brown</option>
+                </select>
+              </FormGroup>
+        
+              <FormGroup>
+                <label>Filter by Feedback Type:</label>
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                  <label>
+                    <input type="checkbox" name="feedback-type" value="plot" /> Plot
+                  </label>
+                  <label>
+                    <input type="checkbox" name="feedback-type" value="characters" /> Characters
+                  </label>
+                  <label>
+                    <input type="checkbox" name="feedback-type" value="grammar" /> Grammar
+                  </label>
+                  <label>
+                    <input type="checkbox" name="feedback-type" value="pacing" /> Pacing
+                  </label>
+                </div>
+              </FormGroup>
+        
+              {/* Feedback Table */}
+              <div style={{ marginTop: '20px', overflowX: 'auto' }}>
+                <h3>Feedback Results</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #ddd' }}>
+                  <thead>
+                    <tr style={{ backgroundColor: '#f2f2f2' }}>
+                      <th style={{ padding: '10px', border: '1px solid #ddd' }}>Chapter</th>
+                      <th style={{ padding: '10px', border: '1px solid #ddd' }}>Reader</th>
+                      <th style={{ padding: '10px', border: '1px solid #ddd' }}>Category</th>
+                      <th style={{ padding: '10px', border: '1px solid #ddd' }}>Feedback</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>Chapter 1</td>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>Jane Doe</td>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>Plot</td>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>The story arc in this chapter is engaging and keeps the reader interested.</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>Chapter 2</td>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>John Smith</td>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>Characters</td>
+                      <td style={{ padding: '10px', border: '1px solid #ddd' }}>The characters feel well-developed and have clear motivations.</td>
+                    </tr>
+                    {/* More dynamic rows can be added here */}
+                  </tbody>
+                </table>
+              </div>
+        
+              {/* Export and Summary Buttons */}
+              <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                <Button onClick={() => alert('Feedback exported!')}>Export Feedback</Button>
+                <Button onClick={() => alert('Generating summary report...')}>Generate Summary Report</Button>
+              </div>
+            </>
+          );
+        
+        case 'author-profile':
+          return (
+            <>
+              <Button onClick={() => setCurrentSection('')}>Back to Dashboard</Button>
+        
+              <DashboardTitle>Your Author Profile</DashboardTitle>
+              <p>Create and manage your profile to attract beta readers and collaborators.</p>
+        
+              {/* Profile Picture */}
+              <ProfilePicContainer>
+                <ProfilePicLabel>Upload Profile Picture</ProfilePicLabel>
+                <ProfilePicInput 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleProfilePicChange} 
+                />
+                <ProfilePicButton htmlFor="profile-pic">Choose a File</ProfilePicButton>
+                {profilePic && (
+                  <img 
+                    src={profilePic} 
+                    alt="Profile" 
+                    style={{ 
+                      marginTop: '10px', 
+                      width: '150px', 
+                      height: '150px', 
+                      objectFit: 'cover', 
+                      borderRadius: '50%' 
+                    }} 
+                  />
+                )}
+              </ProfilePicContainer>
+        
+              {/* Author Bio */}
+              <FormGroup>
+                <label htmlFor="author-bio">Bio:</label>
+                <Textarea
+                  id="author-bio"
+                  placeholder="Write a compelling bio about your writing journey, inspirations, and genre specialties (max 500 characters)"
+                  maxLength={500}
+                />
+              </FormGroup>
+        
+              {/* Published Works Section */}
+              <FormGroup>
+                <label>Published Works:</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Input
+                    type="text"
+                    placeholder="Book Title"
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Genre"
+                  />
+                  <Input
+                    type="url"
+                    placeholder="Link to book (e.g., Amazon, Goodreads)"
+                  />
+                  <Input
+                    type="file"
+                    placeholder="Upload book cover"
+                  />
+                  <Button onClick={() => alert('Book added to your profile!')}>
+                    Add Book
+                  </Button>
+                </div>
+              </FormGroup>
+        
+              {/* Writing Experience */}
+              <FormGroup>
+                <label>Writing Experience:</label>
+                <Textarea
+                  placeholder="Share your writing background, awards, publications, or significant achievements"
+                  maxLength={750}
+                />
+              </FormGroup>
+        
+              {/* Genres & Keywords */}
+              <FormGroup>
+                <label>Genres and Writing Interests:</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                  {['Fiction', 'Non-Fiction', 'Fantasy', 'Sci-Fi', 'Romance', 'Mystery', 'Thriller'].map((genre) => (
+                    <label key={genre} style={{ display: 'flex', alignItems: 'center' }}>
+                      <input type="checkbox" value={genre} /> {genre}
+                    </label>
+                  ))}
+                </div>
+              </FormGroup>
+        
+              {/* Social and Professional Links */}
+              <FormGroup>
+                <label>Professional Links:</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Input
+                    type="url"
+                    placeholder="Website or Blog URL"
+                  />
+                  <Input
+                    type="url"
+                    placeholder="LinkedIn Profile"
+                  />
+                  <Input
+                    type="url"
+                    placeholder="Twitter/X Profile"
+                  />
+                </div>
+              </FormGroup>
+        
+              {/* Save and Preview Buttons */}
+              <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                <Button onClick={() => alert('Profile saved successfully!')}>
+                  Save Profile
+                </Button>
+                <Button onClick={() => alert('Previewing public profile...')}>
+                  Preview Public Profile
+                </Button>
+              </div>
+            </>
+          );
 
-      {/* Title and Description */}
-      <DashboardTitle>Feedback Summary</DashboardTitle>
-      <p>Consolidate and manage feedback from beta readers in one view. Use filters to navigate feedback efficiently.</p>
-
-      {/* Filters */}
-      <FormGroup>
-        <label htmlFor="chapter-filter">Filter by Chapter:</label>
-        <select id="chapter-filter">
-          <option value="">All Chapters</option>
-          <option value="chapter1">Chapter 1</option>
-          <option value="chapter2">Chapter 2</option>
-          {/* Add more chapters dynamically */}
-        </select>
-      </FormGroup>
-
-      <FormGroup>
-        <label htmlFor="reader-filter">Filter by Reader:</label>
-        <select id="reader-filter">
-          <option value="">All Readers</option>
-          <option value="reader1">Reader 1</option>
-          <option value="reader2">Reader 2</option>
-          {/* Add more readers dynamically */}
-        </select>
-      </FormGroup>
-
-      <FormGroup>
-        <label>Filter by Feedback Type:</label>
-        <div>
-          <label>
-            <input type="checkbox" name="feedback-type" value="plot" /> Plot
-          </label>
-          <label>
-            <input type="checkbox" name="feedback-type" value="characters" /> Characters
-          </label>
-          <label>
-            <input type="checkbox" name="feedback-type" value="grammar" /> Grammar
-          </label>
-        </div>
-      </FormGroup>
-
-      {/* Feedback Table */}
-      <div style={{ marginTop: '20px' }}>
-        <h3>Feedback Results</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr>
-              <th>Chapter</th>
-              <th>Reader</th>
-              <th>Category</th>
-              <th>Feedback</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Chapter 1</td>
-              <td>Reader 1</td>
-              <td>Plot</td>
-              <td>The story arc in this chapter is engaging!</td>
-            </tr>
-            {/* Dynamically populate rows */}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Export Button */}
-      <Button onClick={() => alert('Feedback exported!')}>Export Feedback</Button>
-    </>
-  );
-
-  case 'author-profile':
-    return (
-      <>
-        <DashboardTitle>Your Author Profile</DashboardTitle>
-        <p>Create and manage your profile to attract beta readers and collaborators.</p>
-  
-        {/* Profile Picture */}
-        <FormGroup>
-          <label htmlFor="profile-picture">Upload Profile Picture:</label>
-          <Input type="file" id="profile-picture" />
-        </FormGroup>
-  
-        {/* Author Bio */}
-        <FormGroup>
-          <label htmlFor="author-bio">Bio:</label>
-          <Textarea
-            id="author-bio"
-            placeholder="Write a brief biography about yourself (max 300 characters)"
-            maxLength={300}
-          />
-        </FormGroup>
-  
-        {/* Published Works */}
-        <FormGroup>
-          <label>Published Works:</label>
-          <div>
-            <Input
-              type="text"
-              placeholder="Enter book title"
-            />
-            <Input
-              type="url"
-              placeholder="Link to book (e.g., Amazon)"
-            />
-            <Input
-              type="file"
-              placeholder="Upload cover art"
-            />
-            <Button onClick={() => alert('Book added!')}>Add Book</Button>
-          </div>
-        </FormGroup>
-  
-        {/* Social Links */}
-        <FormGroup>
-          <label htmlFor="social-links">Social Media / Website:</label>
-          <Input
-            type="url"
-            id="social-links"
-            placeholder="Enter URL to your social media or website"
-          />
-        </FormGroup>
-  
-        {/* Genres & Keywords */}
-        <FormGroup>
-          <label htmlFor="genres">Genres:</label>
-          <Input
-            type="text"
-            id="genres"
-            placeholder="Enter genres you write in, separated by commas"
-          />
-        </FormGroup>
-        <FormGroup>
-          <label htmlFor="keywords">Keywords:</label>
-          <Input
-            type="text"
-            id="keywords"
-            placeholder="Enter keywords related to your work, separated by commas"
-          />
-        </FormGroup>
-  
-        {/* Save and Preview Buttons */}
-        <div style={{ marginTop: '20px' }}>
-          <Button onClick={() => alert('Profile saved!')}>Save Profile</Button>
-          <Button onClick={() => alert('Preview profile!')}>Preview Profile</Button>
-        </div>
-      </>
-    );
   
         case 'settings':
           return (
@@ -986,6 +1043,18 @@ const AuthorDashboard = () => {
         >
           <Icon className="fas fa-users" /> Community Groups
         </SidebarItem>
+        <SidebarItem
+          className={activeTab === 'feedback-summary' ? 'active' : ''}
+          onClick={() => setActiveTab('feedback-summary')}
+        >
+          <Icon className="fas fa-file-alt" /> Feedback Summary
+        </SidebarItem> 
+        <SidebarItem
+          className={activeTab === 'author-profile' ? 'active' : ''}
+          onClick={() => setActiveTab('author-profile')}
+        >
+          <Icon className="fas fa-file-alt" /> Author Profile
+        </SidebarItem> 
         <SidebarItem
           className={activeTab === 'settings' ? 'active' : ''}
           onClick={() => setActiveTab('settings')}
