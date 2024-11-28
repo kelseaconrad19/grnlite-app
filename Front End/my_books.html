@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grn Lite - My Books</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // JavaScript to handle adding new books to the list
+        function addBook() {
+            const bookTitle = document.getElementById('book-title').value;
+            const bookDescription = document.getElementById('book-description').value;
+            const bookCover = document.getElementById('book-cover').files[0];
+            const bookLink = document.getElementById('book-link').value; // Get book link input
+
+            if (bookTitle && bookDescription && bookCover) {
+                const bookList = document.getElementById('book-list');
+                const newBook = document.createElement('div');
+                newBook.classList.add('book-item');
+                newBook.innerHTML = `
+                    <h4>${bookTitle}</h4>
+                    <p>${bookDescription}</p>
+                    <img src="${URL.createObjectURL(bookCover)}" alt="Book Cover" class="book-cover">
+                    <p><a href="${bookLink}" target="_blank">View Book</a></p> <!-- Book link -->
+                    <button class="btn btn-danger" onclick="removeBook(this)">Remove</button>
+                `;
+                bookList.appendChild(newBook);
+                // Clear the form fields
+                document.getElementById('book-title').value = '';
+                document.getElementById('book-description').value = '';
+                document.getElementById('book-cover').value = ''; // Reset the file input
+                document.getElementById('book-link').value = ''; // Reset the book link input
+            } else {
+                alert('Please fill out all fields before adding a book.');
+            }
+        }
+
+        // JavaScript to remove a book from the list
+        function removeBook(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="Grn Lite Logo.png" alt="Grn Lite Logo">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="main.html" class="nav-item">Home</a>
+                <a href="author-dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="my_books.html" class="nav-item">My Books</a>
+                <a href="beta-reader-list.html" class="nav-item">Find Beta Readers</a>
+                <a href="manuscript-submission.html" class="nav-item">Manuscript Submission</a> <!-- New Feature -->
+                <a href="feedback-summary.html" class="nav-item">Feedback Summary</a> <!-- New Feature -->
+                <a href="resource-library.html" class="nav-item">Resource Library</a> <!-- New Feature -->
+                <a href="author-community-groups.html" class="nav-item">Community Groups</a> <!-- New Feature -->
+                <a href="author-profile.html" class="nav-item">Profile</a>
+                <a href="author-settings.html" class="nav-item">Settings</a>
+                <a href="logout.html" class="nav-item">Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>My Books</h1>
+                <p>Manage your books, view past submissions, and keep track of your projects.</p>
+            </div>
+
+            <!-- Add New Book Section -->
+            <div class="add-book-section">
+                <h3>Add New Book</h3>
+                <form id="add-book-form" class="form-group">
+                    <div class="form-group">
+                        <label for="book-title">Book Title:</label>
+                        <input type="text" id="book-title" name="book-title" placeholder="Enter your book title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-description">Book Description:</label>
+                        <textarea id="book-description" name="book-description" placeholder="Enter book description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-cover">Upload Book Cover:</label>
+                        <input type="file" id="book-cover" name="book-cover" accept="image/*" required>
+                    </div>
+                    <!-- New field to add a book link -->
+                    <div class="form-group">
+                        <label for="book-link">Book Link (Optional):</label>
+                        <input type="url" id="book-link" name="book-link" placeholder="Enter link to your book (e.g., Amazon, Website)">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addBook()">Add Book</button>
+                </form>
+            </div>
+
+            <!-- Book List Section -->
+            <div id="book-list" class="book-list">
+                <h3>Your Books</h3>
+                <div class="book-item">
+                    <h4>Harry Potter and the Prisoner of Azkaban</h4>
+                    <p>Harry returns to Hogwarts for his third year and learns that Sirius Black, an escaped prisoner, is after him. As Harry, Ron, and Hermione uncover secrets about Sirius' past and his connection to Harry’s family, they face new dangers, including the terrifying Dementors. The book explores themes of loyalty, friendship, and identity.</p>
+                    <img src="Harry Potter Cover Art.jpg" alt="Book Cover" class="book-cover">
+                    <p><a href="https://www.amazon.com/Harry-Potter-Prisoner-Azkaban-MinaLima/dp/1338815288/ref=sr_1_3?crid=V9B048N9Q2EZ&dib=eyJ2IjoiMSJ9.sroUIlG7Aibv7JNdR3QiFAuaZkdoYjgULUReOXKJZAzSWcPgx_gne7IrAa358l-4_LQUTl4IuLcWuxj72Xz2MqHeO0r71-7GOdJKufQY0Q_JONONrf6IaTPIDmr4rkNfFpZR7iR_MuP3KeAdh3d8_VXlhODSxmR7r9EMMkP9x7YfASrkV4spNUTnpQKaDdtwvNXMwn6t7MGCUcSY_aLiqQb-TyV6I9_5dRXOLBE5RoE.mI80lYUjh3dcC6O5LZqd-ZqyPCfEE88OatI-Upj9LuA&dib_tag=se&keywords=Harry+Potter+and+the+Prisoner+of+Azkaban&qid=1732803680&rnid=2941120011&s=books&sprefix=harry+potter+and+the+prisoner+of+azkaban%2Caps%2C104&sr=1-3" target="_blank">View Book</a></p> <!-- Example book link -->
+                    <button class="btn btn-danger" onclick="removeBook(this)">Remove</button>
+                </div>
+                <!-- New books will be dynamically added here -->
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

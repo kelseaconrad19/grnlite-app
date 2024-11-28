@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grn Lite - Manuscript Submission</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // JavaScript to toggle NDA upload visibility
+        function toggleNDASection() {
+            const ndaSection = document.getElementById('nda-upload-section');
+            const ndaCheckbox = document.getElementById('nda');
+            ndaSection.style.display = ndaCheckbox.checked ? 'block' : 'none';
+        }
+
+        // JavaScript to add custom feedback categories dynamically
+        function addCustomCategory() {
+            const customInput = document.getElementById('custom-feedback');
+            const categoryValue = customInput.value.trim();
+            const feedbackCategoriesDiv = document.getElementById('feedback-categories');
+
+            if (categoryValue) {
+                const newCategory = document.createElement('label');
+                newCategory.innerHTML = `<input type="checkbox" name="categories" value="${categoryValue}"> ${categoryValue}`;
+                feedbackCategoriesDiv.appendChild(newCategory);
+                customInput.value = ''; // Clear the input field
+            } else {
+                alert('Please enter a custom category!');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="Grn Lite Logo.png" alt="Grn Lite Logo">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="main.html" class="nav-item">Home</a>
+                <a href="author-dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="my_books.html" class="nav-item">My Books</a>
+                <a href="beta-reader-list.html" class="nav-item">Find Beta Readers</a>
+                <a href="manuscript-submission.html" class="nav-item">Manuscript Submission</a> <!-- New Feature -->
+                <a href="feedback-summary.html" class="nav-item">Feedback Summary</a> <!-- New Feature -->
+                <a href="resource-library.html" class="nav-item">Resource Library</a> <!-- New Feature -->
+                <a href="author-community-groups.html" class="nav-item">Community Groups</a> <!-- New Feature -->
+                <a href="author-profile.html" class="nav-item">Profile</a>
+                <a href="author-settings.html" class="nav-item">Settings</a>
+                <a href="logout.html" class="nav-item">Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Manuscript Submission</h1>
+                <p>Submit and configure your manuscript for beta readers.</p>
+            </div>
+            <form class="submission-form">
+                <!-- Manuscript Upload -->
+                <div class="form-group">
+                    <label for="manuscript-upload">Upload Manuscript:</label>
+                    <input type="file" id="manuscript-upload" name="manuscript" accept=".doc,.docx,.pdf">
+                </div>
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="manuscript-title">Manuscript Title:</label>
+                    <input type="text" id="manuscript-title" name="title" placeholder="Enter manuscript title">
+                </div>
+                <!-- Plot Summary -->
+                <div class="form-group">
+                    <label for="plot-summary">Plot Summary:</label>
+                    <textarea id="plot-summary" name="summary" placeholder="Provide a brief plot summary"></textarea>
+                </div>
+                <!-- Budget -->
+                <div class="form-group">
+                    <label for="budget">Budget for Beta Readers:</label>
+                    <input type="number" id="budget" name="budget" placeholder="Enter your budget" min="0">
+                </div>
+                <!-- Beta Readers -->
+                <div class="form-group">
+                    <label for="beta-readers">Number of Beta Readers:</label>
+                    <input type="number" id="beta-readers" name="readers" placeholder="Enter number of beta readers" min="1">
+                </div>
+                <!-- NDA -->
+                <div class="form-group">
+                    <label for="nda">Require NDA Agreement:</label>
+                    <input type="checkbox" id="nda" name="nda" onclick="toggleNDASection()">
+                </div>
+                <!-- NDA Upload Section (Hidden by Default) -->
+                <div id="nda-upload-section" class="form-group" style="display: none;">
+                    <label for="nda-upload">Upload NDA Document:</label>
+                    <input type="file" id="nda-upload" name="ndaDocument" accept=".pdf">
+                </div>
+                <!-- Feedback Categories Section -->
+                <div class="form-group">
+                    <label for="feedback-categories">Feedback Categories:</label>
+                    <div id="feedback-categories" class="checkbox-group">
+                        <!-- Pre-defined Categories -->
+                        <label><input type="checkbox" name="categories" value="Plot"> Plot</label>
+                        <label><input type="checkbox" name="categories" value="Characters"> Characters</label>
+                        <label><input type="checkbox" name="categories" value="Pacing"> Pacing</label>
+                        <label><input type="checkbox" name="categories" value="Worldbuilding"> Worldbuilding</label>
+                    </div>
+                    <!-- Custom Feedback Category -->
+                    <div class="custom-feedback">
+                        <label for="custom-feedback">Add Custom Category:</label>
+                        <input type="text" id="custom-feedback" name="customCategory" placeholder="Enter custom feedback category">
+                        <button type="button" class="btn btn-secondary" onclick="addCustomCategory()">Add</button>
+                    </div>
+                </div>
+                <!-- Keyword and Genre Tagging Section -->
+                <div class="form-group">
+                    <label for="keywords">Keywords:</label>
+                    <input type="text" id="keywords" name="keywords" placeholder="Enter relevant keywords">
+                </div>
+                <div class="form-group">
+                    <label for="genres">Genres:</label>
+                    <input type="text" id="genres" name="genres" placeholder="Enter relevant genres">
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Submit Manuscript</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>
