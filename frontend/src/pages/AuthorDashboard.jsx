@@ -318,6 +318,16 @@ const AuthorDashboard = () => {
     });
   };
 
+  const DashboardSection = ({ children }) => {
+    return (
+      <section style={{ margin: '20px 0', padding: '15px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+        {children}
+      </section>
+    );
+  };
+  
+  const [currentSection, setCurrentSection] = useState('');
+
   // Render content based on active tab
   const renderContent = () => {
     switch (activeTab) {
@@ -325,18 +335,174 @@ const AuthorDashboard = () => {
         return (
           <>
             <DashboardTitle>Manuscript Submission</DashboardTitle>
-            <p>Here, authors can submit their manuscripts for review, track progress, and manage submissions.</p>
+            <p>
+              Submit your manuscript, set preferences for beta readers, and manage feedback.
+            </p>
+      
+            {/* Upload Manuscript */}
             <FormGroup>
               <label htmlFor="manuscript-upload">Upload Manuscript:</label>
               <Input type="file" id="manuscript-upload" />
             </FormGroup>
+      
+            {/* Manuscript Title */}
             <FormGroup>
               <label htmlFor="manuscript-title">Manuscript Title:</label>
-              <Input type="text" id="manuscript-title" placeholder="Enter manuscript title" />
+              <Input
+                type="text"
+                id="manuscript-title"
+                placeholder="Enter manuscript title"
+              />
             </FormGroup>
-            <Button onClick={() => alert('Manuscript submitted for review!')}>Submit Manuscript</Button>
+      
+            {/* Summarize Plot */}
+            <FormGroup>
+              <label htmlFor="plot-summary">Summarize Plot:</label>
+              <Textarea
+                id="plot-summary"
+                placeholder="Provide a brief summary of your plot for readers."
+              />
+            </FormGroup>
+      
+            {/* Cover Art Upload */}
+            <FormGroup>
+              <label htmlFor="cover-art">Upload Cover Art:</label>
+              <Input type="file" id="cover-art" />
+            </FormGroup>
+      
+            {/* Set Budget */}
+            <FormGroup>
+              <label htmlFor="budget">Set Budget for Beta Readers ($):</label>
+              <Input
+                type="number"
+                id="budget"
+                placeholder="Enter your budget"
+                min="0"
+              />
+            </FormGroup>
+      
+            {/* Number of Beta Readers */}
+            <FormGroup>
+              <label htmlFor="beta-reader-count">Number of Beta Readers:</label>
+              <Input
+                type="number"
+                id="beta-reader-count"
+                placeholder="Enter the number of beta readers you need"
+                min="1"
+              />
+            </FormGroup>
+      
+            {/* Beta Reader Options */}
+            <FormGroup>
+              <label>Choose How to Find Beta Readers:</label>
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="beta-reader-option"
+                    value="bids"
+                  />
+                  Allow Beta Readers to Place Bids
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="beta-reader-option"
+                    value="profiles"
+                  />
+                  View Beta Readers' Profiles to Hire
+                </label>
+              </div>
+            </FormGroup>
+      
+            {/* NDA Agreement */}
+            <FormGroup>
+              <label>
+                <input type="checkbox" name="nda-agreement" />
+                Require NDA Agreement
+              </label>
+            </FormGroup>
+      
+            {/* Feedback Categories */}
+            <FormGroup>
+              <label>Feedback Categories:</label>
+              <div>
+                {/* Pre-Populated Feedback Options */}
+                <label>
+                  <input type="checkbox" name="feedback-categories" value="plot" />
+                  Plot Structure
+                </label>
+                <label>
+                  <input type="checkbox" name="feedback-categories" value="characters" />
+                  Characters
+                </label>
+                <label>
+                  <input type="checkbox" name="feedback-categories" value="setting" />
+                  Setting
+                </label>
+                <label>
+                  <input type="checkbox" name="feedback-categories" value="impressions" />
+                  Interest Level / General Impressions
+                </label>
+                <label>
+                  <input type="checkbox" name="feedback-categories" value="line-editing" />
+                  Line Editing
+                </label>
+                <label>
+                  <input type="checkbox" name="feedback-categories" value="proofreading" />
+                  Copy Editing & Proofreading
+                </label>
+              </div>
+      
+              {/* Custom Feedback Prompts */}
+              <div>
+                <label htmlFor="custom-feedback">Add Custom Feedback Category:</label>
+                <Input
+                  type="text"
+                  id="custom-feedback"
+                  placeholder="Enter custom feedback category"
+                />
+                <Button
+                  onClick={() => {
+                    const customFeedback = document.getElementById('custom-feedback').value;
+                    if (customFeedback) {
+                      alert(`Custom feedback category "${customFeedback}" added!`);
+                      // Logic to dynamically add the custom feedback option can go here
+                    }
+                  }}
+                >
+                  Add Custom Category
+                </Button>
+              </div>
+            </FormGroup>
+      
+            {/* Extra Questions */}
+            <FormGroup>
+              <label htmlFor="extra-questions">Extra Questions or Prompts:</label>
+              <Textarea
+                id="extra-questions"
+                placeholder="Add any additional questions for beta readers."
+              />
+            </FormGroup>
+      
+  {/* Feedback Summary View */}
+<DashboardSection>
+  <h3>Feedback Summary</h3>
+  <p>Consolidate all beta reader feedback into a single summary view. Filter by chapter, reader, or feedback type.</p>
+  <Button onClick={() => setCurrentSection('feedback-summary')}>
+    View Feedback Summary
+  </Button>
+</DashboardSection>
+      
+            {/* Save and Submit Button */}
+            <Button onClick={() => alert('Manuscript preferences saved and submitted!')}>
+              Save and Submit Manuscript
+            </Button>
           </>
         );
+      
       case 'profile':
         return (
           <>
@@ -361,6 +527,16 @@ const AuthorDashboard = () => {
             value={settings.contactPhone}
             onChange={handleContactChange}
             />
+
+ {/* Author Profile */}
+ <DashboardSection>
+              <h3>Your Author Profile</h3>
+              <p>Manage your profile, including past book titles, bios, and cover art to attract beta readers.</p>
+              <Button onClick={() => alert('Opening Author Profile Management')}>
+                Edit Profile
+              </Button>
+            </DashboardSection>
+
             <Button onClick={() => alert('Profile updated!')}>Save Changes</Button>
             </FormGroup>
             </>          
@@ -422,6 +598,160 @@ const AuthorDashboard = () => {
             </GroupContainer>
           </>
         );
+
+        case 'feedback-summary':
+  return (
+    <>
+      {/* Back to Dashboard Button */}
+      <Button onClick={() => setCurrentSection('')}>Back to Dashboard</Button>
+
+      {/* Title and Description */}
+      <DashboardTitle>Feedback Summary</DashboardTitle>
+      <p>Consolidate and manage feedback from beta readers in one view. Use filters to navigate feedback efficiently.</p>
+
+      {/* Filters */}
+      <FormGroup>
+        <label htmlFor="chapter-filter">Filter by Chapter:</label>
+        <select id="chapter-filter">
+          <option value="">All Chapters</option>
+          <option value="chapter1">Chapter 1</option>
+          <option value="chapter2">Chapter 2</option>
+          {/* Add more chapters dynamically */}
+        </select>
+      </FormGroup>
+
+      <FormGroup>
+        <label htmlFor="reader-filter">Filter by Reader:</label>
+        <select id="reader-filter">
+          <option value="">All Readers</option>
+          <option value="reader1">Reader 1</option>
+          <option value="reader2">Reader 2</option>
+          {/* Add more readers dynamically */}
+        </select>
+      </FormGroup>
+
+      <FormGroup>
+        <label>Filter by Feedback Type:</label>
+        <div>
+          <label>
+            <input type="checkbox" name="feedback-type" value="plot" /> Plot
+          </label>
+          <label>
+            <input type="checkbox" name="feedback-type" value="characters" /> Characters
+          </label>
+          <label>
+            <input type="checkbox" name="feedback-type" value="grammar" /> Grammar
+          </label>
+        </div>
+      </FormGroup>
+
+      {/* Feedback Table */}
+      <div style={{ marginTop: '20px' }}>
+        <h3>Feedback Results</h3>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th>Chapter</th>
+              <th>Reader</th>
+              <th>Category</th>
+              <th>Feedback</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chapter 1</td>
+              <td>Reader 1</td>
+              <td>Plot</td>
+              <td>The story arc in this chapter is engaging!</td>
+            </tr>
+            {/* Dynamically populate rows */}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Export Button */}
+      <Button onClick={() => alert('Feedback exported!')}>Export Feedback</Button>
+    </>
+  );
+
+  case 'author-profile':
+    return (
+      <>
+        <DashboardTitle>Your Author Profile</DashboardTitle>
+        <p>Create and manage your profile to attract beta readers and collaborators.</p>
+  
+        {/* Profile Picture */}
+        <FormGroup>
+          <label htmlFor="profile-picture">Upload Profile Picture:</label>
+          <Input type="file" id="profile-picture" />
+        </FormGroup>
+  
+        {/* Author Bio */}
+        <FormGroup>
+          <label htmlFor="author-bio">Bio:</label>
+          <Textarea
+            id="author-bio"
+            placeholder="Write a brief biography about yourself (max 300 characters)"
+            maxLength={300}
+          />
+        </FormGroup>
+  
+        {/* Published Works */}
+        <FormGroup>
+          <label>Published Works:</label>
+          <div>
+            <Input
+              type="text"
+              placeholder="Enter book title"
+            />
+            <Input
+              type="url"
+              placeholder="Link to book (e.g., Amazon)"
+            />
+            <Input
+              type="file"
+              placeholder="Upload cover art"
+            />
+            <Button onClick={() => alert('Book added!')}>Add Book</Button>
+          </div>
+        </FormGroup>
+  
+        {/* Social Links */}
+        <FormGroup>
+          <label htmlFor="social-links">Social Media / Website:</label>
+          <Input
+            type="url"
+            id="social-links"
+            placeholder="Enter URL to your social media or website"
+          />
+        </FormGroup>
+  
+        {/* Genres & Keywords */}
+        <FormGroup>
+          <label htmlFor="genres">Genres:</label>
+          <Input
+            type="text"
+            id="genres"
+            placeholder="Enter genres you write in, separated by commas"
+          />
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="keywords">Keywords:</label>
+          <Input
+            type="text"
+            id="keywords"
+            placeholder="Enter keywords related to your work, separated by commas"
+          />
+        </FormGroup>
+  
+        {/* Save and Preview Buttons */}
+        <div style={{ marginTop: '20px' }}>
+          <Button onClick={() => alert('Profile saved!')}>Save Profile</Button>
+          <Button onClick={() => alert('Preview profile!')}>Preview Profile</Button>
+        </div>
+      </>
+    );
+  
         case 'settings':
           return (
             <>
