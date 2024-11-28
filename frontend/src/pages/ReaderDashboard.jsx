@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Switch from 'react-switch';
+import { Form, Button, FormGroup } from 'react-bootstrap';
+
+
 
 // Styled Components
 const DashboardContainer = styled.div`
@@ -79,7 +83,8 @@ const Card = styled.div`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
-const Button = styled.button`
+const ClickButton = styled.button`
+
   padding: 10px 20px;
   background-color: #27ae60;
   color: white;
@@ -184,7 +189,7 @@ const ProfilePicButton = styled.label`
   }
 `;
 
-const FormGroup = styled.div`
+const FormGroup2 = styled.div`
   margin-bottom: 20px;
 `;
 
@@ -270,6 +275,26 @@ const ReaderDashboard = () => {
   const handleContactChange = (e) => {
     setSettings({ ...settings, contactPhone: e.target.value });
   };
+  const [feedback, setFeedback] = useState({
+    manuscriptId: '',
+    plot: '',
+    characters: '',
+    pace: '',
+  });
+  
+  const [profile, setProfile] = useState({
+    bio: '',
+    portfolio: '',
+    payRate: '',
+    ratings: [], // Optional
+  });
+  const [profileExists, setProfileExists] = useState(false); // Tracks if the profile is already created
+
+  const handleSubmitProfile = () => {
+    // API call to save the profile
+    setProfileExists(true);
+  };
+  
 
   const renderContent = () => {
     switch (activeTab) {
@@ -308,27 +333,13 @@ const ReaderDashboard = () => {
                 />
               </FormGroup>
         
-              {/* Profile Picture Upload */}
-              <ProfilePicContainer>
-                <ProfilePicLabel>Upload Profile Picture</ProfilePicLabel>
-                <ProfilePicInput
-                  type="file"
-                  accept="image/*"
-                  id="profile-pic-input"
-                  onChange={handleProfilePicChange}
-                />
-                <ProfilePicButton htmlFor="profile-pic-input">Choose a File</ProfilePicButton>
+            {/* Profile Picture */}
+            <FormGroup>
+              <label htmlFor="profilepic-upload">Upload Profile Pic:</label>
+              <Input type="file" id="profilepic-upload" />
+            </FormGroup>
                 
-                {/* Display Profile Picture */}
-                {profilePic && (
-                  <img
-                    src={profilePic}
-                    alt="Profile Pic"
-                    style={{ marginTop: '10px', width: '100px', borderRadius: '8px' }}
-                  />
-                )}
-              </ProfilePicContainer>
-        
+               
               {/* Bio Input */}
               <FormGroup>
                 <label htmlFor="bio">Bio:</label>
@@ -382,7 +393,92 @@ const ReaderDashboard = () => {
                 Save Changes
               </Button>
             </>
-          );        
+          ); 
+          
+case 'betaReaderProfile':
+  return (
+    <>
+      <DashboardTitle>Beta Reader Profile</DashboardTitle>
+      {!profileExists ? (
+        // Profile Setup Form
+        <Form>
+          <FormGroup>
+            <label htmlFor="bio">Brief Bio:</label>
+            <textarea
+              id="bio"
+              name="bio"
+              value={profile.bio}
+              onChange={(e) =>
+                setProfile({ ...profile, [e.target.name]: e.target.value })
+              }
+              placeholder="Write a short bio to highlight your skills and experience"
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label htmlFor="portfolio">Portfolio Examples:</label>
+            <textarea
+              id="portfolio"
+              name="portfolio"
+              value={profile.portfolio}
+              onChange={(e) =>
+                setProfile({ ...profile, [e.target.name]: e.target.value })
+              }
+              placeholder="Describe examples of feedback you've given (redact titles/identifiers)"
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label htmlFor="payRate">Desired Pay Rate:</label>
+            <Input
+              type="number"
+              id="payRate"
+              name="payRate"
+              value={profile.payRate}
+              onChange={(e) =>
+                setProfile({ ...profile, [e.target.name]: e.target.value })
+              }
+              placeholder="Enter your pay rate (e.g., $10/hour)"
+            />
+          </FormGroup>
+
+          <Button onClick={handleSubmitProfile}>Save Profile</Button>
+        </Form>
+      ) : (
+        // Profile View Section
+        <div>
+          <h3>Your Profile</h3>
+          <p>
+            <strong>Bio:</strong> {profile.bio}
+          </p>
+          <p>
+            <strong>Portfolio:</strong> {profile.portfolio}
+          </p>
+          <p>
+            <strong>Pay Rate:</strong> ${profile.payRate}/hour
+          </p>
+
+          {/* Optional: Ratings Section */}
+          {profile.ratings && (
+            <>
+              <h4>Ratings</h4>
+              <ul>
+                {profile.ratings.map((rating, index) => (
+                  <li key={index}>
+                    {rating.authorName}: {rating.comment} ({rating.score}/5)
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          <Button onClick={() => setProfileExists(false)}>Edit Profile</Button>
+        </div>
+      )}
+    </>
+  );
+
+
       case 'resources':
         return (
           <>
@@ -431,23 +527,135 @@ const ReaderDashboard = () => {
             <Button onClick={handleCreateGroup}>Create Group</Button>
           </>
         );
+
+
+        
         case 'settings':
           return (
             <>
-              <DashboardTitle>Settings</DashboardTitle>
-              <ToggleContainer>
-                <label>
-                  <input type="checkbox" /> Enable Dark Mode
+              <DashboardTitle>Account Settings</DashboardTitle>
+        
+              {/* Enable Dark Mode */}
+              <FormGroup>
+                <label htmlFor="enable-dark-mode">
+                  <span>Enable Dark Mode</span>
+                  <Switch
+                    checked={settings.darkMode}
+                    onChange={(checked) =>
+                      setSettings({ ...settings, darkMode: checked })
+                    }
+                  />
                 </label>
-              </ToggleContainer>
-              <ToggleContainer>
-                <label>
-                  <input type="checkbox" /> Receive Email Notifications
+              </FormGroup>
+        
+              {/* Email Notifications */}
+              <FormGroup>
+                <label htmlFor="email-notifications">
+                  <span>Email Notifications</span>
+                  <Switch
+                    checked={settings.emailNotifications}
+                    onChange={(checked) =>
+                      setSettings({ ...settings, emailNotifications: checked })
+                    }
+                  />
                 </label>
-              </ToggleContainer>
-              <Button>Save Settings</Button>
+              </FormGroup>
+        
+              {/* Profile Visibility */}
+              <FormGroup>
+                <label htmlFor="profile-visibility">
+                  <span>Profile Visibility</span>
+                  <Switch
+                    checked={settings.profileVisibility}
+                    onChange={(checked) =>
+                      setSettings({ ...settings, profileVisibility: checked })
+                    }
+                  />
+                </label>
+              </FormGroup>
+        
+              {/* Contact Email */}
+              <FormGroup>
+                <label htmlFor="contact-email">Contact Email:</label>
+                <Input
+                  type="email"
+                  id="contact-email"
+                  name="contactEmail"
+                  value={settings.contactEmail}
+                  onChange={(e) =>
+                    setSettings({ ...settings, contactEmail: e.target.value })
+                  }
+                />
+              </FormGroup>
+        
+              {/* Contact Phone */}
+              <FormGroup>
+                <label htmlFor="contact-phone">Contact Phone:</label>
+                <Input
+                  type="text"
+                  id="contact-phone"
+                  name="contactPhone"
+                  value={settings.contactPhone}
+                  onChange={(e) =>
+                    setSettings({ ...settings, contactPhone: e.target.value })
+                  }
+                />
+              </FormGroup>
+               
+              {/* Social Links */}
+              <FormGroup>
+                <label htmlFor="social-link-facebook">Facebook:</label>
+                <Input
+                  type="url"
+                  id="social-link-facebook"
+                  name="facebookLink"
+                  value={settings.facebookLink}
+                  onChange={(e) =>
+                    setSettings({ ...settings, facebookLink: e.target.value })
+                  }
+                  placeholder="Enter your Facebook URL"
+                />
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="social-link-twitter">Twitter:</label>
+                <Input
+                  type="url"
+                  id="social-link-twitter"
+                  name="twitterLink"
+                  value={settings.twitterLink}
+                  onChange={(e) =>
+                    setSettings({ ...settings, twitterLink: e.target.value })
+                  }
+                  placeholder="Enter your Twitter URL"
+                />
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="social-link-linkedin">LinkedIn:</label>
+                <Input
+                  type="url"
+                  id="social-link-linkedin"
+                  name="linkedinLink"
+                  value={settings.linkedinLink}
+                  onChange={(e) =>
+                    setSettings({ ...settings, linkedinLink: e.target.value })
+                  }
+                  placeholder="Enter your LinkedIn URL"
+                />
+              </FormGroup>
+        
+              {/* Change Password Button */}
+              <FormGroup>
+                <Button onClick={() => alert('Password change functionality coming soon!')}>
+                  Change Password
+                </Button>
+              </FormGroup>
+        
+              {/* Save Settings Button */}
+              <Button onClick={() => alert('Settings saved!')}>Save Settings</Button>
             </>
           );
+        
+        
         default:
           return <p>Unknown Tab</p>;
       }
@@ -473,6 +681,9 @@ const ReaderDashboard = () => {
         </SidebarItem>
         <SidebarItem onClick={() => setActiveTab('groups')} className={activeTab === 'groups' ? 'active' : ''}>
           Community Groups
+        </SidebarItem>
+        <SidebarItem onClick={() => setActiveTab('betaReaderProfile')} className={activeTab === 'betaReaderProfile' ? 'active' : ''}>
+        Beta Reader Profile
         </SidebarItem>
         <SidebarItem onClick={() => setActiveTab('settings')} className={activeTab === 'settings' ? 'active' : ''}>
           Settings

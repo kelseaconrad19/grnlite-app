@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Switch from 'react-switch';
 
 // Styled Components
 const DashboardContainer = styled.div`
@@ -157,16 +158,6 @@ const ProfilePicButton = styled.label`
 
   &:hover {
     background-color: #2ecc71;
-  }
-`;
-
-const Switch = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  input[type='checkbox'] {
-    transform: scale(1.5);
   }
 `;
 
@@ -489,15 +480,6 @@ const AuthorDashboard = () => {
               />
             </FormGroup>
       
-  {/* Feedback Summary View */}
-<DashboardSection>
-  <h3>Feedback Summary</h3>
-  <p>Consolidate all beta reader feedback into a single summary view. Filter by chapter, reader, or feedback type.</p>
-  <Button onClick={() => setCurrentSection('feedback-summary')}>
-    View Feedback Summary
-  </Button>
-</DashboardSection>
-      
             {/* Save and Submit Button */}
             <Button onClick={() => alert('Manuscript preferences saved and submitted!')}>
               Save and Submit Manuscript
@@ -509,12 +491,10 @@ const AuthorDashboard = () => {
         return (
           <>
             <DashboardTitle>Profile Settings</DashboardTitle>
-            <ProfilePicContainer>
-              <ProfilePicLabel>Upload Profile Picture</ProfilePicLabel>
-              <ProfilePicInput type="file" accept="image/*" onChange={handleProfilePicChange} />
-              <ProfilePicButton htmlFor="profile-pic">Choose a File</ProfilePicButton>
-              {profilePic && <img src={profilePic} alt="Profile Pic" style={{ marginTop: '10px', width: '100px' }} />}
-            </ProfilePicContainer>
+            <FormGroup>
+              <label htmlFor="profilepic-upload">Upload Profile Pic:</label>
+              <Input type="file" id="profilepic-upload" />
+            </FormGroup>
             <FormGroup>
               <label htmlFor="bio">Bio:</label>
               <Textarea id="bio" placeholder="Write a short bio here..." />
@@ -529,15 +509,6 @@ const AuthorDashboard = () => {
             value={settings.contactPhone}
             onChange={handleContactChange}
             />
-
- {/* Author Profile */}
- <DashboardSection>
-              <h3>Your Author Profile</h3>
-              <p>Manage your profile, including past book titles, bios, and cover art to attract beta readers.</p>
-              <Button onClick={() => alert('Opening Author Profile Management')}>
-                Edit Profile
-              </Button>
-            </DashboardSection>
 
             <Button onClick={() => alert('Profile updated!')}>Save Changes</Button>
             </FormGroup>
@@ -604,9 +575,7 @@ const AuthorDashboard = () => {
         case 'feedback-summary':
           return (
             <>
-              {/* Back to Dashboard Button */}
-              <Button onClick={() => setCurrentSection('')}>Back to Dashboard</Button>
-        
+                 
               {/* Title and Description */}
               <DashboardTitle>Feedback Summary</DashboardTitle>
               <p>Consolidate and manage feedback from beta readers in one view. Use filters to navigate feedback efficiently.</p>
@@ -691,34 +660,15 @@ const AuthorDashboard = () => {
         case 'author-profile':
           return (
             <>
-              <Button onClick={() => setCurrentSection('')}>Back to Dashboard</Button>
-        
+
               <DashboardTitle>Your Author Profile</DashboardTitle>
               <p>Create and manage your profile to attract beta readers and collaborators.</p>
         
               {/* Profile Picture */}
-              <ProfilePicContainer>
-                <ProfilePicLabel>Upload Profile Picture</ProfilePicLabel>
-                <ProfilePicInput 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={handleProfilePicChange} 
-                />
-                <ProfilePicButton htmlFor="profile-pic">Choose a File</ProfilePicButton>
-                {profilePic && (
-                  <img 
-                    src={profilePic} 
-                    alt="Profile" 
-                    style={{ 
-                      marginTop: '10px', 
-                      width: '150px', 
-                      height: '150px', 
-                      objectFit: 'cover', 
-                      borderRadius: '50%' 
-                    }} 
-                  />
-                )}
-              </ProfilePicContainer>
+              <FormGroup>
+              <label htmlFor="profilepic-upload">Upload Profile Pic:</label>
+              <Input type="file" id="profilepic-upload" />
+            </FormGroup>
         
               {/* Author Bio */}
               <FormGroup>
@@ -809,201 +759,207 @@ const AuthorDashboard = () => {
           );
 
   
-        case 'settings':
-          return (
-            <>
-              <DashboardTitle>Account Settings</DashboardTitle>
-        
-              {/* Email Notifications */}
-              <FormGroup>
-                <label htmlFor="email-notifications">
-                  <Switch>
-                    <input
-                      type="checkbox"
-                      name="emailNotifications"
-                      checked={settings.emailNotifications}
-                      onChange={handleSettingChange}
+          case 'settings':
+            return (
+              <>
+                <DashboardTitle>Account Settings</DashboardTitle>
+          
+                {/* Enable Dark Mode */}
+                <FormGroup>
+                  <label htmlFor="enable-dark-mode">
+                    <span>Enable Dark Mode</span>
+                    <Switch
+                      checked={settings.darkMode}
+                      onChange={(checked) =>
+                        setSettings({ ...settings, darkMode: checked })
+                      }
                     />
+                  </label>
+                </FormGroup>
+          
+                {/* Email Notifications */}
+                <FormGroup>
+                  <label htmlFor="email-notifications">
                     <span>Email Notifications</span>
-                  </Switch>
-                </label>
-              </FormGroup>
-        
-              {/* Profile Visibility */}
-              <FormGroup>
-                <label htmlFor="profile-visibility">
-                  <Switch>
-                    <input
-                      type="checkbox"
-                      name="profileVisibility"
-                      checked={settings.profileVisibility}
-                      onChange={handleSettingChange}
+                    <Switch
+                      checked={settings.emailNotifications}
+                      onChange={(checked) =>
+                        setSettings({ ...settings, emailNotifications: checked })
+                      }
                     />
+                  </label>
+                </FormGroup>
+          
+                {/* Profile Visibility */}
+                <FormGroup>
+                  <label htmlFor="profile-visibility">
                     <span>Profile Visibility</span>
-                  </Switch>
-                </label>
-              </FormGroup>
-        
-              {/* Contact Email */}
-              <FormGroup>
-                <label htmlFor="contact-email">Contact Email:</label>
-                <Input
-                  type="email"
-                  id="contact-email"
-                  name="contactEmail"
-                  value={settings.contactEmail}
-                  onChange={handleContactChange}
-                />
-              </FormGroup>
-        
-              {/* Contact Phone */}
-              <FormGroup>
-                <label htmlFor="contact-phone">Contact Phone:</label>
-                <Input
-                  type="text"
-                  id="contact-phone"
-                  name="contactPhone"
-                  value={settings.contactPhone}
-                  onChange={handleContactChange}
-                />
-              </FormGroup>
-        
-              {/* Portfolio Link */}
-              <FormGroup>
-                <label htmlFor="portfolio-link">Portfolio Link:</label>
-                <Input
-                  type="url"
-                  id="portfolio-link"
-                  name="portfolioLink"
-                  value={settings.portfolioLink}
-                  onChange={handleContactChange}
-                  placeholder="Enter your portfolio URL"
-                />
-              </FormGroup>
-        
-              {/* Feedback Preference */}
-              <FormGroup>
-                <label htmlFor="feedback-preference">Feedback Preference:</label>
-                <select
-                  id="feedback-preference"
-                  name="feedbackPreference"
-                  value={settings.feedbackPreference}
-                  onChange={handleSettingChange}
-                >
-                  <option value="email">Email</option>
-                  <option value="platform">Platform</option>
-                </select>
-              </FormGroup>
-        
-              {/* Project Budget */}
-              <FormGroup>
-                <label htmlFor="budget-preference">Project Budget:</label>
-                <Input
-                  type="number"
-                  id="budget-preference"
-                  name="budgetPreference"
-                  value={settings.budgetPreference}
-                  onChange={handleContactChange}
-                  placeholder="Enter your preferred project budget"
-                />
-              </FormGroup>
-        
-              {/* Allow Beta Readers */}
-              <FormGroup>
-                <label htmlFor="allow-beta-readers">
-                  <Switch>
-                    <input
-                      type="checkbox"
-                      name="allowBetaReaders"
-                      checked={settings.allowBetaReaders}
-                      onChange={handleSettingChange}
+                    <Switch
+                      checked={settings.profileVisibility}
+                      onChange={(checked) =>
+                        setSettings({ ...settings, profileVisibility: checked })
+                      }
                     />
+                  </label>
+                </FormGroup>
+          
+                {/* Contact Email */}
+                <FormGroup>
+                  <label htmlFor="contact-email">Contact Email:</label>
+                  <Input
+                    type="email"
+                    id="contact-email"
+                    name="contactEmail"
+                    value={settings.contactEmail}
+                    onChange={(e) =>
+                      setSettings({ ...settings, contactEmail: e.target.value })
+                    }
+                  />
+                </FormGroup>
+          
+                {/* Contact Phone */}
+                <FormGroup>
+                  <label htmlFor="contact-phone">Contact Phone:</label>
+                  <Input
+                    type="text"
+                    id="contact-phone"
+                    name="contactPhone"
+                    value={settings.contactPhone}
+                    onChange={(e) =>
+                      setSettings({ ...settings, contactPhone: e.target.value })
+                    }
+                  />
+                </FormGroup>
+          
+                {/* Portfolio Link */}
+                <FormGroup>
+                  <label htmlFor="portfolio-link">Portfolio Link:</label>
+                  <Input
+                    type="url"
+                    id="portfolio-link"
+                    name="portfolioLink"
+                    value={settings.portfolioLink}
+                    onChange={(e) =>
+                      setSettings({ ...settings, portfolioLink: e.target.value })
+                    }
+                    placeholder="Enter your portfolio URL"
+                  />
+                </FormGroup>
+          
+                {/* Feedback Preference */}
+                <FormGroup>
+                  <label htmlFor="feedback-preference">Feedback Preference:</label>
+                  <select
+                    id="feedback-preference"
+                    name="feedbackPreference"
+                    value={settings.feedbackPreference}
+                    onChange={(e) =>
+                      setSettings({ ...settings, feedbackPreference: e.target.value })
+                    }
+                  >
+                    <option value="email">Email</option>
+                    <option value="platform">Platform</option>
+                  </select>
+                </FormGroup>
+          
+                {/* Project Budget */}
+                <FormGroup>
+                  <label htmlFor="budget-preference">Project Budget:</label>
+                  <Input
+                    type="number"
+                    id="budget-preference"
+                    name="budgetPreference"
+                    value={settings.budgetPreference}
+                    onChange={(e) =>
+                      setSettings({ ...settings, budgetPreference: e.target.value })
+                    }
+                    placeholder="Enter your preferred project budget"
+                  />
+                </FormGroup>
+          
+                {/* Allow Beta Readers */}
+                <FormGroup>
+                  <label htmlFor="allow-beta-readers">
                     <span>Allow Beta Readers</span>
-                  </Switch>
-                </label>
-              </FormGroup>
-        
-              {/* NDA Agreement for Manuscripts */}
-              <FormGroup>
-                <label htmlFor="nda-agreement">
-                  <Switch>
-                    <input
-                      type="checkbox"
-                      name="ndaAgreement"
-                      checked={settings.ndaAgreement}
-                      onChange={handleSettingChange}
+                    <Switch
+                      checked={settings.allowBetaReaders}
+                      onChange={(checked) =>
+                        setSettings({ ...settings, allowBetaReaders: checked })
+                      }
                     />
+                  </label>
+                </FormGroup>
+          
+                {/* NDA Agreement for Manuscripts */}
+                <FormGroup>
+                  <label htmlFor="nda-agreement">
                     <span>Require NDA for Manuscripts</span>
-                  </Switch>
-                </label>
-                {settings.ndaAgreement && (
-                  <>
-                    {/* NDA Document Upload */}
-                    <FormGroup>
-                      <label htmlFor="nda-document">Upload NDA Document:</label>
-                      <Input
-                        type="file"
-                        id="nda-document"
-                        name="ndaDocument"
-                        onChange={handleContactChange}
-                      />
-                    </FormGroup>
-        
-                    {/* NDA Status */}
-                    <FormGroup>
-                      <label htmlFor="nda-status">NDA Status:</label>
-                      <p>{settings.ndaSigned ? 'NDA Signed by Beta Readers' : 'NDA Pending'}</p>
-                    </FormGroup>
-                  </>
-                )}
-              </FormGroup>
-        
-              {/* Social Links */}
-              <FormGroup>
-                <label htmlFor="social-link-facebook">Facebook:</label>
-                <Input
-                  type="url"
-                  id="social-link-facebook"
-                  name="facebookLink"
-                  value={settings.facebookLink}
-                  onChange={handleContactChange}
-                  placeholder="Enter your Facebook URL"
-                />
-              </FormGroup>
-              <FormGroup>
-                <label htmlFor="social-link-twitter">Twitter:</label>
-                <Input
-                  type="url"
-                  id="social-link-twitter"
-                  name="twitterLink"
-                  value={settings.twitterLink}
-                  onChange={handleContactChange}
-                  placeholder="Enter your Twitter URL"
-                />
-              </FormGroup>
-              <FormGroup>
-                <label htmlFor="social-link-linkedin">LinkedIn:</label>
-                <Input
-                  type="url"
-                  id="social-link-linkedin"
-                  name="linkedinLink"
-                  value={settings.linkedinLink}
-                  onChange={handleContactChange}
-                  placeholder="Enter your LinkedIn URL"
-                />
-              </FormGroup>
-        
-              {/* Change Password Button */}
-              <FormGroup>
-                <Button onClick={() => alert('Password change functionality coming soon!')}>
-                  Change Password
-                </Button>
-              </FormGroup>
-        
-              {/* Save Settings Button */}
-              <Button onClick={() => alert('Settings saved!')}>Save Settings</Button>
-            </>
-          );
+                    <Switch
+                      checked={settings.ndaAgreement}
+                      onChange={(checked) =>
+                        setSettings({ ...settings, ndaAgreement: checked })
+                      }
+                    />
+                  </label>
+                  {settings.ndaAgreement && (
+                    <>
+                      {/* NDA Document Upload */}
+                      <FormGroup>
+                        <label htmlFor="nda-document">Upload NDA Document:</label>
+                        <Input
+                          type="file"
+                          id="nda-document"
+                          name="ndaDocument"
+                          onChange={(e) =>
+                            setSettings({ ...settings, ndaDocument: e.target.files[0] })
+                          }
+                        />
+                      </FormGroup>
+          
+                      {/* NDA Status */}
+                      <FormGroup>
+                        <label htmlFor="nda-status">NDA Status:</label>
+                        <p>
+                          {settings.ndaSigned
+                            ? 'NDA Signed by Beta Readers'
+                            : 'NDA Pending'}
+                        </p>
+                      </FormGroup>
+                    </>
+                  )}
+                </FormGroup>
+          
+                {/* Social Links */}
+                {['facebook', 'twitter', 'linkedin'].map((platform) => (
+                  <FormGroup key={platform}>
+                    <label htmlFor={`social-link-${platform}`}>
+                      {platform.charAt(0).toUpperCase() + platform.slice(1)}:
+                    </label>
+                    <Input
+                      type="url"
+                      id={`social-link-${platform}`}
+                      name={`${platform}Link`}
+                      value={settings[`${platform}Link`]}
+                      onChange={(e) =>
+                        setSettings({ ...settings, [`${platform}Link`]: e.target.value })
+                      }
+                      placeholder={`Enter your ${platform} URL`}
+                    />
+                  </FormGroup>
+                ))}
+          
+                {/* Change Password Button */}
+                <FormGroup>
+                  <Button onClick={() => alert('Password change functionality coming soon!')}>
+                    Change Password
+                  </Button>
+                </FormGroup>
+          
+                {/* Save Settings Button */}
+                <Button onClick={() => alert('Settings saved!')}>Save Settings</Button>
+              </>
+            );
+          
         
       default:
         return <p>Welcome to your dashboard!</p>;
