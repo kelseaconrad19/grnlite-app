@@ -1,4 +1,5 @@
 aniso8601==9.0.1
+asgiref==3.8.1
 attrs==24.2.0
 blinker==1.8.2
 cachelib==0.9.0
@@ -6,15 +7,10 @@ cffi==1.17.1
 click==8.1.7
 cryptography==43.0.3
 Deprecated==1.2.14
-Flask==3.0.3
-Flask-Caching==2.3.0
-Flask-Limiter==3.8.0
-flask-marshmallow==1.2.1
-flask-restx==1.3.0
-Flask-SQLAlchemy==3.1.1
-flask-swagger==0.2.14
-flask-swagger-ui==4.11.1
+dj-database-url==2.3.0
+Django==5.1.3
 greenlet==3.1.1
+gunicorn==23.0.0
 importlib_resources==6.4.5
 iniconfig==2.0.0
 itsdangerous==2.2.0
@@ -22,7 +18,6 @@ Jinja2==3.1.4
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 jwt==1.3.1
-limits==3.13.0
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 marshmallow==3.23.0
@@ -34,6 +29,7 @@ mysqlclient==2.2.5
 ordered-set==4.1.0
 packaging==24.1
 pluggy==1.5.0
+psycopg2==2.9.10
 pycparser==2.22
 Pygments==2.18.0
 PyJWT==2.9.0
@@ -46,6 +42,6 @@ referencing==0.35.1
 rich==13.9.3
 rpds-py==0.21.0
 SQLAlchemy==2.0.36
+sqlparse==0.5.2
 typing_extensions==4.12.2
-Werkzeug==3.0.4
 wrapt==1.16.0
