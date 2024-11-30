@@ -3,6 +3,30 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+import datetime
+
+
+def set_default_submitted_date(apps, schema_editor):
+    Author = apps.get_model('my_app', 'Author')
+    Book = apps.get_model('my_app', 'Book')
+    Novel = apps.get_model('my_app', 'Novel')
+    Reader = apps.get_model('my_app', 'Reader')
+    Review = apps.get_model('my_app', 'Review')
+    for author in Author.objects.all():
+        author.submitted_date = datetime.date(2000, 1, 1)  # Set your desired default date
+        author.save()
+    for book in Book.objects.all():
+        book.submitted_date = datetime.date(2000, 1, 1)
+        book.save()
+    for novel in Novel.objects.all():
+        novel.submitted_date = datetime.date(2000, 1, 1)
+        novel.save()
+    for reader in Reader.objects.all():
+        reader.signup_date = datetime.date(2000, 1, 1)
+        reader.save()
+    for review in Review.objects.all():
+        review.review_date = datetime.date(2000, 1, 1)
+        review.save()
 
 
 class Migration(migrations.Migration):
@@ -19,6 +43,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
+                # Add the submitted_date field
+                ('submitted_date', models.DateField(auto_now_add=True, null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -57,4 +83,13 @@ class Migration(migrations.Migration):
                 ('reader', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='my_app.reader')),
             ],
         ),
+        # Populate existing rows with a default submitted_date
+        migrations.RunPython(set_default_submitted_date),
+        # Make submitted_date non-nullable
+        migrations.AlterField(
+            model_name='author',
+            name='submitted_date',
+            field=models.DateField(auto_now_add=True),
+        ),
     ]
+
