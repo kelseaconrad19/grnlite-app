@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'my_app',
     # Add your apps here
 ]
 
@@ -41,8 +43,8 @@ ROOT_URLCONF = 'grnlite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'templates'], 
+        'APP_DIRS': True,                 
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -59,10 +61,11 @@ WSGI_APPLICATION = 'grnlite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': BASE_DIR / 'db.postgresql',
-    }
+    'default': dj_database_url.config(default='postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db')
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'grnlite_postgresql',
+    # }
 }
 
 # Password validation
