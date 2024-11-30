@@ -39,6 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'my_app',
+    'corsheaders',
+    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
+    'djoser',
+    'drf_yasg',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +90,8 @@ DATABASES = {
     #     'NAME': 'grnlite_postgresql',
     # }
 }
+
+# AUTH_USER_MODEL = 'my_app.Reader'
 
 
 # Password validation

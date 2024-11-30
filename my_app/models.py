@@ -1,5 +1,6 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.db import models
+
 
 class Author(models.Model):
     name = models.CharField(max_length=100)
@@ -26,10 +27,10 @@ class Novel(models.Model):
     def __str__(self):
         return self.title
 
-class Reader(AbstractUser):
-    # Inherit from AbstractUser for built-in user fields
-    bio = models.TextField(blank=True, null=True)
-    # Add additional fields as needed
+class Reader(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='reader_profile')
+    # Add custom fields here
+    favorite_books = models.ManyToManyField('Book', related_name='favorite_readers')
 
     def __str__(self):
         return self.username
