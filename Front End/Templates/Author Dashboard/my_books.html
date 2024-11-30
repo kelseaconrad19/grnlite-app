@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - My Books</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/Front End/CSS/styles.css">
     <script>
         // JavaScript to handle adding new books to the list
         function addBook() {
@@ -46,20 +46,21 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="Grn Lite Logo.png" alt="Grn Lite Logo">
+                <img src="/Front End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="main.html" class="nav-item">Home</a>
-                <a href="author-dashboard.html" class="nav-item active">Dashboard</a>
-                <a href="my_books.html" class="nav-item">My Books</a>
-                <a href="beta-reader-list.html" class="nav-item">Find Beta Readers</a>
-                <a href="manuscript-submission.html" class="nav-item">Manuscript Submission</a> <!-- New Feature -->
-                <a href="feedback-summary.html" class="nav-item">Feedback Summary</a> <!-- New Feature -->
-                <a href="resource-library.html" class="nav-item">Resource Library</a> <!-- New Feature -->
-                <a href="author-community-groups.html" class="nav-item">Community Groups</a> <!-- New Feature -->
-                <a href="author-profile.html" class="nav-item">Profile</a>
-                <a href="author-settings.html" class="nav-item">Settings</a>
-                <a href="logout.html" class="nav-item">Logout</a>
+                <a href="/Front End/Templates/main.html" class="nav-item">Home</a>
+                <a href="/Front End/Templates/author-dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="/Front End/Templates/Author Dashboard/my_books.html" class="nav-item">My Books</a>
+                <a href="/Front End/Templates/Author Dashboard/beta-reader-list.html" class="nav-item">Find Beta Readers</a>
+                <a href="/Front End/Templates/Author Dashboard/manuscript-submission.html" class="nav-item">Manuscript Submission</a> 
+                <a href="/Front End/Templates/Author Dashboard/feedback-summary.html" class="nav-item">Feedback Summary</a> 
+                <a href="/Front End/Templates/Author Dashboard/author-resource-library.html" class="nav-item">Resource Library</a> 
+                <a href="/Front End/Templates/Author Dashboard/author-community-groups.html" class="nav-item">Community Groups</a> 
+                <a href="/Front End/Templates/Author Dashboard/author-profile.html" class="nav-item">Profile</a>
+                <a href="/Front End/Templates/Author Dashboard/author-payment-page.html" class="nav-item">Payments</a>
+                <a href="/Front End/Templates/Author Dashboard/author-settings.html" class="nav-item">Settings</a>
+                <a href="/Front End/Templates/logout.html" class="nav-item">Logout</a>
             </nav>
         </aside>
 
@@ -101,7 +102,7 @@
                 <div class="book-item">
                     <h4>Harry Potter and the Prisoner of Azkaban</h4>
                     <p>Harry returns to Hogwarts for his third year and learns that Sirius Black, an escaped prisoner, is after him. As Harry, Ron, and Hermione uncover secrets about Sirius' past and his connection to Harry’s family, they face new dangers, including the terrifying Dementors. The book explores themes of loyalty, friendship, and identity.</p>
-                    <img src="Harry Potter Cover Art.jpg" alt="Book Cover" class="book-cover">
+                    <img src="/Front End/Images/Harry Potter Cover Art.jpg" alt="Book Cover" class="book-cover">
                     <p><a href="https://www.amazon.com/Harry-Potter-Prisoner-Azkaban-MinaLima/dp/1338815288/ref=sr_1_3?crid=V9B048N9Q2EZ&dib=eyJ2IjoiMSJ9.sroUIlG7Aibv7JNdR3QiFAuaZkdoYjgULUReOXKJZAzSWcPgx_gne7IrAa358l-4_LQUTl4IuLcWuxj72Xz2MqHeO0r71-7GOdJKufQY0Q_JONONrf6IaTPIDmr4rkNfFpZR7iR_MuP3KeAdh3d8_VXlhODSxmR7r9EMMkP9x7YfASrkV4spNUTnpQKaDdtwvNXMwn6t7MGCUcSY_aLiqQb-TyV6I9_5dRXOLBE5RoE.mI80lYUjh3dcC6O5LZqd-ZqyPCfEE88OatI-Upj9LuA&dib_tag=se&keywords=Harry+Potter+and+the+Prisoner+of+Azkaban&qid=1732803680&rnid=2941120011&s=books&sprefix=harry+potter+and+the+prisoner+of+azkaban%2Caps%2C104&sr=1-3" target="_blank">View Book</a></p> <!-- Example book link -->
                     <button class="btn btn-danger" onclick="removeBook(this)">Remove</button>
                 </div>

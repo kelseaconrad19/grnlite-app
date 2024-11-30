@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grn Lite - Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Grn Lite - Sign Up</title>
+    <link rel="stylesheet" href="/Front End/CSS/styles.css">
     <style>
-        /* Centralized Styles */
-        :root {
+     /* Centralized Styles */
+     :root {
             --primary-color: #2A9D8F;
             --secondary-color: #264653;
             --accent-color: #E9C46A;
@@ -69,7 +69,7 @@
         }
 
         .auth-container {
-            min-height: 100vh;
+            min-height: 120vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -159,7 +159,7 @@
 
         .auth-footer {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 1.2rem;
         }
 
         .auth-footer a {
@@ -182,12 +182,12 @@
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="main.html" class="logo">
-                <img src="Grn Lite Logo.png" alt="Grn Lite Logo"> 
+            <a href="/Front End/Templates/main.html" class="logo">
+                <img src="/Front End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
             </a>
             <div class="nav-links">
-                <a href="main.html">Home</a>
-                <a href="signup.html">Sign Up</a>
+                <a href="/Front End/Templates/main.html">Home</a>
+                <a href="/Front End/Templates/signin.html">Sign In</a>
             </div>
         </div>
     </nav>
@@ -195,26 +195,32 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1>Sign In</h1>
-                <p>Welcome back to Grn Lite</p>
+                <h1>Sign Up</h1>
+                <p>Join the Grn Lite community</p>
             </div>
-            <form id="authForm">
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <input type="email" id="email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <input type="password" id="password" required>
                 </div>
+
                 <div class="bubble-choice-container">
                     <div class="bubble-choice" id="readerChoice" onclick="setUserType('reader')">Reader</div>
                     <div class="bubble-choice" id="authorChoice" onclick="setUserType('author')">Author</div>
                 </div>
-                <button type="submit" class="auth-button">Sign In</button>
+
+                <button type="submit" class="auth-button">Sign Up</button>
             </form>
             <div class="auth-footer">
-                <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+                <p>Already have an account? <a href="/Front End/Templates/signin.html">Sign In</a></p>
             </div>
         </div>
     </div>
@@ -229,16 +235,18 @@
             document.getElementById(`${userType}Choice`).classList.add("selected");
         }
 
-        document.getElementById('authForm').addEventListener('submit', function (e) {
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
             e.preventDefault();
             if (!selectedUserType) {
                 alert("Please select your role as Reader or Author.");
                 return;
             }
-            // TODO: Backend functionality: Send form data (email, password, user type) to backend (POST request to /login)
-            // Validate user login details (check email and password) in the backend
+            // TODO: Backend: Send form data (name, email, password, user type) to the backend via POST request to /signup
+            // TODO: Backend: Validate and store the user's data in the database, including user type (Reader or Author)
+            // TODO: Backend: Ensure password is hashed before saving and email is validated for uniqueness
 
-            window.location.href = `${selectedUserType}-dashboard.html`; // Redirect to the user-specific dashboard upon successful login
+            alert(`Thank you for signing up as a ${selectedUserType}!`);
+            window.location.href = `${selectedUserType}-dashboard.html`; // Redirect to the appropriate dashboard after signup
         });
     </script>
 </body>
