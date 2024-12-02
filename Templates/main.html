@@ -216,8 +216,8 @@
                 <a href="#features">Features</a>
                 <a href="#about">About Us</a>
                 <a href="#contact">Contact Us</a>
-                <a href="/Front End/Templates/signup.html">Sign Up</a>
-                <a href="/Front End/Templates/signin.html">Log In</a>
+                <a href="#" onclick="redirectToAuthPage('signup')">Sign Up</a>
+                <a href="#" onclick="redirectToAuthPage('signin')">Log In</a>
             </div>
         </div>
     </nav>
@@ -259,7 +259,7 @@
             </div>
         </div>
     </section>
-    
+
     <section id="about" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
         <div class="section-content">
             <div class="about-grid">
@@ -330,6 +330,8 @@
             this.reset();
         });
     </script>
+
+    <script src="/Front End/Templates/redirectToAuthPage.js"></script>
 </body>
 
 </html>

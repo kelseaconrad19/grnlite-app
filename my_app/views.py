@@ -5,8 +5,8 @@ from .serializers import (
     AuthorSerializer, BookSerializer, NovelSerializer, ReaderSerializer, ReviewSerializer
 )
 
-def index(request):
-    return render(request, 'index.html')
+def main(request):
+    return render(request, 'main.html')
 
 # Author Views
 class AuthorListCreateView(generics.ListCreateAPIView):

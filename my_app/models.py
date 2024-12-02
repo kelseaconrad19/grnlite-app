@@ -34,7 +34,7 @@ class Novel(models.Model):
 
 
 class Reader(models.Model):
-    user_id = models.AutoField(primary_key=True)
+    reader_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='reader_profile')  # Renamed
     user_signup_date = models.DateField(auto_now_add=True)  # Automatically set the signup date
     previously_completed_reviews =  models.IntegerField(default=0)
