@@ -1,0 +1,20 @@
+databases:
+  - name: my_appdb
+    plan: free
+    databaseName: grnlite_postgresql
+    user: my_app
+
+services:
+  - type: web
+    plan: free
+    name: my_app
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn my_app.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
+        value: "postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
