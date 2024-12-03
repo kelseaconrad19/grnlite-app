@@ -7,7 +7,7 @@
     <title>Grn Lite - Sign Up</title>
     <link rel="stylesheet" href="/Front End/CSS/styles.css">
     <style>
-     /* Centralized Styles */
+        /* Centralized Styles */
      :root {
             --primary-color: #2A9D8F;
             --secondary-color: #264653;
@@ -176,6 +176,27 @@
             height: 80px; /* Adjusted logo size for a bigger logo */
             width: auto;
         }
+        /* OAuth Button Styles */
+        .oauth-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .oauth-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
     </style>
 </head>
 
@@ -219,6 +240,13 @@
 
                 <button type="submit" class="auth-button">Sign Up</button>
             </form>
+
+            <!-- OAuth Buttons -->
+            <div class="oauth-buttons">
+                <button class="oauth-button" onclick="initiateOAuth('google')">Sign Up with Google</button>
+                <button class="oauth-button" onclick="initiateOAuth('facebook')">Sign Up with Facebook</button>
+            </div>
+
             <div class="auth-footer">
                 <p>Already have an account? <a href="/Front End/Templates/signin.html">Sign In</a></p>
             </div>
@@ -241,14 +269,16 @@
                 alert("Please select your role as Reader or Author.");
                 return;
             }
-            // TODO: Backend: Send form data (name, email, password, user type) to the backend via POST request to /signup
-            // TODO: Backend: Validate and store the user's data in the database, including user type (Reader or Author)
-            // TODO: Backend: Ensure password is hashed before saving and email is validated for uniqueness
-
+            // Backend Integration
             alert(`Thank you for signing up as a ${selectedUserType}!`);
-            window.location.href = `${selectedUserType}-dashboard.html`; // Redirect to the appropriate dashboard after signup
         });
+
+        function initiateOAuth(provider) {
+            const oauthUrl = `/auth/${provider}`;
+            window.location.href = oauthUrl;
+        }
     </script>
+    <script src="/Front End/Templates/redirectToAuthPage.js"></script>
 </body>
 
 </html>

@@ -34,8 +34,10 @@
             transition: all 0.3s ease;
         }
 
+        /* Adjust navbar on scroll */
         .navbar.scrolled {
             padding: 0.5rem 2rem;
+            background-color: rgba(255, 255, 255, 0.85);
         }
 
         .nav-content {
@@ -75,6 +77,7 @@
             justify-content: center;
             padding: 2rem;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            margin-top: 80px; /* Add top margin to move form down from navbar */
         }
 
         .auth-card {
@@ -173,8 +176,35 @@
 
         /* Navigation bar logo styling */
         .navbar .logo img {
-            height: 80px; /* Adjusted logo size for a bigger logo */
+            height: 80px;
             width: auto;
+        }
+
+        /* OAuth button styles */
+        .oauth-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+        }
+
+        .oauth-buttons button {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .google-btn {
+            background-color: #4285F4;
+            color: white;
+        }
+
+        .facebook-btn {
+            background-color: #3b5998;
+            color: white;
         }
     </style>
 </head>
@@ -213,6 +243,13 @@
                 </div>
                 <button type="submit" class="auth-button">Sign In</button>
             </form>
+
+            <!-- OAuth Buttons -->
+            <div class="oauth-buttons">
+                <button class="google-btn" onclick="window.location.href='/auth/google'">Sign in with Google</button>
+                <button class="facebook-btn" onclick="window.location.href='/auth/facebook'">Sign in with Facebook</button>
+            </div>
+
             <div class="auth-footer">
                 <p>Don't have an account? <a href="/Front End/Templates/signup.html">Sign Up</a></p>
             </div>
@@ -240,7 +277,18 @@
 
             window.location.href = `${selectedUserType}-dashboard.html`; // Redirect to the user-specific dashboard upon successful login
         });
+
+        // Add scroll event listener to add 'scrolled' class to the navbar
+        window.addEventListener("scroll", function () {
+            const navbar = document.querySelector(".navbar");
+            if (window.scrollY > 0) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
     </script>
+    <script src="/Front End/Templates/redirectToAuthPage.js"></script>
 </body>
 
 </html>
