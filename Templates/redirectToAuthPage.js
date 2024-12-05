@@ -4,4 +4,5 @@ function redirectToAuthPage(page) {
 
     // Redirect to the appropriate page
     window.location.href = url;
+ 
 }
