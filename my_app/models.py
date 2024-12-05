@@ -82,12 +82,25 @@ class Genre(models.Model):
         return self.genre_name
 
 
-class Review(models.Model):
-    reader = models.ForeignKey(Reader, on_delete=models.CASCADE, default=1)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    rating = models.IntegerField()
-    review = models.TextField()
-    review_date = models.DateField(auto_now_add=True)
+class Feedback(models.Model):
+    reader_id = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        default=1
+    )
+    manuscript_id = models.ForeignKey(
+        Manuscript, 
+        on_delete=models.CASCADE
+    ) # One to Many - one manuscript can have multiple feedback forms
+    rating = models.IntegerField(
+        null=False
+    )
+    feedback_text = models.TextField(
+        null=False
+    )
+    review_date = models.DateField(
+        auto_now_add=True
+    )
 
     def __str__(self):
         return f"{self.reader.user.username} - {self.book.title}"
