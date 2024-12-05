@@ -93,25 +93,3 @@ class Review(models.Model):
         return f"{self.reader.user.username} - {self.book.title}"
 
 
-class AuthorBook(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, default=1)  # Assuming Author with ID 1 exists
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.author.name} - {self.book.title}"
-
-
-class BookNovel(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    novel = models.ForeignKey(Novel, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.book.title} - {self.novel.title}"
-
-
-class ReaderNovel(models.Model):
-    reader = models.ForeignKey(Reader, on_delete=models.CASCADE, default=1)  # Assuming Reader with ID 1 exists
-    novel = models.ForeignKey(Novel, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.reader.user.username} - {self.novel.title}"
