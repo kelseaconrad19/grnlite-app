@@ -340,3 +340,58 @@ class Notification(models.Model):
         auto_now=True,
         help_text="Timestamp when the notification was read"
     )
+
+class BetaReaderApplication(models.Model):
+    APPLICATION_STATUS_CHOICES = [
+        ('applied', 'Applied'),  # Application submitted but not yet reviewed
+        ('approved', 'Approved'),  # Beta reader accepted by the author
+        ('rejected', 'Rejected'),  # Beta reader declined
+    ]
+
+    manuscript = models.ForeignKey(
+        'Manuscript', 
+        on_delete=models.CASCADE,
+        related_name='applications',
+        help_text="The manuscript this application is for"
+    )
+    beta_reader = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        limit_choices_to={'role': 'beta_reader'},
+        related_name='applications',
+        help_text="The beta reader submitting the application"
+    )
+    reader_rating = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text="Optional rating given to the beta reader for their application"
+    )
+    attachment = models.FileField(
+        upload_to='beta_reader_applications/',
+        null=True,
+        blank=True,
+        help_text="Optional attachment for the beta reader's application"
+    )
+    status = models.CharField(
+        max_length=10,
+        choices=APPLICATION_STATUS_CHOICES,
+        default='applied',
+        help_text="Status of the application"
+    )
+    application_date = models.DateTimeField(
+        auto_now_add=True,
+        help_text="When the application was submitted"
+    )
+    review_date = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the application was reviewed by the author"
+    )
+    cover_letter = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Optional message from the beta reader to the author"
+    )
+
+    def __str__(self):
+        return f"{self.beta_reader.username} applied for {self.manuscript.title}"
