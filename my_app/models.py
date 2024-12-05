@@ -39,6 +39,62 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+class Profile(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        help_text="User who owns the profile"
+    )
+    profile_img = models.ImageField(
+        upload_to='profile_images/',
+        null=True,
+        blank=True,
+        help_text="User's profile picture"
+    )
+    bio = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Short biography for the user"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="When the user account was created"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        help_text="When the user account was last updated"
+    )
+
+class Genre(models.Model):
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        null=False,
+        help_text="Unique name of the genre"
+    )
+
+    def __str__(self):
+        return self.name
+    
+class Keyword(models.Model):
+    name = models.CharField(
+        max_length=100,
+        null=False,
+        help_text="Keyword for tagging manuscripts"
+    )
+    CATEGORY_CHOICES = [
+        ('genre', 'Genre'),
+        ('theme', 'Theme'),
+    ]
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        null=False,
+        help_text="Category of the keyword"
+    )
+
+    def __str__(self):
+        return f"{self.name} ({self.get_category_display()})"
 
 class Manuscript(models.Model):
     STATUS_CHOICES = [
@@ -47,39 +103,34 @@ class Manuscript(models.Model):
         ('in_review', 'In Review'),
         ('completed', 'Completed'),
     ]
-    
+
     title = models.CharField(
-        max_length=200, 
+        max_length=200,
         null=False
     )
     author = models.ForeignKey(
-        User, 
+        User,
         on_delete=models.CASCADE
-    ) # One to Many - one author can have many books 
+    )
     file_path = models.URLField(
         null=False
     )
     status = models.CharField(
-        max_length=30, 
-        choices=STATUS_CHOICES, 
-        default='draft', 
-        null=False, 
+        max_length=30,
+        choices=STATUS_CHOICES,
+        default='draft',
+        null=False,
         help_text='Status of the manuscript'
+    )
+    keywords = models.ManyToManyField(
+        Keyword,
+        related_name="manuscripts",
+        blank=True,
+        help_text="Keywords associated with the manuscript"
     )
 
     def __str__(self):
         return self.title
-
-
-class Genre(models.Model):
-    genre_name = models.ForeignKey(
-        Manuscript,
-        on_delete=models.CASCADE, 
-        related_name='manuscript'
-    ) # One to Many - one manuscript can have many genres (Young Adult SciFi)
-
-    def __str__(self):
-        return self.genre_name
 
 
 class FeedbackQuestion(models.Model):
@@ -154,4 +205,138 @@ class FeedbackResponse(models.Model):
     
     def __str__(self):
         return f"Feedback by {self.reader.username} for {self.manuscript.title} - Question: {self.question.id}"
+    
 
+class AuthorSettings(models.Model):
+    author = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="settings",
+        help_text="The author this settings configuration belongs to"
+    )
+    feedback_preferences = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="Customizable preferences for the type of feedback the author wants"
+    )
+    notification_preferences = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="Notification settings for the author"
+    )
+    default_genre = models.ForeignKey(
+        Genre,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        help_text="Default genre for new manuscripts"
+    )
+    profile_visibility = models.BooleanField(
+        default=True,
+        help_text="Whether the author's profile is public or private"
+    )
+    auto_submit_feedback = models.BooleanField(
+        default=False,
+        help_text="Automatically submit feedback requests when manuscripts are uploaded"
+    )
+    created_at = models.DateTimeField(
+        default=now,
+        help_text="Timestamp of when the settings were created"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        help_text="Timestamp of when the settings were last updated"
+    )
+
+    def __str__(self):
+        return f"Settings for {self.author.username}"
+
+class Resource(models.Model):
+    title = models.CharField(
+        max_length=150,
+        null=False,
+        help_text="Title of the resource"
+    )
+    description = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Description of the resource"
+    )
+    file_path = models.FileField(
+        upload_to="resources/",
+        null=False,
+        help_text="Path to the uploaded resource file"
+    )
+    category = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        help_text="Category of the resource (e.g., 'Templates', 'Guides')"
+    )
+    tags = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Comma-separated tags for search and categorization"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Timestamp when the resource was uploaded"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        help_text="Timestamp when the resource was last updated"
+    )
+
+    def __str__(self):
+        return self.title
+    
+class ResourceInteraction(models.Model):
+    resource = models.ForeignKey(
+        Resource, 
+        on_delete=models.CASCADE, 
+        related_name="interactions"
+    )
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name="resource_interactions"
+    )
+    interaction_type = models.CharField(
+        max_length=50, 
+        choices=[("download", "Download"), ("favorite", "Favorite")], 
+        help_text="Type of user interaction"
+    )
+    timestamp = models.DateTimeField(auto_now_add=True, help_text="Timestamp of the interaction")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.interaction_type} - {self.resource.title}"
+    
+class Notification(models.Model):
+    STATUS_CHOICES = [
+        ('read', 'Read'),
+        ('not_read', 'Not Read'),
+    ]
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        help_text="User notification is sent to"
+    )
+    message = models.TextField(
+        null=False,
+        help_text="Message of the notification"
+        )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        null=False,
+        help_text="Read status of the notification",
+        default='not_read'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Timestamp when the notification was sent"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        help_text="Timestamp when the notification was read"
+    )
