@@ -4,38 +4,82 @@ from django.utils.timezone import now
 from django.utils import timezone
 
 
-class Author(models.Model):
-    name = models.CharField(max_length=100)
-    book_name = models.CharField(max_length=100, null=True, blank=True)
-    date = models.DateField(default='2023-01-01')
+class User(models.Model):
+    ROLE_CHOICES = [
+        ('author', 'Author'),
+        ('beta_reader', 'Beta Reader'),
+        ('editor', 'Editor'),
+    ]
+
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        null=False,
+        help_text="Unique username"
+    )
+    email = models.EmailField(
+        max_length=255,
+        unique=True,
+        null=False,
+        help_text="Unique email"
+    )
+    password = models.CharField(
+        max_length=255,
+        null=False,
+        help_text="User's password"
+    )
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='author',
+        null=False,
+        help_text="Role of the user"
+    )
 
     def __str__(self):
-        return self.name
+        return self.username
 
 
-class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+class Manuscript(models.Model):
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('submitted', 'Submitted'),
+        ('in_review', 'In Review'),
+        ('completed', 'Completed'),
+    ]
+    
+    title = models.CharField(
+        max_length=200, 
+        null=False
+    )
+    author = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE
+    ) # One to Many - one author can have many books 
+    file_path = models.URLField(
+        null=False
+    )
+    status = models.CharField(
+        max_length=30, 
+        choices=STATUS_CHOICES, 
+        default='draft', 
+        null=False, 
+        help_text='Status of the manuscript'
+    )
 
     def __str__(self):
         return self.title
 
 
-class Novel(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+class Genre(models.Model):
+    genre_name = models.ForeignKey(
+        Manuscript,
+        on_delete=models.CASCADE, 
+        related_name='manuscript'
+    ) # One to Many - one manuscript can have many genres (Young Adult SciFi)
 
     def __str__(self):
-        return self.title
-
-
-class Reader(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='reader_profile')
-    user_signup_date = models.DateTimeField(default=timezone.now)
-    previously_completed_reviews = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.user.username
+        return self.genre_name
 
 
 class Review(models.Model):
