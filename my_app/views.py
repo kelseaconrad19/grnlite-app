@@ -1,54 +1,94 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import Author, Book, Novel, Reader, Review
-from .serializers import (
-    AuthorSerializer, BookSerializer, NovelSerializer, ReaderSerializer, ReviewSerializer
+from .models import (
+    Profile, AuthorSetting, Notification, Manuscript,
+    ManuscriptKeyword, Genre, BetaReaderApplication, Feedback
 )
+from .serializers import (
+    ProfileSerializer, AuthorSettingSerializer, NotificationSerializer, ManuscriptSerializer,
+    ManuscriptKeywordSerializer, GenreSerializer, BetaReaderApplicationSerializer, FeedbackSerializer
+)
+def profile_list(request):
+    profiles = Profile.objects.all()
+    return render(request, 'profiles.html', {'profiles': profiles})
 
 def main(request):
     return render(request, 'main.html')
 
-# Author Views
-class AuthorListCreateView(generics.ListCreateAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
+def signin_view(request):
+    return render(request, 'signin.html')
 
-class AuthorDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
+def signup_view(request):
+    return render(request, 'signup.html')
 
-# Book Views
-class BookListCreateView(generics.ListCreateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+# Profile Views
+class ProfileListCreateView(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
-class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
-# Novel Views
-class NovelListCreateView(generics.ListCreateAPIView):
-    queryset = Novel.objects.all()
-    serializer_class = NovelSerializer
+# Author Setting Views
+class AuthorSettingListCreateView(generics.ListCreateAPIView):
+    queryset = AuthorSetting.objects.all()
+    serializer_class = AuthorSettingSerializer
 
-class NovelDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Novel.objects.all()
-    serializer_class = NovelSerializer
+class AuthorSettingDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AuthorSetting.objects.all()
+    serializer_class = AuthorSettingSerializer
 
-# Reader Views
-class ReaderListCreateView(generics.ListCreateAPIView):
-    queryset = Reader.objects.all()
-    serializer_class = ReaderSerializer
+# Notification Views
+class NotificationListCreateView(generics.ListCreateAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
 
-class ReaderDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Reader.objects.all()
-    serializer_class = ReaderSerializer
+class NotificationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
 
-# Review Views
-class ReviewListCreateView(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+# Manuscript Views
+class ManuscriptListCreateView(generics.ListCreateAPIView):
+    queryset = Manuscript.objects.all()
+    serializer_class = ManuscriptSerializer
 
-class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+class ManuscriptDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Manuscript.objects.all()
+    serializer_class = ManuscriptSerializer
+
+# Manuscript Keyword Views
+class ManuscriptKeywordListCreateView(generics.ListCreateAPIView):
+    queryset = ManuscriptKeyword.objects.all()
+    serializer_class = ManuscriptKeywordSerializer
+
+class ManuscriptKeywordDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ManuscriptKeyword.objects.all()
+    serializer_class = ManuscriptKeywordSerializer
+
+# Genre Views
+class GenreListCreateView(generics.ListCreateAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+
+class GenreDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+
+# Beta Reader Application Views
+class BetaReaderApplicationListCreateView(generics.ListCreateAPIView):
+    queryset = BetaReaderApplication.objects.all()
+    serializer_class = BetaReaderApplicationSerializer
+
+class BetaReaderApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = BetaReaderApplication.objects.all()
+    serializer_class = BetaReaderApplicationSerializer
+
+# Feedback Views
+class FeedbackListCreateView(generics.ListCreateAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+
+class FeedbackDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer

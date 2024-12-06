@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="/Front End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
+                <img src="{% static 'Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
                 <a href="/Front End/Templates/main.html" class="nav-item">Home</a>
@@ -116,6 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         </main>
     </div>
-    <script src="/Front End/Templates/redirectToAuthPage.js"></script>
+    <script src="{% static 'redirectToAuthPage.js' %}s"></script>
 </body>
 </html>

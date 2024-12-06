@@ -1,27 +1,45 @@
 from rest_framework import serializers
-from .models import Author, Book, Novel, Reader, Review
+from .models import (
+    Profile, AuthorSetting, Notification, Manuscript, ManuscriptKeyword,
+    Genre, BetaReaderApplication, Feedback
+)
 
-class AuthorSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Author
-        fields = '__all__'  # Or specify fields explicitly
-
-class BookSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Book
+        model = Profile
         fields = '__all__'
 
-class NovelSerializer(serializers.ModelSerializer):
+class AuthorSettingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Novel
+        model = AuthorSetting
         fields = '__all__'
 
-class ReaderSerializer(serializers.ModelSerializer):
+class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reader
+        model = Notification
         fields = '__all__'
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ManuscriptSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Review
+        model = Manuscript
+        fields = '__all__'
+
+class ManuscriptKeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ManuscriptKeyword
+        fields = '__all__'
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
+
+class BetaReaderApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BetaReaderApplication
+        fields = '__all__'
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
         fields = '__all__'

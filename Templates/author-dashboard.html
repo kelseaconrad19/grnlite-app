@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Author Dashboard</title>
-    <link rel="stylesheet" href="/Front End/CSS/styles.css">
+    <link rel="stylesheet" href="/Front_End/CSS/styles.css">
     <script>
               // JavaScript to dynamically add notifications
 document.addEventListener("DOMContentLoaded", () => {
@@ -31,21 +31,21 @@ notifications.forEach((notification) => {
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="/Front End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
+                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="/Front End/Templates/main.html" class="nav-item">Home</a>
-                <a href="/Front End/Templates/author-dashboard.html" class="nav-item active">Dashboard</a>
-                <a href="/Front End/Templates/Author Dashboard/my_books.html" class="nav-item">My Books</a>
-                <a href="/Front End/Templates/Author Dashboard/beta-reader-list.html" class="nav-item">Find Beta Readers</a>
-                <a href="/Front End/Templates/Author Dashboard/manuscript-submission.html" class="nav-item">Manuscript Submission</a> 
-                <a href="/Front End/Templates/Author Dashboard/feedback-summary.html" class="nav-item">Feedback Summary</a> 
-                <a href="/Front End/Templates/Author Dashboard/author-resource-library.html" class="nav-item">Resource Library</a> 
-                <a href="/Front End/Templates/Author Dashboard/author-community-groups.html" class="nav-item">Community Groups</a> 
-                <a href="/Front End/Templates/Author Dashboard/author-profile.html" class="nav-item">Profile</a>
-                <a href="/Front End/Templates/Author Dashboard/author-payment-page.html" class="nav-item">Payments</a>
-                <a href="/Front End/Templates/Author Dashboard/author-settings.html" class="nav-item">Settings</a>
-                <a href="/Front End/Templates/logout.html" class="nav-item">Logout</a>
+                <a href="/Front_End/Templates/main.html" class="nav-item">Home</a>
+                <a href="/Front_End/Templates/author-dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="/Front_End/Templates/Author Dashboard/my_books.html" class="nav-item">My Books</a>
+                <a href="/Front_End/Templates/Author Dashboard/beta-reader-list.html" class="nav-item">Find Beta Readers</a>
+                <a href="/Front_End/Templates/Author Dashboard/manuscript-submission.html" class="nav-item">Manuscript Submission</a> 
+                <a href="/Front_End/Templates/Author Dashboard/feedback-summary.html" class="nav-item">Feedback Summary</a> 
+                <a href="/Front_End/Templates/Author Dashboard/author-resource-library.html" class="nav-item">Resource Library</a> 
+                <a href="/Front_End/Templates/Author Dashboard/author-community-groups.html" class="nav-item">Community Groups</a> 
+                <a href="/Front_End/Templates/Author Dashboard/author-profile.html" class="nav-item">Profile</a>
+                <a href="/Front_End/Templates/Author Dashboard/author-payment-page.html" class="nav-item">Payments</a>
+                <a href="/Front_End/Templates/Author Dashboard/author-settings.html" class="nav-item">Settings</a>
+                <a href="/Front_End/Templates/logout.html" class="nav-item">Logout</a>
             </nav>
         </aside>
 
@@ -54,7 +54,7 @@ notifications.forEach((notification) => {
             <div class="content-header">
                 <h1>Welcome Back, Author!</h1>
                 <button class="btn btn-primary">
-                    <a href="/Front End/Templates/Author Dashboard/manuscript-submission.html" style="color: white; text-decoration: none;">Add New Title</a>
+                    <a href="/Front_End/Templates/Author Dashboard/manuscript-submission.html" style="color: white; text-decoration: none;">Add New Title</a>
                 </button>
             </div>
 
@@ -80,7 +80,7 @@ notifications.forEach((notification) => {
                     <h3>Find Beta Readers</h3>
                     <p>View and hire beta readers for your projects.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Author Dashboard/beta-reader-list.html" style="color: white; text-decoration: none;">Find Beta Readers</a>
+                        <a href="/Front_End/Templates/Author Dashboard/beta-reader-list.html" style="color: white; text-decoration: none;">Find Beta Readers</a>
                     </button>
                 </div>
                 <!-- New Cards -->
@@ -88,28 +88,28 @@ notifications.forEach((notification) => {
                     <h3>Manuscript Submission</h3>
                     <p>Submit and manage your manuscripts here.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Author Dashboard/manuscript-submission.html" style="color: white; text-decoration: none;">Submit Manuscript</a>
+                        <a href="/Front_End/Templates/Author Dashboard/manuscript-submission.html" style="color: white; text-decoration: none;">Submit Manuscript</a>
                     </button>
                 </div>
                 <div class="card">
                     <h3>Feedback Summary</h3>
                     <p>View and analyze feedback for your projects.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Author Dashboard/feedback-summary.html" style="color: white; text-decoration: none;">View Feedback</a>
+                        <a href="/Front_End/Templates/Author Dashboard/feedback-summary.html" style="color: white; text-decoration: none;">View Feedback</a>
                     </button>
                 </div>
                 <div class="card">
                     <h3>Resource Library</h3>
                     <p>Access and share writing resources here.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Author Dashboard/author-resource-library.html" style="color: white; text-decoration: none;">Explore Resources</a>
+                        <a href="/Front_End/Templates/Author Dashboard/author-resource-library.html" style="color: white; text-decoration: none;">Explore Resources</a>
                     </button>
                 </div>
                 <div class="card">
                     <h3>Community Groups</h3>
                     <p>Connect with other authors in genre-based groups, writing goals, and self-publishing discussions.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Author Dashboard/author-community-groups.html" style="color: white; text-decoration: none;">Join Community</a>
+                        <a href="/Front_End/Templates/Author Dashboard/author-community-groups.html" style="color: white; text-decoration: none;">Join Community</a>
                     </button>
                 </div>
             </div>
@@ -119,7 +119,7 @@ notifications.forEach((notification) => {
             <h3>Manage Payments</h3>
             <p>View and process payments to Beta Readers for completed projects.</p>
             <button class="btn btn-secondary">
-                <a href="/Front End/Templates/Author Dashboard/author-payment-page.html" style="color: white; text-decoration: none;">Manage Payments</a>
+                <a href="/Front_End/Templates/Author Dashboard/author-payment-page.html" style="color: white; text-decoration: none;">Manage Payments</a>
             </button>
             </div>
 
@@ -131,7 +131,7 @@ notifications.forEach((notification) => {
             </div>
         </main>
     </div>
-    <script src="/Front End/Templates/redirectToAuthPage.js"></script>
+    <script src="{% static 'redirectToAuthPage.js' %}"></script>
 
 </body>
 </html>

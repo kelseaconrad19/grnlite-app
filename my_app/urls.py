@@ -3,24 +3,40 @@ from . import views
 
 urlpatterns = [
     path('', views.main, name='home'),
-    # Author URLs
-    path('authors/', views.AuthorListCreateView.as_view(), name='author-list'),
-    path('authors/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
 
-    # Book URLs
-    path('books/', views.BookListCreateView.as_view(), name='book-list'),
-    path('books/<int:pk>/', views.BookDetailView.as_view(), name='book-detail'),
+    path('signin/', views.signin_view, name='signin'),
+    path('signup/', views.signup_view, name='signup'),
 
-    # Novel URLs
-    path('novels/', views.NovelListCreateView.as_view(), name='novel-list'),
-    path('novels/<int:pk>/', views.NovelDetailView.as_view(), name='novel-detail'),
+    # Profile URLs
+    path('profiles/', views.ProfileListCreateView.as_view(), name='profile-list'),
+    path('profiles/', views.profile_list, name='profile-list-html'),
+    path('profiles/<int:pk>/', views.ProfileDetailView.as_view(), name='profile-detail'),
 
-    # Reader URLs
-    path('readers/', views.ReaderListCreateView.as_view(), name='reader-list'),
-    path('readers/<int:pk>/', views.ReaderDetailView.as_view(), name='reader-detail'),
+    # Author Setting URLs
+    path('author-settings/', views.AuthorSettingListCreateView.as_view(), name='author-setting-list'),
+    path('author-settings/<int:pk>/', views.AuthorSettingDetailView.as_view(), name='author-setting-detail'),
 
-    # Review URLs
-    path('reviews/', views.ReviewListCreateView.as_view(), name='review-list'),
-    path('reviews/<int:pk>/', views.ReviewDetailView.as_view(), name='review-detail'),
+    # Notification URLs
+    path('notifications/', views.NotificationListCreateView.as_view(), name='notification-list'),
+    path('notifications/<int:pk>/', views.NotificationDetailView.as_view(), name='notification-detail'),
+
+    # Manuscript URLs
+    path('manuscripts/', views.ManuscriptListCreateView.as_view(), name='manuscript-list'),
+    path('manuscripts/<int:pk>/', views.ManuscriptDetailView.as_view(), name='manuscript-detail'),
+
+    # Manuscript Keyword URLs
+    path('manuscript-keywords/', views.ManuscriptKeywordListCreateView.as_view(), name='manuscript-keyword-list'),
+    path('manuscript-keywords/<int:pk>/', views.ManuscriptKeywordDetailView.as_view(), name='manuscript-keyword-detail'),
+
+    # Genre URLs
+    path('genres/', views.GenreListCreateView.as_view(), name='genre-list'),
+    path('genres/<int:pk>/', views.GenreDetailView.as_view(), name='genre-detail'),
+
+    # Beta Reader Application URLs
+    path('beta-reader-applications/', views.BetaReaderApplicationListCreateView.as_view(), name='beta-reader-application-list'),
+    path('beta-reader-applications/<int:pk>/', views.BetaReaderApplicationDetailView.as_view(), name='beta-reader-application-detail'),
+
+    # Feedback URLs
+    path('feedbacks/', views.FeedbackListCreateView.as_view(), name='feedback-list'),
+    path('feedbacks/<int:pk>/', views.FeedbackDetailView.as_view(), name='feedback-detail'),
 ]
-
