@@ -1,2 +1,5 @@
-.vscode
+dotenv
+// Ignore environment variable files
 .env
+// Ignore Visual Studio Code configuration files
+.vscode
