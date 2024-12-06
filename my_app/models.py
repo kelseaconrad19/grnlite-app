@@ -64,17 +64,6 @@ class Profile(models.Model):
         auto_now=True,
         help_text="When the user account was last updated"
     )
-
-class Genre(models.Model):
-    name = models.CharField(
-        max_length=100,
-        unique=True,
-        null=False,
-        help_text="Unique name of the genre"
-    )
-
-    def __str__(self):
-        return self.name
     
 class Keyword(models.Model):
     name = models.CharField(
@@ -224,7 +213,7 @@ class AuthorSettings(models.Model):
         blank=True,
         help_text="Notification settings for the author"
     )
-    default_genre = models.ForeignKey(
+    default_genre = models.ForeignKey(  # fix this to be keyword
         Genre,
         on_delete=models.SET_NULL,
         null=True,
