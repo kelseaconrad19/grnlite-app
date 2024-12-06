@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Sign Up</title>
-    <link rel="stylesheet" href="/Front_End/CSS/styles.css">
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}s">
     <style>
         /* Centralized Styles */
      :root {
@@ -203,12 +204,12 @@
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="/Front_End/Templates/main.html" class="logo">
-                <img src="/Front_End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
+            <a href="{% url 'home' %}" class="logo">
+                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </a>
             <div class="nav-links">
-                <a href="/Front_End/Templates/main.html">Home</a>
-                <a href="/Front_End/Templates/signin.html">Sign In</a>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'signin' %}">Sign In</a>
             </div>
         </div>
     </nav>
@@ -248,7 +249,7 @@
             </div>
 
             <div class="auth-footer">
-                <p>Already have an account? <a href="/Front_End/Templates/signin.html">Sign In</a></p>
+                <p>Already have an account? <a href="{% url 'signup' %}">Sign In</a></p>
             </div>
         </div>
     </div>
@@ -278,7 +279,7 @@
             window.location.href = oauthUrl;
         }
     </script>
-    <script src="{% static 'redirectToAuthPage.js' %}"></script>
+    <!-- <script src="{% static 'redirectToAuthPage.js' %}"></script> -->
 </body>
 
 </html>

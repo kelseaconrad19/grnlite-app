@@ -220,8 +220,8 @@
                 <a href="#features">Features</a>
                 <a href="#about">About Us</a>
                 <a href="#contact">Contact Us</a>
-                <a href="#" onclick="redirectToAuthPage('signup')">Sign Up</a>
-                <a href="#" onclick="redirectToAuthPage('signin')">Log In</a>
+                <a href="{% url 'signup' %}">Sign Up</a>
+                <a href="{% url 'signin' %}">Log In</a>
             </div>
         </div>
     </nav>
@@ -230,7 +230,7 @@
         <div class="hero-content" data-aos="fade-up">
             <h1>Welcome to Grn Lite</h1>
             <p>By Authors, For Readers</p>
-            <a href="/Front_End/Templates/signup.html" class="cta-button">Join Our Community</a>
+            <a href="{% url 'signup' %}" class="cta-button">Join Our Community</a>
         </div>
     </section>
     <section id="features" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">

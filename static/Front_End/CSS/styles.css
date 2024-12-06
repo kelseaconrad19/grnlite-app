@@ -1,9 +1,9 @@
 /* Centralized Styles */
 @font-face {
-    font-family: 'Playwrite DE Grund Thin';
-    src: url('{% static "Front_End/fonts/PlaywriteDEGrundThin.woff2" %}') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+    font-family: 'PlaywriteDEGrundThin';
+    src: url("{% static 'Front_End/Font/PlaywriteDEGrundThin.woff2' %}") format('woff2');
+    /* font-weight: normal;
+    font-style: normal; */
 }
 
 :root {

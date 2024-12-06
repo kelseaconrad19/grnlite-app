@@ -15,11 +15,11 @@ def profile_list(request):
 def main(request):
     return render(request, 'main.html')
 
-def signin_view(request):
-    return render(request, 'signin.html')
-
 def signup_view(request):
     return render(request, 'signup.html')
+
+def signin_view(request):
+    return render(request, 'signin.html')
 
 # Profile Views
 class ProfileListCreateView(generics.ListCreateAPIView):

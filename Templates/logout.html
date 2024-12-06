@@ -12,11 +12,11 @@
         <p>Redirecting you to the login page...</p>
         <script>
             setTimeout(() => {
-                window.location.href = "/Front_End/Templates/signin.html"; // Redirect to login page after logout
+                window.location.href = "{% url 'signin' %}"; // Redirect to login page after logout
             }, 2000);
         </script>
         
     </div>
-    <script src="{% static 'redirectToAuthPage.js' %}"></script>
+    <!-- <script src="{% static 'redirectToAuthPage.js' %}"></script> -->
 </body>
 </html>

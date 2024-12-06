@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Reader Dashboard</title>
-    <link rel="stylesheet" href="/Front End/CSS/styles.css">
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <script>
         // JavaScript to dynamically add notifications
 document.addEventListener("DOMContentLoaded", () => {
@@ -32,17 +32,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="{% static 'Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="/Front End/Templates/main.html" class="nav-item">Home</a>
-                <a href="/Front End/Templates/reader-dashboard.html" class="nav-item active">Dashboard</a>
-                <a href="/Front End/Templates/Reader Dashboard/available-books.html" class="nav-item">Available Books</a>
-                <a href="/Front End/Templates/Reader Dashboard/reader-feedback.html" class="nav-item">Feedback</a>
-                <a href="/Front End/Templates/Reader Dashboard/reader-profile.html" class="nav-item">Profile</a>
-                <a href="/Front End/Templates/Reader Dashboard/reader-resource-library.html" class="nav-item">Resource Library</a>
-                <a href="/Front End/Templates/Reader Dashboard/beta-reader-training.html" class="nav-item">Training Module</a>
-                <a href="/Front End/Templates/Reader Dashboard/beta-reader-performance-metrics.html" class="nav-item active">Performance Metrics</a>
-                <a href="/Front End/Templates/Reader Dashboard/reader-payment-page.html" class="nav-item">Payments</a>
-                <a href="/Front End/Templates/Reader Dashboard/reader-settings.html" class="nav-item">Settings</a>
-                <a href="/Front End/Templates/logout.html" class="nav-item">Logout</a>
+                <a href="/Front_End/Templates/main.html" class="nav-item">Home</a>
+                <a href="/Front_End/Templates/reader-dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="/Front_End/Templates/Reader Dashboard/available-books.html" class="nav-item">Available Books</a>
+                <a href="/Front_End/Templates/Reader Dashboard/reader-feedback.html" class="nav-item">Feedback</a>
+                <a href="/Front_End/Templates/Reader Dashboard/reader-profile.html" class="nav-item">Profile</a>
+                <a href="/Front_End/Templates/Reader Dashboard/reader-resource-library.html" class="nav-item">Resource Library</a>
+                <a href="/Front_End/Templates/Reader Dashboard/beta-reader-training.html" class="nav-item">Training Module</a>
+                <a href="/Front_End/Templates/Reader Dashboard/beta-reader-performance-metrics.html" class="nav-item active">Performance Metrics</a>
+                <a href="/Front_End/Templates/Reader Dashboard/reader-payment-page.html" class="nav-item">Payments</a>
+                <a href="/Front_End/Templates/Reader Dashboard/reader-settings.html" class="nav-item">Settings</a>
+                <a href="/Front_End/Templates/logout.html" class="nav-item">Logout</a>
             </nav>
         </aside>
 
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>Available Projects</h3>
                     <p>View and filter books available for review.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Reader Dashboard/available-books.html" style="color: white; text-decoration: none;">View Projects</a>
+                        <a href="/Front_End/Templates/Reader Dashboard/available-books.html" style="color: white; text-decoration: none;">View Projects</a>
                     </button>
                 </div>
 
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>Current Feedback</h3>
                     <p>Submit or edit feedback for ongoing projects.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Reader Dashboard/reader-feedback.html" style="color: white; text-decoration: none;">Manage Feedback</a>
+                        <a href="/Front_End/Templates/Reader Dashboard/reader-feedback.html" style="color: white; text-decoration: none;">Manage Feedback</a>
                     </button>
                 </div>
 
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>Resource Library</h3>
                     <p>Access guides, templates, and useful resources.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Reader Dashboard/reader-resource-library.html" style="color: white; text-decoration: none;">Explore Resources</a>
+                        <a href="/Front_End/Templates/Reader Dashboard/reader-resource-library.html" style="color: white; text-decoration: none;">Explore Resources</a>
                     </button>
                 </div>
                 <!-- Beta Reader Training Module -->
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>Beta Reader Training Module</h3>
                     <p>Learn how to provide high-quality, constructive feedback through interactive exercises and examples.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Reader Dashboard/beta-reader-training.html" style="color: white; text-decoration: none;">Start Training</a>
+                        <a href="/Front_End/Templates/Reader Dashboard/beta-reader-training.html" style="color: white; text-decoration: none;">Start Training</a>
                     </button>
                 </div>
 
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>Performance Metrics</h3>
                     <p>View key metrics to help authors choose the best beta readers.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Reader Dashboard/beta-reader-performance-metrics.html" style="color: white; text-decoration: none;">View Metrics</a>
+                        <a href="/Front_End/Templates/Reader Dashboard/beta-reader-performance-metrics.html" style="color: white; text-decoration: none;">View Metrics</a>
                     </button>
                 </div>
 
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>Payment Status</h3>
                     <p>View your payment status from authors for completed feedback.</p>
                     <button class="btn btn-secondary">
-                        <a href="/Front End/Templates/Reader Dashboard/reader-payment-page.html" style="color: white; text-decoration: none;">View Payment Status</a>
+                        <a href="/Front_End/Templates/Reader Dashboard/reader-payment-page.html" style="color: white; text-decoration: none;">View Payment Status</a>
                     </button>
                 </div>
 
@@ -116,6 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         </main>
     </div>
-    <script src="{% static 'redirectToAuthPage.js' %}s"></script>
+    <!-- <script src="{% static 'redirectToAuthPage.js' %}s"></script> -->
 </body>
 </html>
