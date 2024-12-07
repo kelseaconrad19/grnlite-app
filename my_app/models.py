@@ -1,47 +1,24 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.timezone import now
 from django.utils import timezone
 
-
-class User(models.Model):
+class Profile(models.Model):
     ROLE_CHOICES = [
         ('author', 'Author'),
         ('beta_reader', 'Beta Reader'),
         ('editor', 'Editor'),
     ]
 
-    username = models.CharField(
-        max_length=150,
-        unique=True,
-        null=False,
-        help_text="Unique username"
-    )
-    email = models.EmailField(
-        max_length=255,
-        unique=True,
-        null=False,
-        help_text="Unique email"
-    )
-    password = models.CharField(
-        max_length=255,
-        null=False,
-        help_text="User's password"
-    )
     role = models.CharField(
         max_length=20,
         choices=ROLE_CHOICES,
         default='author',
-        null=False,
         help_text="Role of the user"
     )
-
-    def __str__(self):
-        return self.username
-
-class Profile(models.Model):
-    user = models.ForeignKey(
-        User,
+    user = models.OneToOneField(
+        get_user_model(),  # Dynamically references the default User model
         on_delete=models.CASCADE,
         help_text="User who owns the profile"
     )
@@ -98,8 +75,10 @@ class Manuscript(models.Model):
         null=False
     )
     author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="manuscripts",
+        help_text="The author of the manuscript"
     )
     file_path = models.URLField(
         null=False
@@ -171,9 +150,9 @@ class FeedbackResponse(models.Model):
         help_text="The manuscript this feedback is for"
     )
     reader = models.ForeignKey(
-        User,
+        get_user_model(),
         on_delete=models.CASCADE,
-        limit_choices_to={'role': 'beta_reader'},
+        limit_choices_to={'groups__name': 'beta_reader'},  # Adjust group or role logic if necessary
         related_name="feedback_given",
         help_text="The beta reader providing the feedback"
     )
@@ -198,7 +177,7 @@ class FeedbackResponse(models.Model):
 
 class AuthorSettings(models.Model):
     author = models.OneToOneField(
-        User,
+        get_user_model(),
         on_delete=models.CASCADE,
         related_name="settings",
         help_text="The author this settings configuration belongs to"
@@ -212,13 +191,6 @@ class AuthorSettings(models.Model):
         default=dict,
         blank=True,
         help_text="Notification settings for the author"
-    )
-    default_genre = models.ForeignKey(  # fix this to be keyword
-        Genre,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        help_text="Default genre for new manuscripts"
     )
     profile_visibility = models.BooleanField(
         default=True,
@@ -286,9 +258,10 @@ class ResourceInteraction(models.Model):
         related_name="interactions"
     )
     user = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        related_name="resource_interactions"
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="resource_interactions",
+        help_text="The user interacting with the resource"
     )
     interaction_type = models.CharField(
         max_length=50, 
@@ -306,9 +279,10 @@ class Notification(models.Model):
         ('not_read', 'Not Read'),
     ]
     user = models.ForeignKey(
-        User,
+        get_user_model(),
         on_delete=models.CASCADE,
-        help_text="User notification is sent to"
+        related_name="notifications",
+        help_text="The user receiving the notification"
     )
     message = models.TextField(
         null=False,
@@ -344,10 +318,10 @@ class BetaReaderApplication(models.Model):
         help_text="The manuscript this application is for"
     )
     beta_reader = models.ForeignKey(
-        User,
+        get_user_model(),
         on_delete=models.CASCADE,
-        limit_choices_to={'role': 'beta_reader'},
-        related_name='applications',
+        limit_choices_to={'groups__name': 'beta_reader'},  # Or another method of filtering beta readers
+        related_name="applications",
         help_text="The beta reader submitting the application"
     )
     reader_rating = models.IntegerField(

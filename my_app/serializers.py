@@ -1,27 +1,101 @@
 from rest_framework import serializers
-from .models import Author, Book, Novel, Reader, Review
+from django.contrib.auth.models import User
+from .models import (
+    Profile,
+    Manuscript,
+    Keyword,
+    FeedbackQuestion,
+    FeedbackResponse,
+    AuthorSettings,
+    Resource,
+    ResourceInteraction,
+    Notification,
+    BetaReaderApplication, 
+    ManuscriptFeedbackPreference
+)
 
-class AuthorSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Author
-        fields = '__all__'  # Or specify fields explicitly
+        model = User
+        fields = ['id', 'username', 'email', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True},  # Password should not be readable
+        }
 
-class BookSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        # Create a new user with hashed password
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
     class Meta:
-        model = Book
+        model = Profile
+        fields = ['user', 'profile_img', 'bio', 'created_at', 'updated_at']
+
+class ManuscriptSerializer(serializers.ModelSerializer):
+    author = UserSerializer()
+    keywords = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = Manuscript
+        fields = ['id', 'title', 'author', 'file_path', 'status', 'keywords']
+
+class KeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Keyword
+        fields = ['id', 'name', 'category']
+
+class FeedbackQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedbackQuestion
+        fields = ['id', 'category', 'question_text', 'is_active']
+
+class FeedbackResponseSerializer(serializers.ModelSerializer):
+    question = FeedbackQuestionSerializer()
+    reader = UserSerializer()
+
+    class Meta:
+        model = FeedbackResponse
+        fields = '__all__'
+        
+class ManuscriptFeedbackPreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ManuscriptFeedbackPreference
         fields = '__all__'
 
-class NovelSerializer(serializers.ModelSerializer):
+class AuthorSettingsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Novel
+        model = AuthorSettings
         fields = '__all__'
 
-class ReaderSerializer(serializers.ModelSerializer):
+class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reader
+        model = Resource
         fields = '__all__'
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ResourceInteractionSerializer(serializers.ModelSerializer):
+    resource = ResourceSerializer()
+    user = UserSerializer()
+
     class Meta:
-        model = Review
+        model = ResourceInteraction
+        fields = '__all__'
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'
+
+class BetaReaderApplicationSerializer(serializers.ModelSerializer):
+    manuscript = ManuscriptSerializer()
+    beta_reader = UserSerializer()
+
+    class Meta:
+        model = BetaReaderApplication
         fields = '__all__'

@@ -33,6 +33,8 @@ USE_TZ = True  # Ensure this is set
 
 # Application definition
 
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,14 +89,13 @@ WSGI_APPLICATION = 'my_app.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db')
-    # 'default': {
+    'default': dj_database_url.config(
+        default='postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db'
+    )
+}    # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'grnlite_postgresql',
     # }
-}
-
-# AUTH_USER_MODEL = 'my_app.Reader'
 
 
 # Password validation
