@@ -4,17 +4,29 @@ databases:
     databaseName: grnlite_postgresql
     user: my_app
 
+# Exported from Render on 2024-12-09T19:25:51Z
 services:
-  - type: web
-    plan: free
-    name: my_app
-    runtime: python
-    buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn my_app.asgi:application -k uvicorn.workers.UvicornWorker"
-    envVars:
-      - key: DATABASE_URL
-        value: "postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db"
-      - key: SECRET_KEY
-        generateValue: true
-      - key: WEB_CONCURRENCY
-        value: "4"
+- type: web
+  name: GRNLITE
+  runtime: python
+  repo: https://github.com/JSander72/GRNLITE
+  plan: free
+  envVars:
+  - key: USER
+    sync: false
+  - key: PORT
+    sync: false
+  - key: PASSWORD
+    sync: false
+  - key: NAME
+    sync: false
+  - key: HOST
+    sync: false
+  - key: ENGINE
+    sync: false
+  region: ohio
+  buildCommand: pip install -r requirements.txt
+  startCommand: gunicorn grnlite.wsgi:application --bind 0.0.0.0:$PORT
+version: "1"
+
+
