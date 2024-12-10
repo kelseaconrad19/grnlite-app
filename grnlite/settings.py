@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'corsheaders'
+    # 'corsheaders',
 
     # Add your apps here
 ]
@@ -86,6 +86,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     # ... other JWT configuration options ...
 }
+
 
 
 # Database
