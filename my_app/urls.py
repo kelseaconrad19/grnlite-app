@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 app_name = 'my_app'
@@ -12,6 +12,8 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),    
     path('users/', views.UserListCreateView.as_view(), name='user-list-create'),
     path('users/<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
 
     # Profile URLs
     path('profiles/', views.ProfileListCreateView.as_view(), name='profile-list-create'),

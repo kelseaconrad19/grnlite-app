@@ -27,6 +27,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'my_app',
+    'djoser',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders'
+
     # Add your apps here
 ]
 
@@ -59,6 +65,28 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'grnlite.wsgi.application'
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SERIALIZERS': {
+        'user_create': 'my_app.serializers.UserSerializer',
+        'user': 'my_app.serializers.UserSerializer',
+    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    # ... other JWT configuration options ...
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
