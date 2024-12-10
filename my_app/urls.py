@@ -1,9 +1,15 @@
 from django.urls import path
 from . import views
 
+app_name = 'my_app'
+
 urlpatterns = [
-    path('', views.main, name='main'),
+    path('', views.home, name='home'),
     # User URLs
+    path('signin/', views.signin, name='signin'),
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),    
     path('users/', views.UserListCreateView.as_view(), name='user-list-create'),
     path('users/<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
 

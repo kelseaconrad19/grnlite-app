@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Sign Up</title>
-    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}s">
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <style>
         /* Centralized Styles */
      :root {
@@ -204,12 +204,12 @@
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="{% url 'home' %}" class="logo">
-                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
+            <a href="{% url 'my_app:home' %}" class="logo">
+                <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}" alt="Grn Lite Logo">
             </a>
             <div class="nav-links">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'signin' %}">Sign In</a>
+                <a href="{% url 'my_app:home' %}">Home</a>
+                <a href="{% url 'my_app:signin' %}">Sign In</a>
             </div>
         </div>
     </nav>
@@ -249,7 +249,7 @@
             </div>
 
             <div class="auth-footer">
-                <p>Already have an account? <a href="{% url 'signup' %}">Sign In</a></p>
+                <p>Already have an account? <a href="{% url 'my_app:signup' %}">Sign In</a></p>
             </div>
         </div>
     </div>

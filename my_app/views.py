@@ -31,9 +31,23 @@ from .serializers import (
     ManuscriptFeedbackPreferenceSerializer
 )
 
-# Main View
-def main(request):
+# Home View
+def home(request):
     return render(request, 'main.html')
+
+def signup(request):
+    return render(request, 'signup.html')
+
+def signin(request):
+    return render(request, 'signin.html')
+
+def login(request):
+    return render(request, 'login.html')
+
+def logout(request):
+    return render(request, 'logout.html')
+
+
 
 # User Views
 

@@ -1,7 +1,7 @@
 /* Centralized Styles */
 @font-face {
     font-family: 'Playwrite DE Grund Thin';
-    src: url('/path-to-font/PlaywriteDEGrundThin.woff2') format('woff2');
+    src: url("{% static 'Front_End/Font/PlaywriteDEGrund-VariableFont_wght.ttf' %}") format('truetype');
 }
 
 :root {
