@@ -3,3 +3,6 @@ dotenv
 .env
 // Ignore Visual Studio Code configuration files
 .vscode
+// Ignore Python virtual environment files
+.venv
+// Ignore Python byte code files
