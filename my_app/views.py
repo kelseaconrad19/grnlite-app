@@ -1,52 +1,71 @@
 from django.shortcuts import render
 from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework.permissions import BasePermission, AllowAny, IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
+
 from .models import (
-    Profile, AuthorSetting, Notification, Manuscript,
-    ManuscriptKeyword, Genre, BetaReaderApplication, Feedback
+    Profile,
+    Keyword,
+    Manuscript,
+    FeedbackQuestion,
+    FeedbackResponse,
+    ManuscriptFeedbackPreference,
+    AuthorSettings,
+    Resource,
+    ResourceInteraction,
+    Notification,
+    BetaReaderApplication,
 )
 from .serializers import (
-    ProfileSerializer, AuthorSettingSerializer, NotificationSerializer, ManuscriptSerializer,
-    ManuscriptKeywordSerializer, GenreSerializer, BetaReaderApplicationSerializer, FeedbackSerializer
+    UserSerializer,
+    ProfileSerializer,
+    ManuscriptSerializer,
+    KeywordSerializer,
+    FeedbackQuestionSerializer,
+    FeedbackResponseSerializer,
+    AuthorSettingsSerializer,
+    ResourceSerializer,
+    ResourceInteractionSerializer,
+    NotificationSerializer,
+    BetaReaderApplicationSerializer,
+    ManuscriptFeedbackPreferenceSerializer
 )
-def profile_list(request):
-    profiles = Profile.objects.all()
-    return render(request, 'profiles.html', {'profiles': profiles})
 
+# Main View
 def main(request):
     return render(request, 'main.html')
 
-def signup_view(request):
-    return render(request, 'signup.html')
+# User Views
 
-def signin_view(request):
-    return render(request, 'signin.html')
+class UserListCreateView(generics.ListCreateAPIView):
+    """
+    GET: List all users.
+    POST: Create a new user.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
+
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    GET: Retrieve user details.
+    PUT/PATCH: Update user details.
+    DELETE: Delete a user.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
 # Profile Views
 class ProfileListCreateView(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
 
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-
-# Author Setting Views
-class AuthorSettingListCreateView(generics.ListCreateAPIView):
-    queryset = AuthorSetting.objects.all()
-    serializer_class = AuthorSettingSerializer
-
-class AuthorSettingDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = AuthorSetting.objects.all()
-    serializer_class = AuthorSettingSerializer
-
-# Notification Views
-class NotificationListCreateView(generics.ListCreateAPIView):
-    queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer
-
-class NotificationDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer
 
 # Manuscript Views
 class ManuscriptListCreateView(generics.ListCreateAPIView):
@@ -57,23 +76,77 @@ class ManuscriptDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Manuscript.objects.all()
     serializer_class = ManuscriptSerializer
 
-# Manuscript Keyword Views
-class ManuscriptKeywordListCreateView(generics.ListCreateAPIView):
-    queryset = ManuscriptKeyword.objects.all()
-    serializer_class = ManuscriptKeywordSerializer
+# Keyword Views
+class KeywordListCreateView(generics.ListCreateAPIView):
+    queryset = Keyword.objects.all()
+    serializer_class = KeywordSerializer
 
-class ManuscriptKeywordDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ManuscriptKeyword.objects.all()
-    serializer_class = ManuscriptKeywordSerializer
+class KeywordDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Keyword.objects.all()
+    serializer_class = KeywordSerializer
 
-# Genre Views
-class GenreListCreateView(generics.ListCreateAPIView):
-    queryset = Genre.objects.all()
-    serializer_class = GenreSerializer
+# Feedback Question Views
+class FeedbackQuestionListCreateView(generics.ListCreateAPIView):
+    queryset = FeedbackQuestion.objects.all()
+    serializer_class = FeedbackQuestionSerializer
 
-class GenreDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Genre.objects.all()
-    serializer_class = GenreSerializer
+class FeedbackQuestionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FeedbackQuestion.objects.all()
+    serializer_class = FeedbackQuestionSerializer
+    
+# Manuscript Feedback Preference Views
+class ManuscriptFeedbackPreferenceListCreateView(generics.ListCreateAPIView):
+    queryset = ManuscriptFeedbackPreference.objects.all()
+    serializer_class = ManuscriptFeedbackPreferenceSerializer
+
+class ManuscriptFeedbackPreferenceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ManuscriptFeedbackPreference.objects.all()
+    serializer_class = ManuscriptFeedbackPreferenceSerializer
+
+# Feedback Response Views
+class FeedbackResponseListCreateView(generics.ListCreateAPIView):
+    queryset = FeedbackResponse.objects.all()
+    serializer_class = FeedbackResponseSerializer
+
+class FeedbackResponseDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FeedbackResponse.objects.all()
+    serializer_class = FeedbackResponseSerializer
+
+# Author Settings Views
+class AuthorSettingsListCreateView(generics.ListCreateAPIView):
+    queryset = AuthorSettings.objects.all()
+    serializer_class = AuthorSettingsSerializer
+
+class AuthorSettingsDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AuthorSettings.objects.all()
+    serializer_class = AuthorSettingsSerializer
+
+# Resource Views
+class ResourceListCreateView(generics.ListCreateAPIView):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceSerializer
+
+class ResourceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceSerializer
+
+# Resource Interaction Views
+class ResourceInteractionListCreateView(generics.ListCreateAPIView):
+    queryset = ResourceInteraction.objects.all()
+    serializer_class = ResourceInteractionSerializer
+
+class ResourceInteractionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ResourceInteraction.objects.all()
+    serializer_class = ResourceInteractionSerializer
+
+# Notification Views
+class NotificationListCreateView(generics.ListCreateAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+class NotificationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
 
 # Beta Reader Application Views
 class BetaReaderApplicationListCreateView(generics.ListCreateAPIView):
@@ -83,12 +156,3 @@ class BetaReaderApplicationListCreateView(generics.ListCreateAPIView):
 class BetaReaderApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BetaReaderApplication.objects.all()
     serializer_class = BetaReaderApplicationSerializer
-
-# Feedback Views
-class FeedbackListCreateView(generics.ListCreateAPIView):
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializer
-
-class FeedbackDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializer
