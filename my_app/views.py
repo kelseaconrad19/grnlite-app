@@ -47,6 +47,64 @@ def login(request):
 def logout(request):
     return render(request, 'logout.html')
 
+# Reader Dashboard Views
+def reader_dashboard(request):
+    return render(request, 'reader-dashboard.html')
+
+def available_books(request):
+    return render(request, 'available-books.html')
+
+def reader_feedback(request):
+    return render(request, 'reader-feedback.html')
+
+def reader_profile(request):
+    return render(request, 'reader-profile.html')
+
+def reader_resource_library(request):
+    return render(request, 'reader-resource-library.html')
+
+def beta_reader_training(request):
+    return render(request, 'beta-reader-training.html')
+
+def beta_reader_performance_metrics(request):
+    return render(request, 'beta-reader-performance-metrics.html')
+
+def reader_payment_page(request):
+    return render(request, 'reader-payment-page.html')
+
+def reader_settings(request):
+    return render(request, 'reader-settings.html')
+
+# Author Dashboard Views
+def author_dashboard(request):
+    return render(request, 'author-dashboard.html')
+
+def my_books(request):
+    return render(request, 'my_books.html')
+
+def find_beta_readers(request):
+    return render(request, 'find-beta-readers.html') 
+
+def manuscript_submission(request):
+    return render(request, 'manuscript-submission.html')
+
+def feedback_summary(request):
+    return render(request, 'feedback-summary.html')
+
+def author_resource_library(request):
+    return render(request, 'author-resource-library.html')
+
+def author_community_groups(request):
+    return render(request, 'author-community-groups.html')
+
+def author_profile(request):
+    return render(request, 'author-profile.html')
+
+def author_payment_page(request):
+    return render(request, 'author-payment-page.html')
+
+def author_settings(request):
+    return render(request, 'author-settings.html')
 
 
 # User Views

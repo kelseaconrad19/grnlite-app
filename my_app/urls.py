@@ -13,7 +13,8 @@ urlpatterns = [
     path('users/', views.UserListCreateView.as_view(), name='user-list-create'),
     path('users/<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
     path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
+    path('auth/', include('djoser.urls.jwt')),   
+
 
     # Profile URLs
     path('profiles/', views.ProfileListCreateView.as_view(), name='profile-list-create'),
@@ -58,6 +59,29 @@ urlpatterns = [
     # Beta Reader Application URLs
     path('beta-reader-applications/', views.BetaReaderApplicationListCreateView.as_view(), name='beta-reader-application-list'),
     path('beta-reader-applications/<int:pk>/', views.BetaReaderApplicationDetailView.as_view(), name='beta-reader-application-detail'),
+
+    # Reader Dashboard URLs
+    path('reader-dashboard/', views.reader_dashboard, name='reader-dashboard'),
+    path('available-books/', views.available_books, name='available-books'),
+    path('reader-feedback/', views.reader_feedback, name='reader-feedback'),
+    path('reader-profile/', views.reader_profile, name='reader-profile'),
+    path('reader-resource-library/', views.reader_resource_library, name='reader-resource-library'),
+    path('beta-reader-training/', views.beta_reader_training, name='beta-reader-training'),
+    path('beta-reader-performance-metrics/', views.beta_reader_performance_metrics, name='beta-reader-performance-metrics'),
+    path('reader-payment-page/', views.reader_payment_page, name='reader-payment-page'),
+    path('reader-settings/', views.reader_settings, name='reader-settings'),
+
+    # Author Dashboard URLs
+    path('author-dashboard/', views.author_dashboard, name='author-dashboard'),
+    path('my-books/', views.my_books, name='my-books'),
+    path('find-beta-readers/', views.find_beta_readers, name='find-beta-readers'),
+    path('manuscript-submission/', views.manuscript_submission, name='manuscript-submission'),
+    path('feedback-summary/', views.feedback_summary, name='feedback-summary'),
+    path('author-resource-library/', views.author_resource_library, name='author-resource-library'),
+    path('author-community-groups/', views.author_community_groups, name='author-community-groups'),
+    path('author-profile/', views.author_profile, name='author-profile'),
+    path('author-payment-page/', views.author_payment_page, name='author-payment-page'),
+    path('author-settings/', views.author_settings, name='author-settings'),
 ]
 
 

@@ -5,6 +5,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'redirectToAuthPage.js' %}"></script>
     <title>Grn Lite - Sign Up</title>
     <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <style>
@@ -249,7 +250,7 @@
             </div>
 
             <div class="auth-footer">
-                <p>Already have an account? <a href="{% url 'my_app:signup' %}">Sign In</a></p>
+                <p>Already have an account? <a href="{% url 'my_app:signin' %}">Sign In</a></p>
             </div>
         </div>
     </div>
@@ -279,7 +280,7 @@
             window.location.href = oauthUrl;
         }
     </script>
-    <!-- <script src="{% static 'redirectToAuthPage.js' %}"></script> -->
+    <script src="{% static 'redirectToAuthPage.js' %}"></script>
 </body>
 
 </html>
