@@ -37,7 +37,7 @@ class TestProfileModel(TestCase):
         self.assertEqual(genres[0].name, "Science Fiction")
 
     def test_manuscript_creation(self):
-        manuscript_instance = Manuscript.objects.create(
+        Manuscript.objects.create(
             author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
         )
         manuscripts = Manuscript.objects.all()
@@ -60,20 +60,18 @@ class TestProfileModel(TestCase):
         updated_genre = Genre.objects.get(name="Science Fiction")
         self.assertEqual(updated_genre.description, "Updated description")
 
-    def test_profile_creation(self):
+    def test_manuscript_update(self):
+        self.manuscript.title = "Updated Manuscript"
+        self.manuscript.save()
+        updated_manuscript = Manuscript.objects.get(id=self.manuscript.id)
+        self.assertEqual(updated_manuscript.title, "Updated Manuscript")
+
+    def test_profile_deletion(self):
+        self.profile.delete()
         profiles = Profile.objects.all()
-        self.assertEqual(profiles.count(), 1)
-        self.assertEqual(profiles[0].user.username, "testuser")
+        self.assertEqual(profiles.count(), 0)
 
-    def test_genre_creation(self):
+    def test_genre_deletion(self):
+        self.genre.delete()
         genres = Genre.objects.all()
-        self.assertEqual(genres.count(), 1)
-        self.assertEqual(genres[0].name, "Science Fiction")
-
-    def test_manuscript_creation(self):  # New test for Manuscript model
-        # Fix: Provide a valid author
-        manuscript_instance = Manuscript.objects.create(
-            author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
-        )
-        manuscripts = Manuscript.objects.all()
-        self.assertEqual(manuscripts.count(), 2)  # The initial one and the one created in the test
+        self.assertEqual(genres.count(), 0)
