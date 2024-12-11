@@ -3,7 +3,8 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.permissions import BasePermission, AllowAny, IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.views import APIView, permissions_classes
+from rest_framework.views import APIView, permission_classes
+from rest_framework.decorators import api_view
 from social_django.utils import load_strategy
 from social_core.backends.google import GoogleOAuth2
 from rest_framework_simplejwt.tokens import RefreshToken
