@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from .views import GoogleLoginView, UserProfileView
 
 app_name = 'my_app'
 
@@ -14,6 +15,10 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),   
+
+    # Google OAuth2 URLs
+    path('auth/google/', GoogleLoginView.as_view(), name='google-login'),
+    path('auth/profile/', UserProfileView.as_view(), name='user-profile'),
 
 
     # Profile URLs
