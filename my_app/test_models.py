@@ -1,3 +1,6 @@
+import django
+django.setup()
+
 from django.test import TestCase
 from .models import Profile, Manuscript, Genre
 from django.contrib.auth.models import User
