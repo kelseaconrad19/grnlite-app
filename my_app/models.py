@@ -356,19 +356,19 @@ class BetaReaderApplication(models.Model):
         help_text="Optional message from the beta reader to the author"
     )
 
-    def __str__(self):
-        return f"{self.beta_reader.username} applied for {self.manuscript.title}"
-        class Genre(models.Model):
-            name = models.CharField(
-                max_length=100,
-                null=False,
-                help_text="Name of the genre"
-            )
-            description = models.TextField(
-                null=True,
-                blank=True,
-                help_text="Description of the genre"
-            )
-
-            def __str__(self):
-                return self.name
+def __str__(self):
+    return f"{self.beta_reader.username} applied for {self.manuscript.title}"
+class Genre(models.Model):
+        name = models.CharField(
+            max_length=100,
+            null=False,
+            help_text="Name of the genre"
+        )
+        description = models.TextField(
+            null=True,
+            blank=True,
+            help_text="Description of the genre"
+        )
+    
+        def __str__(self):
+            return self.name    
