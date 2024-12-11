@@ -28,6 +28,7 @@ class Profile(models.Model):
         blank=True,
         help_text="User's profile picture"
     )
+    
     bio = models.TextField(
         null=True,
         blank=True,
