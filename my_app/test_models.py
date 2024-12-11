@@ -38,7 +38,7 @@ class TestProfileModel(TestCase):
 
     def test_manuscript_creation(self):  # New test for Manuscript model
         # Fix: Provide a valid author
-        Manuscript = Manuscript.objects.create(
+        manuscript_instance = Manuscript.objects.create(
             author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
         )
         manuscripts = Manuscript.objects.all()
