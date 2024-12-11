@@ -71,15 +71,15 @@ class Manuscript(models.Model):
         ('completed', 'Completed'),
     ]
 
-    title = models.CharField(
-        max_length=200,
-        null=False
-    )
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name="manuscripts",
         help_text="The author of the manuscript"
+    )
+    title = models.CharField(
+        max_length=200,
+        null=False
     )
     file_path = models.URLField(
         null=False

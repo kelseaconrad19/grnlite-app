@@ -15,7 +15,7 @@ class TestProfileModel(TestCase):
         self.user = User.objects.create_user(username="testuser", password="testpass")
 
         # Create a profile
-        self.profile = Profile.objects.create(user=self.user, profile_image="path/to/image.jpg")
+        self.profile = Profile.objects.create(user=self.user, profile_img="path/to/image.jpg")
 
         # Create a genre
         self.genre = Genre.objects.create(name="Science Fiction")
