@@ -23,7 +23,7 @@ class TestProfileModel(TestCase):
 
         # Create a manuscript
         self.manuscript = Manuscript.objects.create(
-            author=self.user, title="My Manuscript", file_path="/path/to/file", status="draft"
+            author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
         )
 
     def test_profile_creation(self):
@@ -37,6 +37,9 @@ class TestProfileModel(TestCase):
         self.assertEqual(genres[0].name, "Science Fiction")
 
     def test_manuscript_creation(self):  # New test for Manuscript model
-        Manuscript.objects.create(title="Test Manuscript")
+        # Fix: Provide a valid author
+        Manuscript = Manuscript.objects.create(
+            author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
+        )
         manuscripts = Manuscript.objects.all()
-        self.assertEqual(manuscripts.count(), 1)
+        self.assertEqual(manuscripts.count(), 2)  # The original one and the one created in the test
