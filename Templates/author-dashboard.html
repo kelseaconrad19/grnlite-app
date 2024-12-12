@@ -38,14 +38,14 @@ notifications.forEach((notification) => {
                 <a href="{% static 'Templates/author-dashboard.html'%}" class="nav-item active">Dashboard</a>
                 <a href="{% static 'Templates/Author Dashboard/my_books.html'%}" class="nav-item">My Books</a>
                 <a href="{% static 'Templates/Author Dashboard/beta-reader-list.html'%}" class="nav-item">Find Beta Readers</a>
-                <a href="{% static 'Templates/Author Dashboard/manuscript-submission.html'%}" class="nav-item">Manuscript Submission</a> 
+                <a href="{% url 'my_app:manuscript-submission' %}" class="nav-item">Submit Manuscript</a> 
                 <a href="{% static 'Templates/Author Dashboard/feedback-summary.html'%}" class="nav-item">Feedback Summary</a> 
                 <a href="{% static 'Templates/Author Dashboard/author-resource-library.html'%}" class="nav-item">Resource Library</a> 
                 <a href="{% static 'Templates/Author Dashboard/author-community-groups.html'%}" class="nav-item">Community Groups</a> 
                 <a href="{% static 'Templates/Author Dashboard/author-profile.html'%}" class="nav-item">Profile</a>
                 <a href="{% static 'Templates/Author Dashboard/author-payment-page.html'%}" class="nav-item">Payments</a>
-                <a href="{% static 'Templates/Author Dashboard/author-settings.html'%}" class="nav-item">Settings</a>
-                <a href="{% static 'Templates/logout.html'%}" class="nav-item">Logout</a>
+                <a href="{% url 'my_app:author-settings' %}" class="nav-item">Settings</a>
+                <a href="{% url 'my_app:logout' %}" class="nav-item">Logout</a>
             </nav>
         </aside>
 

@@ -210,7 +210,7 @@
             </a>
             <div class="nav-links">
                 <a href="{% static 'Templates/main.html' %}">Home</a>
-                <a href="{% url 'signin.html' %}">Sign In</a>
+                <a href="{% url 'my_app:signin' %}">Sign In</a>
             </div>
         </div>
     </nav>
@@ -250,7 +250,7 @@
             </div>
 
             <div class="auth-footer">
-                <p>Already have an account? <a href="{% url 'signin.html' %}">Sign In</a></p>
+                <p>Already have an account? <a href="{% url 'my_app:signin' %}">Sign In</a></p>
             </div>
         </div>
     </div>
