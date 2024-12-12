@@ -31,12 +31,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt 
           pip install pytest pytest-cov
-          pytest --cov=.
+          pytest --cov=. -q
           flake8 .
       
       - name: Build for Production
         run: |
           python manage.py collectstatic --noinput
+          - name: Upload logs as artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: logs
+            path: <path/to/your/logs>
       
       - name: Deploy to Render
         if: github.ref == 'refs/heads/main'
