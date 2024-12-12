@@ -205,12 +205,12 @@
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="{% url 'my_app:home' %}" class="logo">
+            <a href="{% static 'Templates/main.html' %}" class="logo">
                 <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}" alt="Grn Lite Logo">
             </a>
             <div class="nav-links">
-                <a href="{% url 'my_app:home' %}">Home</a>
-                <a href="{% url 'my_app:signin' %}">Sign In</a>
+                <a href="{% static 'Templates/main.html' %}">Home</a>
+                <a href="{% static 'Templates/signin.html' %}">Sign In</a>
             </div>
         </div>
     </nav>
@@ -250,7 +250,7 @@
             </div>
 
             <div class="auth-footer">
-                <p>Already have an account? <a href="{% url 'my_app:signin' %}">Sign In</a></p>
+                <p>Already have an account? <a href="{% static 'Templates/signin.html' %}">Sign In</a></p>
             </div>
         </div>
     </div>
@@ -280,7 +280,7 @@
             window.location.href = oauthUrl;
         }
     </script>
-    <script src="{% static 'redirectToAuthPage.js' %}"></script>
+    <!-- <script src="{% static 'redirectToAuthPage.js' %}"></script> -->
 </body>
 
 </html>

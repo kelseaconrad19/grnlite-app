@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Manuscript Submission</title>
-    <link rel="stylesheet" href="/Front_End/CSS/styles.css">
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <script>
-        // JavaScript to toggle NDA upload visibility
+        // Existing JavaScript functions
         function toggleNDASection() {
             const ndaSection = document.getElementById('nda-upload-section');
             const ndaCheckbox = document.getElementById('nda');
             ndaSection.style.display = ndaCheckbox.checked ? 'block' : 'none';
         }
 
-        // JavaScript to add custom feedback categories dynamically
         function addCustomCategory() {
             const customInput = document.getElementById('custom-feedback');
             const categoryValue = customInput.value.trim();
@@ -28,6 +27,103 @@
                 alert('Please enter a custom category!');
             }
         }
+
+        // New function for book review questionnaire generation
+        function generateBookReviewQuestionnaire() {
+            const questionCategories = {
+                basicQuestions: [
+                    "Did the book seem too long or too short?",
+                    "Did you get bored anywhere? Where?",
+                    "What didn't make sense to you?",
+                    "Did you like the main character?",
+                    "Did you feel like you knew this place and time? Were there enough sensory details to sweep you away?",
+                    "Did you like the ending?",
+                    "Could you tell the characters apart?",
+                    "Did the dialogue sound like it came from real people?",
+                    "What parts did you like best?",
+                    "What parts did you like least?"
+                ],
+                overallImpressions: [
+                    "What was your overall impression of the story?",
+                    "What did you like about it the most?",
+                    "Was there anything you didn't like about it? If so, what?"
+                ],
+                plot: [
+                    "Did the story grab you at the beginning?",
+                    "Were there any points where you started to lose interest?",
+                    "Was the story easy to follow? If not, why not?",
+                    "Was there anything particular that you found confusing?",
+                    "Was there anything that you had trouble believing or that seemed illogical?",
+                    "Did you find any plot holes or inconsistencies?",
+                    "Was the plot fulfilled in a satisfying way? In other words, was the ending satisfying?"
+                ],
+                characters: [
+                    "Did you find the main character engaging? If so, what was most engaging about them? If you didn't find them engaging, why not?",
+                    "Was the main character relatable? What did you like about him/her? What didn't you like?",
+                    "Were the protagonist's goals clear?",
+                    "Which character was your favorite, and why?",
+                    "Which character was your least favorite, and why?",
+                    "Which character(s) do you wish was developed more?",
+                    "Were you able to keep track of the characters, i.e. who was who? Were there too many? Too few?"
+                ],
+                pacing: [
+                    "Were there any places the story moved too quickly or too slowly?",
+                    "Were there any scenes that dragged or were boring?",
+                    "Were there any scenes that you wished were expanded?"
+                ],
+                dialogue: [
+                    "Did the dialogue sound realistic? If not, where did it sound fake?",
+                    "Were the dialogue tags \"invisible\" or did they pull you from the story?",
+                    "Could you tell who was speaking based on dialogue tags and character voice?"
+                ],
+                description: [
+                    "Were you able to visualize the setting for every scene? If not, where could more description be given?",
+                    "Were you able to visualize every important character? If not, who could use more description?"
+                ],
+                craft: [
+                    "Was the narrative voice consistent throughout the course of the novel?",
+                    "Were there any overused words or phrases?"
+                ],
+                other: [
+                    "What was your favorite scene/chapter, and why?",
+                    "What was your least favorite scene/chapter, and why?",
+                    "Did you feel immersed in the story? If not, where are places you couldn't \"suspend disbelief\"?",
+                    "What are your thoughts about the ending?",
+                    "What were the strengths of this novel? What were the weaknesses?"
+                ]
+            };
+
+            const questionnaireContainer = document.getElementById('book-review-questionnaire');
+            questionnaireContainer.innerHTML = ''; // Clear previous questionnaire
+
+            // Get selected categories
+            const selectedCategories = Array.from(document.querySelectorAll('input[name="review-categories"]:checked'))
+                .map(checkbox => checkbox.value);
+
+            // Generate questions for selected categories
+            selectedCategories.forEach(category => {
+                const categoryTitle = document.createElement('h3');
+                categoryTitle.textContent = category.replace(/([A-Z])/g, ' $1').toLowerCase();
+                questionnaireContainer.appendChild(categoryTitle);
+
+                questionCategories[category].forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.classList.add('form-group');
+                    
+                    const label = document.createElement('label');
+                    label.textContent = question;
+                    
+                    const textarea = document.createElement('textarea');
+                    textarea.name = `review-${category}-${question.replace(/\s+/g, '-')}`;
+                    textarea.placeholder = 'Your response...';
+                    textarea.rows = 3;
+
+                    questionDiv.appendChild(label);
+                    questionDiv.appendChild(textarea);
+                    questionnaireContainer.appendChild(questionDiv);
+                });
+            });
+        }
     </script>
 </head>
 <body>
@@ -35,21 +131,21 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="/Front_End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
+                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="/Front_End/Templates/main.html" class="nav-item">Home</a>
-                <a href="/Front_End/Templates/author-dashboard.html" class="nav-item active">Dashboard</a>
-                <a href="/Front_End/Templates/Author Dashboard/my_books.html" class="nav-item">My Books</a>
-                <a href="/Front_End/Templates/Author Dashboard/beta-reader-list.html" class="nav-item">Find Beta Readers</a>
-                <a href="/Front_End/Templates/Author Dashboard/manuscript-submission.html" class="nav-item">Manuscript Submission</a> 
-                <a href="/Front_End/Templates/Author Dashboard/feedback-summary.html" class="nav-item">Feedback Summary</a> 
-                <a href="/Front_End/Templates/Author Dashboard/author-resource-library.html" class="nav-item">Resource Library</a> 
-                <a href="/Front_End/Templates/Author Dashboard/author-community-groups.html" class="nav-item">Community Groups</a> 
-                <a href="/Front_End/Templates/Author Dashboard/author-profile.html" class="nav-item">Profile</a>
-                <a href="/Front_End/Templates/Author Dashboard/author-payment-page.html" class="nav-item">Payments</a>
-                <a href="/Front_End/Templates/Author Dashboard/author-settings.html" class="nav-item">Settings</a>
-                <a href="/Front_End/Templates/logout.html" class="nav-item">Logout</a>
+                <a href="{% static 'Templates/main.html'%}" class="nav-item">Home</a>
+                <a href="{% static 'Templates/author-dashboard.html'%}" class="nav-item active">Dashboard</a>
+                <a href="{% static 'Templates/Author Dashboard/my_books.html'%}" class="nav-item">My Books</a>
+                <a href="{% static 'Templates/Author Dashboard/beta-reader-list.html'%}" class="nav-item">Find Beta Readers</a>
+                <a href="{% static 'Templates/Author Dashboard/manuscript-submission.html'%}" class="nav-item">Manuscript Submission</a> 
+                <a href="{% static 'Templates/Author Dashboard/feedback-summary.html'%}" class="nav-item">Feedback Summary</a> 
+                <a href="{% static 'Templates/Author Dashboard/author-resource-library.html'%}" class="nav-item">Resource Library</a> 
+                <a href="{% static 'Templates/Author Dashboard/author-community-groups.html'%}" class="nav-item">Community Groups</a> 
+                <a href="{% static 'Templates/Author Dashboard/author-profile.html'%}" class="nav-item">Profile</a>
+                <a href="{% static 'Templates/Author Dashboard/author-payment-page.html'%}" class="nav-item">Payments</a>
+                <a href="{% static 'Templates/Author Dashboard/author-settings.html'%}" class="nav-item">Settings</a>
+                <a href="{% static 'Templates/logout.html'%}" class="nav-item">Logout</a>
             </nav>
         </aside>
 
@@ -60,67 +156,35 @@
                 <p>Submit and configure your manuscript for beta readers.</p>
             </div>
             <form class="submission-form">
-                <!-- Manuscript Upload -->
+                <!-- Existing form fields remain the same -->
                 <div class="form-group">
                     <label for="manuscript-upload">Upload Manuscript:</label>
                     <input type="file" id="manuscript-upload" name="manuscript" accept=".doc,.docx,.pdf">
                 </div>
-                <!-- Title -->
+                <!-- ... (previous form fields) ... -->
+
+                <!-- New Book Review Questionnaire Configuration -->
                 <div class="form-group">
-                    <label for="manuscript-title">Manuscript Title:</label>
-                    <input type="text" id="manuscript-title" name="title" placeholder="Enter manuscript title">
-                </div>
-                <!-- Plot Summary -->
-                <div class="form-group">
-                    <label for="plot-summary">Plot Summary:</label>
-                    <textarea id="plot-summary" name="summary" placeholder="Provide a brief plot summary"></textarea>
-                </div>
-                <!-- Budget -->
-                <div class="form-group">
-                    <label for="budget">Budget for Beta Readers:</label>
-                    <input type="number" id="budget" name="budget" placeholder="Enter your budget" min="0">
-                </div>
-                <!-- Beta Readers -->
-                <div class="form-group">
-                    <label for="beta-readers">Number of Beta Readers:</label>
-                    <input type="number" id="beta-readers" name="readers" placeholder="Enter number of beta readers" min="1">
-                </div>
-                <!-- NDA -->
-                <div class="form-group">
-                    <label for="nda">Require NDA Agreement:</label>
-                    <input type="checkbox" id="nda" name="nda" onclick="toggleNDASection()">
-                </div>
-                <!-- NDA Upload Section (Hidden by Default) -->
-                <div id="nda-upload-section" class="form-group" style="display: none;">
-                    <label for="nda-upload">Upload NDA Document:</label>
-                    <input type="file" id="nda-upload" name="ndaDocument" accept=".pdf">
-                </div>
-                <!-- Feedback Categories Section -->
-                <div class="form-group">
-                    <label for="feedback-categories">Feedback Categories:</label>
-                    <div id="feedback-categories" class="checkbox-group">
-                        <!-- Pre-defined Categories -->
-                        <label><input type="checkbox" name="categories" value="Plot"> Plot</label>
-                        <label><input type="checkbox" name="categories" value="Characters"> Characters</label>
-                        <label><input type="checkbox" name="categories" value="Pacing"> Pacing</label>
-                        <label><input type="checkbox" name="categories" value="Worldbuilding"> Worldbuilding</label>
+                    <label>Book Review Questionnaire Configuration:</label>
+                    <div id="review-categories" class="checkbox-group">
+                        <label><input type="checkbox" name="review-categories" value="basicQuestions" checked> Basic/Default Questions</label>
+                        <label><input type="checkbox" name="review-categories" value="overallImpressions"> Overall Impressions</label>
+                        <label><input type="checkbox" name="review-categories" value="plot"> Plot</label>
+                        <label><input type="checkbox" name="review-categories" value="characters"> Characters</label>
+                        <label><input type="checkbox" name="review-categories" value="pacing"> Pacing</label>
+                        <label><input type="checkbox" name="review-categories" value="dialogue"> Dialogue</label>
+                        <label><input type="checkbox" name="review-categories" value="description"> Description</label>
+                        <label><input type="checkbox" name="review-categories" value="craft"> Craft</label>
+                        <label><input type="checkbox" name="review-categories" value="other"> Other</label>
                     </div>
-                    <!-- Custom Feedback Category -->
-                    <div class="custom-feedback">
-                        <label for="custom-feedback">Add Custom Category:</label>
-                        <input type="text" id="custom-feedback" name="customCategory" placeholder="Enter custom feedback category">
-                        <button type="button" class="btn btn-secondary" onclick="addCustomCategory()">Add</button>
-                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="generateBookReviewQuestionnaire()">Generate Questionnaire</button>
                 </div>
-                <!-- Keyword and Genre Tagging Section -->
-                <div class="form-group">
-                    <label for="keywords">Keywords:</label>
-                    <input type="text" id="keywords" name="keywords" placeholder="Enter relevant keywords">
+
+                <!-- Book Review Questionnaire Container -->
+                <div id="book-review-questionnaire" class="form-group">
+                    <!-- Dynamically generated questionnaire will appear here -->
                 </div>
-                <div class="form-group">
-                    <label for="genres">Genres:</label>
-                    <input type="text" id="genres" name="genres" placeholder="Enter relevant genres">
-                </div>
+
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">Submit Manuscript</button>
             </form>

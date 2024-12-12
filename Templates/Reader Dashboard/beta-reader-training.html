@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Beta Reader Training</title>
-    <link rel="stylesheet" href="/Front_End/CSS/styles.css">
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             let currentStep = 0;
@@ -82,20 +82,20 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="/Front_End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
+                <img src="{% static 'Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="/Front_End/Templates/main.html" class="nav-item">Home</a>
-                <a href="/Front_End/Templates/reader-dashboard.html" class="nav-item active">Dashboard</a>
-                <a href="/Front_End/Templates/Reader Dashboard/available-books.html" class="nav-item">Available Books</a>
-                <a href="/Front_End/Templates/Reader Dashboard/reader-feedback.html" class="nav-item">Feedback</a>
-                <a href="/Front_End/Templates/Reader Dashboard/reader-profile.html" class="nav-item">Profile</a>
-                <a href="/Front_End/Templates/Reader Dashboard/reader-resource-library.html" class="nav-item">Resource Library</a>
-                <a href="/Front_End/Templates/Reader Dashboard/beta-reader-training.html" class="nav-item">Training Module</a>
-                <a href="/Front_End/Templates/Reader Dashboard/beta-reader-performance-metrics.html" class="nav-item active">Performance Metrics</a>
-                <a href="/Front_End/Templates/Reader Dashboard/reader-payment-page.html" class="nav-item">Payments</a>
-                <a href="/Front_End/Templates/Reader Dashboard/reader-settings.html" class="nav-item">Settings</a>
-                <a href="/Front_End/Templates/logout.html" class="nav-item">Logout</a>
+                <a href="{% static 'Templates/main.html' %}" class="nav-item">Home</a>
+                <a href="{% static 'Templates/reader-dashboard.html' %}" class="nav-item active">Dashboard</a>
+                <a href="{% static 'Templates/Reader Dashboard/available-books.html' %}" class="nav-item">Available Books</a>
+                <a href="{% static 'Templates/Reader Dashboard/reader-feedback.html' %}" class="nav-item">Feedback</a>
+                <a href="{% static 'Templates/Reader Dashboard/reader-profile.html' %}" class="nav-item">Profile</a>
+                <a href="{% static 'Templates/Reader Dashboard/reader-resource-library.html' %}" class="nav-item">Resource Library</a>
+                <a href="{% static 'Templates/Reader Dashboard/beta-reader-training.html' %}" class="nav-item">Training Module</a>
+                <a href="{% static 'Templates/Reader Dashboard/beta-reader-performance-metrics.html' %}" class="nav-item active">Performance Metrics</a>
+                <a href="{% static 'Templates/Reader Dashboard/reader-payment-page.html' %}" class="nav-item">Payments</a>
+                <a href="{% static 'Templates/Reader Dashboard/reader-settings.html' %}" class="nav-item">Settings</a>
+                <a href="{% static 'Templates/logout.html' %}" class="nav-item">Logout</a>
             </nav>
         </aside>
 
