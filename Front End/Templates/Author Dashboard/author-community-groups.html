@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Author Community Groups</title>
-    <link rel="stylesheet" href="/Front End/CSS/styles.css">
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <script>
         // JavaScript to handle creating new groups
         function createGroup() {
@@ -40,21 +40,21 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="/Front End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
+                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="/Front End/Templates/main.html" class="nav-item">Home</a>
-                <a href="/Front End/Templates/author-dashboard.html" class="nav-item active">Dashboard</a>
-                <a href="/Front End/Templates/Author Dashboard/my_books.html" class="nav-item">My Books</a>
-                <a href="/Front End/Templates/Author Dashboard/beta-reader-list.html" class="nav-item">Find Beta Readers</a>
-                <a href="/Front End/Templates/Author Dashboard/manuscript-submission.html" class="nav-item">Manuscript Submission</a> 
-                <a href="/Front End/Templates/Author Dashboard/feedback-summary.html" class="nav-item">Feedback Summary</a> 
-                <a href="/Front End/Templates/Author Dashboard/author-resource-library.html" class="nav-item">Resource Library</a> 
-                <a href="/Front End/Templates/Author Dashboard/author-community-groups.html" class="nav-item">Community Groups</a> 
-                <a href="/Front End/Templates/Author Dashboard/author-profile.html" class="nav-item">Profile</a>
-                <a href="/Front End/Templates/Author Dashboard/author-payment-page.html" class="nav-item">Payments</a>
-                <a href="/Front End/Templates/Author Dashboard/author-settings.html" class="nav-item">Settings</a>
-                <a href="/Front End/Templates/logout.html" class="nav-item">Logout</a>
+                <a href="{% static 'Templates/main.html'%}" class="nav-item">Home</a>
+                <a href="{% static 'Templates/author-dashboard.html'%}" class="nav-item active">Dashboard</a>
+                <a href="{% static 'Templates/Author Dashboard/my_books.html'%}" class="nav-item">My Books</a>
+                <a href="{% static 'Templates/Author Dashboard/beta-reader-list.html'%}" class="nav-item">Find Beta Readers</a>
+                <a href="{% static 'Templates/Author Dashboard/manuscript-submission.html'%}" class="nav-item">Manuscript Submission</a> 
+                <a href="{% static 'Templates/Author Dashboard/feedback-summary.html'%}" class="nav-item">Feedback Summary</a> 
+                <a href="{% static 'Templates/Author Dashboard/author-resource-library.html'%}" class="nav-item">Resource Library</a> 
+                <a href="{% static 'Templates/Author Dashboard/author-community-groups.html'%}" class="nav-item">Community Groups</a> 
+                <a href="{% static 'Templates/Author Dashboard/author-profile.html'%}" class="nav-item">Profile</a>
+                <a href="{% static 'Templates/Author Dashboard/author-payment-page.html'%}" class="nav-item">Payments</a>
+                <a href="{% static 'Templates/Author Dashboard/author-settings.html'%}" class="nav-item">Settings</a>
+                <a href="{% static 'Templates/logout.html'%}" class="nav-item">Logout</a>
             </nav>
         </aside>
 

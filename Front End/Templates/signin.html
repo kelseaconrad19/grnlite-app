@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Login</title>
-    <link rel="stylesheet" href="/Front End/CSS/styles.css">
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <style>
         /* Centralized Styles */
         :root {
@@ -212,12 +213,12 @@
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="/Front End/Templates/main.html" class="logo">
-                <img src="/Front End/Images/Grn Lite Logo.png" alt="Grn Lite Logo"> 
+            <a href="{% static 'Templates/main.html' %}" class="logo">
+                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo"> 
             </a>
             <div class="nav-links">
-                <a href="/Front End/Templates/main.html">Home</a>
-                <a href="/Front End/Templates/signup.html">Sign Up</a>
+                <a href="{% static 'Templates/main.html' %}"Home</a>
+                <a href="{% static 'Templates/signup.html' %}">Sign Up</a>
             </div>
         </div>
     </nav>
@@ -251,7 +252,7 @@
             </div>
 
             <div class="auth-footer">
-                <p>Don't have an account? <a href="/Front End/Templates/signup.html">Sign Up</a></p>
+                <p>Don't have an account? <a href="{% static 'Templates/signup.html' %}">Sign Up</a></p>
             </div>
         </div>
     </div>
@@ -288,7 +289,10 @@
             }
         });
     </script>
-    <script src="/Front End/Templates/redirectToAuthPage.js"></script>
+    <!-- <script src="{% static 'redirectToAuthPage.js' %}"></script> -->
+    <script src="{% static/Front_End/JS/author-signin.js%}"></script>
+    <script>src="{% static/Front_End/JS/reader-signin.js%}"</script>
+
 </body>
 
 </html>
