@@ -218,7 +218,7 @@
             </a>
             <div class="nav-links">
                 <a href="{% static 'Templates/main.html' %}"Home</a>
-                <a href="{% static 'Templates/signup.html' %}">Sign Up</a>
+                <a href="{% url 'signup.html' %}">Sign Up</a>
             </div>
         </div>
     </nav>
@@ -252,7 +252,7 @@
             </div>
 
             <div class="auth-footer">
-                <p>Don't have an account? <a href="{% static 'Templates/signup.html' %}">Sign Up</a></p>
+                <p>Don't have an account? <a href="{% url 'signup.html' %}">Sign Up</a></p>
             </div>
         </div>
     </div>
