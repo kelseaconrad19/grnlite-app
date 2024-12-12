@@ -19,6 +19,7 @@ django-extensions==3.2.3
 djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
 djoser==2.3.1
+flake8==7.1.1
 Flask==3.0.3
 Flask-Caching==2.3.0
 Flask-Limiter==3.8.0
@@ -43,6 +44,7 @@ markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 marshmallow==3.23.0
 marshmallow-sqlalchemy==1.1.0
+mccabe==0.7.0
 mdurl==0.1.2
 mypy-extensions==1.0.0
 mysql==0.0.3
@@ -57,7 +59,9 @@ platformdirs==4.3.6
 pluggy==1.5.0
 psycopg2==2.9.10
 psycopg2-binary==2.9.10
+pycodestyle==2.12.1
 pycparser==2.22
+pyflakes==3.2.0
 Pygments==2.18.0
 PyJWT==2.9.0
 PyMySQL==1.1.1
