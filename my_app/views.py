@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics
 from django.contrib.auth.models import User
-from rest_framework.permissions import BasePermission, AllowAny, IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.views import APIView, permission_classes
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
+# from rest_framework.decorators import api_view, permission_classes
 from social_django.utils import load_strategy
 from social_core.backends.google import GoogleOAuth2
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -113,10 +113,62 @@ def author_payment_page(request):
 def author_settings(request):
     return render(request, 'author-settings.html')
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def protected_view(request):
     return Response({'message': 'This is a protected view.'})
+
+# Google Login View
+class GoogleLoginView(APIView):
+    def post(self, request):
+        token = request.data.get('token')
+        if not token:
+            return Response({"error": "Token not provided"}, status=400)
+
+        try:
+            strategy = load_strategy(request)
+            backend = GoogleOAuth2(strategy=strategy)
+            user_data = backend.user_data(token)
+
+            # Get or create the user
+            user, created = User.objects.get_or_create(
+                email=user_data['email'],
+                defaults={'username': user_data['email']}
+            )
+
+            # Generate JWT token
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'access': str(refresh.access_token),
+                'refresh': str(refresh)
+            })
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+        
+# User Profile View
+class MyAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        })
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        })
+
 
 # User Views
 
@@ -240,41 +292,3 @@ class BetaReaderApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BetaReaderApplication.objects.all()
     serializer_class = BetaReaderApplicationSerializer
 
-# Google Login View
-class GoogleLoginView(APIView):
-    def post(self, request):
-        token = request.data.get('token')
-        if not token:
-            return Response({"error": "Token not provided"}, status=400)
-
-        try:
-            strategy = load_strategy(request)
-            backend = GoogleOAuth2(strategy=strategy)
-            user_data = backend.user_data(token)
-
-            # Get or create the user
-            user, created = User.objects.get_or_create(
-                email=user_data['email'],
-                defaults={'username': user_data['email']}
-            )
-
-            # Generate JWT token
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'access': str(refresh.access_token),
-                'refresh': str(refresh)
-            })
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=400)
-
-class UserProfileView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        user = request.user
-        return Response({
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-        })
