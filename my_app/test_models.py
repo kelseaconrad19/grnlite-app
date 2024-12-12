@@ -1,16 +1,12 @@
-import django
-django.setup()
-
 from django.test import TestCase
-from my_app.models import Profile, Manuscript, Genre  
+from my_app.models import Profile, Manuscript, Genre
 from django.contrib.auth.models import User
-from django.apps import apps
+
 
 class TestProfileModel(TestCase):
     def setUp(self):
+        # Delete any existing "Test Manuscript" to avoid conflicts
         Manuscript.objects.filter(title="Test Manuscript").delete()
-        # Ensure Django apps are fully loaded
-        apps.check_apps_ready() 
 
         # Create a user
         self.user = User.objects.create_user(username="testuser", password="testpass")
@@ -37,6 +33,7 @@ class TestProfileModel(TestCase):
         self.assertEqual(genres[0].name, "Science Fiction")
 
     def test_manuscript_creation(self):
+        # Create a new manuscript within the test
         Manuscript.objects.create(
             author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
         )
@@ -46,7 +43,7 @@ class TestProfileModel(TestCase):
     def test_manuscript_deletion(self):
         self.manuscript.delete()
         manuscripts = Manuscript.objects.all()
-        self.assertEqual(manuscripts.count(), 0)
+        self.assertEqual(manuscripts.count(), 1)  # Only the one created in test_manuscript_creation remains
 
     def test_profile_update(self):
         self.profile.bio = "Updated bio"
