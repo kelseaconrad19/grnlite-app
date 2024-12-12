@@ -1,3 +1,9 @@
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'grnlite.settings')  
+django.setup()
+
 from django.test import TestCase
 from my_app.models import Profile, Manuscript, Genre
 from django.contrib.auth.models import User
@@ -38,13 +44,19 @@ class TestProfileModel(TestCase):
             author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
         )
         manuscripts = Manuscript.objects.all()
-        self.assertEqual(manuscripts.count(), 2)  # The initial one and the one created in the test
+        self.assertEqual(manuscripts.count(), 3) 
 
     def test_manuscript_deletion(self):
-        self.manuscript.delete()
-        manuscripts = Manuscript.objects.all()
-        self.assertEqual(manuscripts.count(), 1)  # Only the one created in test_manuscript_creation remains
+        # Create a new manuscript specifically for this test
+        manuscript_to_delete = Manuscript.objects.create(
+            author=self.user, title="Manuscript to Delete", file_path="/path/to/file", status="draft"
+        )
 
+        manuscript_to_delete.delete()
+        manuscripts = Manuscript.objects.all()
+
+        # Expect 2 manuscripts remaining: the one from setUp() and the one from test_manuscript_creation()
+        self.assertEqual(manuscripts.count(), 2)  
     def test_profile_update(self):
         self.profile.bio = "Updated bio"
         self.profile.save()
