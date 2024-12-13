@@ -38,14 +38,14 @@ notifications.forEach((notification) => {
             <nav class="sidebar-nav">
                 <a href="{% static 'Templates/main.html'%}" class="nav-item">Home</a>
                 <a href="{% static 'Templates/author-dashboard.html'%}" class="nav-item active">Dashboard</a>
-                <a href="{% static 'Templates/Author Dashboard/my_books.html'%}" class="nav-item">My Books</a>
-                <a href="{% static 'Templates/Author Dashboard/beta-reader-list.html'%}" class="nav-item">Find Beta Readers</a>
+                <a href="{% static 'Templates/Author_Dashboard/my_books.html'%}" class="nav-item">My Books</a>
+                <a href="{% static 'Templates/Author_Dashboard/beta-reader-list.html'%}" class="nav-item">Find Beta Readers</a>
                 <a href="{% url 'my_app:manuscript-submission' %}" class="nav-item">Submit Manuscript</a> 
-                <a href="{% static 'Templates/Author Dashboard/feedback-summary.html'%}" class="nav-item">Feedback Summary</a> 
-                <a href="{% static 'Templates/Author Dashboard/author-resource-library.html'%}" class="nav-item">Resource Library</a> 
-                <a href="{% static 'Templates/Author Dashboard/author-community-groups.html'%}" class="nav-item">Community Groups</a> 
-                <a href="{% static 'Templates/Author Dashboard/author-profile.html'%}" class="nav-item">Profile</a>
-                <a href="{% static 'Templates/Author Dashboard/author-payment-page.html'%}" class="nav-item">Payments</a>
+                <a href="{% static 'Templates/Author_Dashboard/feedback-summary.html'%}" class="nav-item">Feedback Summary</a> 
+                <a href="{% static 'Templates/Author_Dashboard/author-resource-library.html'%}" class="nav-item">Resource Library</a> 
+                <a href="{% static 'Templates/Author_Dashboard/author-community-groups.html'%}" class="nav-item">Community Groups</a> 
+                <a href="{% static 'Templates/Author_Dashboard/author-profile.html'%}" class="nav-item">Profile</a>
+                <a href="{% static 'Templates/Author_Dashboard/author-payment-page.html'%}" class="nav-item">Payments</a>
                 <a href="{% url 'my_app:author-settings' %}" class="nav-item">Settings</a>
                 <a href="{% url 'my_app:logout' %}" class="nav-item">Logout</a>
             </nav>
@@ -56,7 +56,7 @@ notifications.forEach((notification) => {
             <div class="content-header">
                 <h1>Welcome Back, Author!</h1>
                 <button class="btn btn-primary">
-                    <a href="{% static 'Templates/Author Dashboard/manuscript-submission.html'%}" style="color: white; text-decoration: none;">Add New Title</a>
+                    <a href="{% static 'Templates/Author_Dashboard/manuscript-submission.html'%}" style="color: white; text-decoration: none;">Add New Title</a>
                 </button>
             </div>
 
@@ -82,7 +82,7 @@ notifications.forEach((notification) => {
                     <h3>Find Beta Readers</h3>
                     <p>View and hire beta readers for your projects.</p>
                     <button class="btn btn-secondary">
-                        <a href="{% static 'Templates/Author Dashboard/beta-reader-list.html'%}" style="color: white; text-decoration: none;">Find Beta Readers</a>
+                        <a href="{% static 'Templates/Author_Dashboard/beta-reader-list.html'%}" style="color: white; text-decoration: none;">Find Beta Readers</a>
                     </button>
                 </div>
                 <!-- New Cards -->
@@ -90,28 +90,28 @@ notifications.forEach((notification) => {
                     <h3>Manuscript Submission</h3>
                     <p>Submit and manage your manuscripts here.</p>
                     <button class="btn btn-secondary">
-                        <a href="{% static 'Templates/Author Dashboard/manuscript-submission.html'%}" style="color: white; text-decoration: none;">Submit Manuscript</a>
+                        <a href="{% static 'Templates/Author_Dashboard/manuscript-submission.html'%}" style="color: white; text-decoration: none;">Submit Manuscript</a>
                     </button>
                 </div>
                 <div class="card">
                     <h3>Feedback Summary</h3>
                     <p>View and analyze feedback for your projects.</p>
                     <button class="btn btn-secondary">
-                        <a href="{% static 'Templates/Author Dashboard/feedback-summary.html'%}" style="color: white; text-decoration: none;">View Feedback</a>
+                        <a href="{% static 'Templates/Author_Dashboard/feedback-summary.html'%}" style="color: white; text-decoration: none;">View Feedback</a>
                     </button>
                 </div>
                 <div class="card">
                     <h3>Resource Library</h3>
                     <p>Access and share writing resources here.</p>
                     <button class="btn btn-secondary">
-                        <a href="{% static 'Templates/Author Dashboard/author-resource-library.html'%}" style="color: white; text-decoration: none;">Explore Resources</a>
+                        <a href="{% static 'Templates/Author_Dashboard/author-resource-library.html'%}" style="color: white; text-decoration: none;">Explore Resources</a>
                     </button>
                 </div>
                 <div class="card">
                     <h3>Community Groups</h3>
                     <p>Connect with other authors in genre-based groups, writing goals, and self-publishing discussions.</p>
                     <button class="btn btn-secondary">
-                        <a href="{% static 'Templates/Author Dashboard/author-community-groups.html'%}" style="color: white; text-decoration: none;">Join Community</a>
+                        <a href="{% static 'Templates/Author_Dashboard/author-community-groups.html'%}" style="color: white; text-decoration: none;">Join Community</a>
                     </button>
                 </div>
             </div>
@@ -121,7 +121,7 @@ notifications.forEach((notification) => {
             <h3>Manage Payments</h3>
             <p>View and process payments to Beta Readers for completed projects.</p>
             <button class="btn btn-secondary">
-                <a href="{% static 'Templates/Author Dashboard/author-payment-page.html'%}" style="color: white; text-decoration: none;">Manage Payments</a>
+                <a href="{% static 'Templates/Author_Dashboard/author-payment-page.html'%}" style="color: white; text-decoration: none;">Manage Payments</a>
             </button>
             </div>
 
