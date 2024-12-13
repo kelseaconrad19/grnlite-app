@@ -134,8 +134,12 @@ SIMPLE_JWT = {
 
 # OAuth settings
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "your-google-client-id"
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "your-google-client-secret"
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv(
+    "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY", "default-value-or-None"
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv(
+    "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", "default-value-or-None"
+)
 
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.google.GoogleOAuth2",
