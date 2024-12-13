@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from . import views
 from .views import GoogleLoginView, UserProfileView
 from django.conf import settings
@@ -174,6 +174,82 @@ urlpatterns = [
     path("author-profile/", views.author_profile, name="author-profile"),
     path("author-payment-page/", views.author_payment_page, name="author-payment-page"),
     path("author-settings/", views.author_settings, name="author-settings"),
+    re_path(
+        r"^reader-dashboard\.html$",
+        views.reader_dashboard,
+        name="reader-dashboard-html",
+    ),
+    re_path(
+        r"^available-books\.html$", views.available_books, name="available-books-html"
+    ),
+    re_path(
+        r"^reader-feedback\.html$", views.reader_feedback, name="reader-feedback-html"
+    ),
+    re_path(
+        r"^reader-profile\.html$", views.reader_profile, name="reader-profile-html"
+    ),
+    re_path(
+        r"^reader-resource-library\.html$",
+        views.reader_resource_library,
+        name="reader-resource-library-html",
+    ),
+    re_path(
+        r"^beta-reader-training\.html$",
+        views.beta_reader_training,
+        name="beta-reader-training-html",
+    ),
+    re_path(
+        r"^beta-reader-performance-metrics\.html$",
+        views.beta_reader_performance_metrics,
+        name="beta-reader-performance-metrics-html",
+    ),
+    re_path(
+        r"^reader-payment-page\.html$",
+        views.reader_payment_page,
+        name="reader-payment-page-html",
+    ),
+    re_path(
+        r"^reader-settings\.html$", views.reader_settings, name="reader-settings-html"
+    ),
+    re_path(
+        r"^author-dashboard\.html$",
+        views.author_dashboard,
+        name="author-dashboard-html",
+    ),
+    re_path(r"^my-books\.html$", views.my_books, name="my-books-html"),
+    re_path(
+        r"^find-beta-readers\.html$",
+        views.find_beta_readers,
+        name="find-beta-readers-html",
+    ),
+    re_path(
+        r"^manuscript-submission\.html$",
+        views.manuscript_submission,
+        name="manuscript-submission-html",
+    ),
+    re_path(
+        r"^feedback-summary\.html$",
+        views.feedback_summary,
+        name="feedback-summary-html",
+    ),
+    re_path(
+        r"^author-resource-library\.html$",
+        views.author_resource_library,
+        name="author-resource-library-html",
+    ),
+    re_path(
+        r"^author-community-groups\.html$",
+        views.author_community_groups,
+        name="author-community-groups-html",
+    ),
+    re_path(
+        r"^author-profile\.html$", views.author_profile, name="author-profile-html"
+    ),
+    re_path(
+        r"^author-payment-page\.html$",
+        views.author_payment_page,
+        name="author-payment-page-html",
+    ),
 ]
 
 if settings.DEBUG:
