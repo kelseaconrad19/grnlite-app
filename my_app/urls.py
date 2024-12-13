@@ -174,81 +174,63 @@ urlpatterns = [
     path("author-profile/", views.author_profile, name="author-profile"),
     path("author-payment-page/", views.author_payment_page, name="author-payment-page"),
     path("author-settings/", views.author_settings, name="author-settings"),
-    re_path(
-        r"^reader-dashboard\.html$",
-        views.reader_dashboard,
-        name="reader-dashboard-html",
-    ),
-    re_path(
-        r"^available-books\.html$", views.available_books, name="available-books-html"
-    ),
-    re_path(
-        r"^reader-feedback\.html$", views.reader_feedback, name="reader-feedback-html"
-    ),
-    re_path(
-        r"^reader-profile\.html$", views.reader_profile, name="reader-profile-html"
-    ),
-    re_path(
-        r"^reader-resource-library\.html$",
+    path("reader-dashboard", views.reader_dashboard, name="reader-dashboard"),
+    path("available-books", views.available_books, name="available-books"),
+    path("reader-feedback", views.reader_feedback, name="reader-feedback"),
+    path("reader-profile", views.reader_profile, name="reader-profile"),
+    path(
+        "reader-resource-library",
         views.reader_resource_library,
-        name="reader-resource-library-html",
+        name="reader-resource-library",
     ),
-    re_path(
-        r"^beta-reader-training\.html$",
+    path(
+        "beta-reader-training",
         views.beta_reader_training,
-        name="beta-reader-training-html",
+        name="beta-reader-training",
     ),
-    re_path(
-        r"^beta-reader-performance-metrics\.html$",
+    path(
+        "beta-reader-performance-metrics",
         views.beta_reader_performance_metrics,
-        name="beta-reader-performance-metrics-html",
+        name="beta-reader-performance-metrics",
     ),
-    re_path(
-        r"^reader-payment-page\.html$",
+    path(
+        "reader-payment-page",
         views.reader_payment_page,
-        name="reader-payment-page-html",
+        name="reader-payment-page",
     ),
-    re_path(
-        r"^reader-settings\.html$", views.reader_settings, name="reader-settings-html"
-    ),
-    re_path(
-        r"^author-dashboard\.html$",
-        views.author_dashboard,
-        name="author-dashboard-html",
-    ),
-    re_path(r"^my-books\.html$", views.my_books, name="my-books-html"),
-    re_path(
-        r"^find-beta-readers\.html$",
+    path("reader-settings", views.reader_settings, name="reader-settings"),
+    path("author-dashboard", views.author_dashboard, name="author-dashboard"),
+    path("my-books", views.my_books, name="my-books"),
+    path(
+        "find-beta-readers",
         views.find_beta_readers,
-        name="find-beta-readers-html",
+        name="find-beta-readers",
     ),
-    re_path(
-        r"^manuscript-submission\.html$",
+    path(
+        "manuscript-submission",
         views.manuscript_submission,
-        name="manuscript-submission-html",
+        name="manuscript-submission",
     ),
-    re_path(
-        r"^feedback-summary\.html$",
+    path(
+        "feedback-summary",
         views.feedback_summary,
-        name="feedback-summary-html",
+        name="feedback-summary",
     ),
-    re_path(
-        r"^author-resource-library\.html$",
+    path(
+        "author-resource-library",
         views.author_resource_library,
-        name="author-resource-library-html",
+        name="author-resource-library",
     ),
-    re_path(
-        r"^author-community-groups\.html$",
+    path(
+        "author-community-groups",
         views.author_community_groups,
-        name="author-community-groups-html",
+        name="author-community-groups",
     ),
-    re_path(
-        r"^author-profile\.html$", views.author_profile, name="author-profile-html"
-    ),
-    re_path(
-        r"^author-payment-page\.html$",
+    path("author-profile", views.author_profile, name="author-profile"),
+    path(
+        "author-payment-page",
         views.author_payment_page,
-        name="author-payment-page-html",
+        name="author-payment-page",
     ),
 ]
 

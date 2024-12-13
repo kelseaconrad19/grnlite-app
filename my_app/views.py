@@ -63,80 +63,80 @@ def logout(request):
 
 # Reader Dashboard Views
 def reader_dashboard(request):
-    return render(request, "reader-dashboard.html")
+    return render(request, "Reader_Dashboard/reader-dashboard.html")
 
 
 def available_books(request):
-    return render(request, "available-books.html")
+    return render(request, "Reader_Dashboard/available-books.html")
 
 
 def reader_feedback(request):
-    return render(request, "reader-feedback.html")
+    return render(request, "Reader_Dashboard/reader-feedback.html")
 
 
 def reader_profile(request):
-    return render(request, "reader-profile.html")
+    return render(request, "Reader_Dashboard/reader-profile.html")
 
 
 def reader_resource_library(request):
-    return render(request, "reader-resource-library.html")
+    return render(request, "Reader_Dashboard/reader-resource-library.html")
 
 
 def beta_reader_training(request):
-    return render(request, "beta-reader-training.html")
+    return render(request, "Reader_Dashboard/beta-reader-training.html")
 
 
 def beta_reader_performance_metrics(request):
-    return render(request, "beta-reader-performance-metrics.html")
+    return render(request, "Reader_Dashboard/beta-reader-performance-metrics.html")
 
 
 def reader_payment_page(request):
-    return render(request, "reader-payment-page.html")
+    return render(request, "Reader_Dashboard/reader-payment-page.html")
 
 
 def reader_settings(request):
-    return render(request, "reader-settings.html")
+    return render(request, "Reader_Dashboard/reader-settings.html")
 
 
 # Author Dashboard Views
 def author_dashboard(request):
-    return render(request, "author-dashboard.html")
+    return render(request, "Author_Dashboard/author-dashboard.html")
 
 
 def my_books(request):
-    return render(request, "my_books.html")
+    return render(request, "Author_Dashboard/my_books.html")
 
 
 def find_beta_readers(request):
-    return render(request, "find-beta-readers.html")
+    return render(request, "Author_Dashboard/find-beta-readers.html")
 
 
 def manuscript_submission(request):
-    return render(request, "manuscript-submission.html")
+    return render(request, "Author_Dashboard/manuscript-submission.html")
 
 
 def feedback_summary(request):
-    return render(request, "feedback-summary.html")
+    return render(request, "Author_Dashboard/feedback-summary.html")
 
 
 def author_resource_library(request):
-    return render(request, "author-resource-library.html")
+    return render(request, "Author_Dashboard/author-resource-library.html")
 
 
 def author_community_groups(request):
-    return render(request, "author-community-groups.html")
+    return render(request, "Author_Dashboard/author-community-groups.html")
 
 
 def author_profile(request):
-    return render(request, "author-profile.html")
+    return render(request, "Author_Dashboard/author-profile.html")
 
 
 def author_payment_page(request):
-    return render(request, "author-payment-page.html")
+    return render(request, "Author_Dashboard/author-payment-page.html")
 
 
 def author_settings(request):
-    return render(request, "author-settings.html")
+    return render(request, "Author_Dashboard/author-settings.html")
 
 
 # @api_view(['GET'])
