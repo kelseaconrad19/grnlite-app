@@ -137,24 +137,30 @@ urlpatterns = [
         views.reader_dashboard,
         name="reader-dashboard-html",
     ),
-    path("available-books/", views.available_books, name="available-books"),
-    path("reader-feedback/", views.reader_feedback, name="reader-feedback"),
-    path("reader-profile/", views.reader_profile, name="reader-profile"),
+    path("available-books/", views.available_books, name="available-books-html"),
+    path("reader-feedback/", views.reader_feedback, name="reader-feedback-html"),
+    path("reader-profile/", views.reader_profile, name="reader-profile-html"),
     path(
         "reader-resource-library/",
         views.reader_resource_library,
-        name="reader-resource-library",
+        name="reader-resource-library-html",
     ),
     path(
-        "beta-reader-training/", views.beta_reader_training, name="beta-reader-training"
+        "beta-reader-training/",
+        views.beta_reader_training,
+        name="beta-reader-training-html",
     ),
     path(
         "beta-reader-performance-metrics/",
         views.beta_reader_performance_metrics,
-        name="beta-reader-performance-metrics",
+        name="beta-reader-performance-metrics-html",
     ),
-    path("reader-payment-page/", views.reader_payment_page, name="reader-payment-page"),
-    path("reader-settings/", views.reader_settings, name="reader-settings"),
+    path(
+        "reader-payment-page/",
+        views.reader_payment_page,
+        name="reader-payment-page-html",
+    ),
+    path("reader-settings/", views.reader_settings, name="reader-settings-html"),
     # Author Dashboard URLs
     path("author-dashboard/", views.author_dashboard, name="author-dashboard"),
     path("my-books/", views.my_books, name="my-books"),
