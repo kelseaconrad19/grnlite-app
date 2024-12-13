@@ -13,10 +13,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import dj_database_url
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -31,17 +31,13 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,grnlite.onrender.com"
 ).split(",")
 
-
 USE_TZ = True  # Ensure this is set
 
 # Application definition
-
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -69,7 +65,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhtieNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -82,7 +78,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = "my_app.urls"
 
 SITE_ID = 1
-
 
 TEMPLATES = [
     {
@@ -123,8 +118,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # JWT SETTING
-from datetime import timedelta
-
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
@@ -150,6 +143,10 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN", "default-value-or-None")
+AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID", "default-value-or-None")
+AUTH0_CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET", "default-value-or-None")
+
 # Add your Google OAuth credentials
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -161,7 +158,13 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
         "OAUTH_PKCE_ENABLED": True,
-    }
+    },
+    "auth0": {
+        "DOMAIN": AUTH0_DOMAIN,
+        "CLIENT_ID": AUTH0_CLIENT_ID,
+        "SECRET": AUTH0_CLIENT_SECRET,
+        "SCOPE": ["openid", "profile", "email"],
+    },
 }
 
 # Database
@@ -171,11 +174,7 @@ DATABASES = {
     "default": dj_database_url.config(
         default="postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db"
     )
-}  # 'default': {
-#     'ENGINE': 'django.db.backends.postgresql',
-#     'NAME': 'grnlite_postgresql',
-# }
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -195,7 +194,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -207,7 +205,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -217,7 +214,6 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
