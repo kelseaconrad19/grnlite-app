@@ -1,6 +1,8 @@
 from django.urls import path, include
 from . import views
 from .views import GoogleLoginView, UserProfileView
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = "my_app"
 
@@ -169,3 +171,6 @@ urlpatterns = [
     path("author-payment-page/", views.author_payment_page, name="author-payment-page"),
     path("author-settings/", views.author_settings, name="author-settings"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
