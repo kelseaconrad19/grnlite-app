@@ -76,11 +76,12 @@ def reader_settings(request):
     return render(request, 'reader-settings.html')
 
 # Author Dashboard Views
-def author_dashboard(request):
+def author_dashboard(request, ):
     return render(request, 'author-dashboard.html')
 
-def my_books(request):
-    return render(request, 'my_books.html')
+def my_books(request, manuscript_id):
+    books = Manuscript.objects.filter(author=request.user)
+    return render(request, 'my_books.html', )
 
 def find_beta_readers(request):
     return render(request, 'find-beta-readers.html') 

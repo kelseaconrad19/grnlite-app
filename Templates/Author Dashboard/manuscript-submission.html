@@ -1,130 +1,330 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grn Lite - Manuscript Submission</title>
-    <link rel="stylesheet" href="/Front_End/CSS/styles.css">
-    <script>
-        // JavaScript to toggle NDA upload visibility
-        function toggleNDASection() {
-            const ndaSection = document.getElementById('nda-upload-section');
-            const ndaCheckbox = document.getElementById('nda');
-            ndaSection.style.display = ndaCheckbox.checked ? 'block' : 'none';
-        }
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Grn Lite - Manuscript Submission</title>
 
-        // JavaScript to add custom feedback categories dynamically
-        function addCustomCategory() {
-            const customInput = document.getElementById('custom-feedback');
-            const categoryValue = customInput.value.trim();
-            const feedbackCategoriesDiv = document.getElementById('feedback-categories');
+		{% comment %}
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+			crossorigin="anonymous"
+		/>
+		{% endcomment %}
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"
+		/>
+		<link rel="stylesheet" href="{% static '/Front_End/CSS/styles.css' %}" />
 
-            if (categoryValue) {
-                const newCategory = document.createElement('label');
-                newCategory.innerHTML = `<input type="checkbox" name="categories" value="${categoryValue}"> ${categoryValue}`;
-                feedbackCategoriesDiv.appendChild(newCategory);
-                customInput.value = ''; // Clear the input field
-            } else {
-                alert('Please enter a custom category!');
-            }
-        }
-    </script>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <img src="/Front_End/Images/Grn Lite Logo.png" alt="Grn Lite Logo">
-            </div>
-            <nav class="sidebar-nav">
-                <a href="/Front_End/Templates/main.html" class="nav-item">Home</a>
-                <a href="/Front_End/Templates/author-dashboard.html" class="nav-item active">Dashboard</a>
-                <a href="/Front_End/Templates/Author Dashboard/my_books.html" class="nav-item">My Books</a>
-                <a href="/Front_End/Templates/Author Dashboard/beta-reader-list.html" class="nav-item">Find Beta Readers</a>
-                <a href="/Front_End/Templates/Author Dashboard/manuscript-submission.html" class="nav-item">Manuscript Submission</a> 
-                <a href="/Front_End/Templates/Author Dashboard/feedback-summary.html" class="nav-item">Feedback Summary</a> 
-                <a href="/Front_End/Templates/Author Dashboard/author-resource-library.html" class="nav-item">Resource Library</a> 
-                <a href="/Front_End/Templates/Author Dashboard/author-community-groups.html" class="nav-item">Community Groups</a> 
-                <a href="/Front_End/Templates/Author Dashboard/author-profile.html" class="nav-item">Profile</a>
-                <a href="/Front_End/Templates/Author Dashboard/author-payment-page.html" class="nav-item">Payments</a>
-                <a href="/Front_End/Templates/Author Dashboard/author-settings.html" class="nav-item">Settings</a>
-                <a href="/Front_End/Templates/logout.html" class="nav-item">Logout</a>
-            </nav>
-        </aside>
+		<script>
+			// JavaScript to toggle NDA upload visibility
+			function toggleNDASection() {
+				const ndaSection = document.getElementById("nda-upload-section");
+				const ndaCheckbox = document.getElementById("nda");
+				ndaSection.style.display = ndaCheckbox.checked ? "block" : "none";
+			}
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1>Manuscript Submission</h1>
-                <p>Submit and configure your manuscript for beta readers.</p>
-            </div>
-            <form class="submission-form">
-                <!-- Manuscript Upload -->
-                <div class="form-group">
-                    <label for="manuscript-upload">Upload Manuscript:</label>
-                    <input type="file" id="manuscript-upload" name="manuscript" accept=".doc,.docx,.pdf">
-                </div>
-                <!-- Title -->
-                <div class="form-group">
-                    <label for="manuscript-title">Manuscript Title:</label>
-                    <input type="text" id="manuscript-title" name="title" placeholder="Enter manuscript title">
-                </div>
-                <!-- Plot Summary -->
-                <div class="form-group">
-                    <label for="plot-summary">Plot Summary:</label>
-                    <textarea id="plot-summary" name="summary" placeholder="Provide a brief plot summary"></textarea>
-                </div>
-                <!-- Budget -->
-                <div class="form-group">
-                    <label for="budget">Budget for Beta Readers:</label>
-                    <input type="number" id="budget" name="budget" placeholder="Enter your budget" min="0">
-                </div>
-                <!-- Beta Readers -->
-                <div class="form-group">
-                    <label for="beta-readers">Number of Beta Readers:</label>
-                    <input type="number" id="beta-readers" name="readers" placeholder="Enter number of beta readers" min="1">
-                </div>
-                <!-- NDA -->
-                <div class="form-group">
-                    <label for="nda">Require NDA Agreement:</label>
-                    <input type="checkbox" id="nda" name="nda" onclick="toggleNDASection()">
-                </div>
-                <!-- NDA Upload Section (Hidden by Default) -->
-                <div id="nda-upload-section" class="form-group" style="display: none;">
-                    <label for="nda-upload">Upload NDA Document:</label>
-                    <input type="file" id="nda-upload" name="ndaDocument" accept=".pdf">
-                </div>
-                <!-- Feedback Categories Section -->
-                <div class="form-group">
-                    <label for="feedback-categories">Feedback Categories:</label>
-                    <div id="feedback-categories" class="checkbox-group">
-                        <!-- Pre-defined Categories -->
-                        <label><input type="checkbox" name="categories" value="Plot"> Plot</label>
-                        <label><input type="checkbox" name="categories" value="Characters"> Characters</label>
-                        <label><input type="checkbox" name="categories" value="Pacing"> Pacing</label>
-                        <label><input type="checkbox" name="categories" value="Worldbuilding"> Worldbuilding</label>
-                    </div>
-                    <!-- Custom Feedback Category -->
-                    <div class="custom-feedback">
-                        <label for="custom-feedback">Add Custom Category:</label>
-                        <input type="text" id="custom-feedback" name="customCategory" placeholder="Enter custom feedback category">
-                        <button type="button" class="btn btn-secondary" onclick="addCustomCategory()">Add</button>
-                    </div>
-                </div>
-                <!-- Keyword and Genre Tagging Section -->
-                <div class="form-group">
-                    <label for="keywords">Keywords:</label>
-                    <input type="text" id="keywords" name="keywords" placeholder="Enter relevant keywords">
-                </div>
-                <div class="form-group">
-                    <label for="genres">Genres:</label>
-                    <input type="text" id="genres" name="genres" placeholder="Enter relevant genres">
-                </div>
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary">Submit Manuscript</button>
-            </form>
-        </main>
-    </div>
-</body>
+			// JavaScript to add custom feedback categories dynamically
+			function addCustomCategory() {
+				const customInput = document.getElementById("custom-feedback");
+				const categoryValue = customInput.value.trim();
+				const feedbackCategoriesDiv = document.getElementById(
+					"feedback-categories"
+				);
+
+				if (categoryValue) {
+					const newCategory = document.createElement("label");
+					newCategory.innerHTML = `<input type="checkbox" name="categories" value="${categoryValue}"> ${categoryValue}`;
+					feedbackCategoriesDiv.appendChild(newCategory);
+					customInput.value = ""; // Clear the input field
+				} else {
+					alert("Please enter a custom category!");
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="dashboard-container">
+			<!-- Sidebar -->
+			<aside class="sidebar">
+				<div class="sidebar-header">
+					<img
+						src="{% static 'Front_End/Images/Grn Lite Logo.png' %}"
+						alt="Grn Lite Logo"
+					/>
+				</div>
+				<nav class="sidebar-nav">
+					<a href="/Front_End/Templates/main.html" class="nav-item">Home</a>
+					<a
+						href="/Front_End/Templates/author-dashboard.html"
+						class="nav-item active"
+						>Dashboard</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/my_books.html"
+						class="nav-item"
+						>My Books</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/beta-reader-list.html"
+						class="nav-item"
+						>Find Beta Readers</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/manuscript-submission.html"
+						class="nav-item"
+						>Manuscript Submission</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/feedback-summary.html"
+						class="nav-item"
+						>Feedback Summary</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/author-resource-library.html"
+						class="nav-item"
+						>Resource Library</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/author-community-groups.html"
+						class="nav-item"
+						>Community Groups</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/author-profile.html"
+						class="nav-item"
+						>Profile</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/author-payment-page.html"
+						class="nav-item"
+						>Payments</a
+					>
+					<a
+						href="/Front_End/Templates/Author Dashboard/author-settings.html"
+						class="nav-item"
+						>Settings</a
+					>
+					<a href="/Front_End/Templates/logout.html" class="nav-item">Logout</a>
+				</nav>
+			</aside>
+
+			<!-- Main Content -->
+			<main class="main-content">
+				<div class="content-header">
+					<h1>Manuscript Submission</h1>
+					<p>Submit and configure your manuscript for beta readers.</p>
+				</div>
+				<form class="submission-form">
+					<!-- Title -->
+					<div class="form-group">
+						<label for="manuscript-title">Manuscript Title:</label>
+						<input
+							type="text"
+							id="manuscript-title"
+							name="title"
+							placeholder="Enter manuscript title"
+						/>
+					</div>
+					<!-- Manuscript Upload -->
+					<div class="form-group">
+						<label for="manuscript-upload">Upload Manuscript:</label>
+						<input
+							type="file"
+							id="manuscript-upload"
+							name="manuscript"
+							accept=".doc,.docx,.pdf"
+						/>
+					</div>
+					<!-- Cover Art Upload -->
+					<div class="form-group">
+						<label for="cover-art-upload">Upload Cover Art:</label>
+						<input
+							type="file"
+							id="cover-art-upload"
+							name="cover-art"
+							accept=".png,.jpeg"
+						/>
+					</div>
+
+					<!-- Plot Summary -->
+					<div class="form-group">
+						<label for="plot-summary">Plot Summary:</label>
+						<textarea
+							id="plot-summary"
+							name="summary"
+							placeholder="Provide a brief plot summary"
+						></textarea>
+					</div>
+					<!-- Budget -->
+					<div class="form-group">
+						<label for="budget">Budget for Beta Readers:</label>
+						<input
+							type="number"
+							id="budget"
+							name="budget"
+							placeholder="Enter how much you will pay each beta reader"
+							min="0"
+						/>
+					</div>
+					<!-- Beta Readers -->
+					<div class="form-group">
+						<label for="beta-readers">Number of Beta Readers:</label>
+						<input
+							type="number"
+							id="beta-readers"
+							name="readers"
+							placeholder="Enter your desired number of beta readers"
+							min="1"
+						/>
+					</div>
+					<!-- NDA -->
+					<div class="form-group">
+						<label for="nda">Require NDA Agreement:</label>
+						<input
+							type="checkbox"
+							id="nda"
+							name="nda"
+							onclick="toggleNDASection()"
+						/>
+					</div>
+					<!-- NDA Upload Section (Hidden by Default) -->
+					<div id="nda-upload-section" class="form-group" style="display: none">
+						<label for="nda-upload">Upload NDA Document:</label>
+						<input
+							type="file"
+							id="nda-upload"
+							name="ndaDocument"
+							accept=".pdf"
+						/>
+					</div>
+					<!-- Feedback Categories Section -->
+					<div class="form-group">
+						<label for="feedback-categories">Feedback Categories:</label>
+						<div id="feedback-categories" class="checkbox-group">
+							<!-- Pre-defined Categories -->
+							<label
+								><input
+									type="checkbox"
+									name="categories"
+									value="overall-impressions"
+								/>
+								Overall Impressions</label
+							>
+							<label
+								><input type="checkbox" name="categories" value="Plot" />
+								Plot</label
+							>
+							<label
+								><input type="checkbox" name="categories" value="Characters" />
+								Characters</label
+							>
+							<label
+								><input type="checkbox" name="categories" value="Pacing" />
+								Pacing</label
+							>
+							<label
+								><input type="checkbox" name="categories" value="dialogue" />
+								Dialogue</label
+							>
+							<label
+								><input type="checkbox" name="categories" value="description" />
+								Description</label
+							>
+							<label
+								><input type="checkbox" name="categories" value="craft" />
+								Craft</label
+							>
+							<label
+								><input
+									type="checkbox"
+									name="categories"
+									value="world-building"
+								/>
+								World Building</label
+							>
+						</div>
+						<!-- Custom Feedback Category -->
+						<!-- KELSEA: I commented this out because I'm thinking we should hold off on adding this feature. If we have time to figure this out, it's still here. -->
+
+						{% comment %}
+						<div class="custom-feedback">
+							<label for="custom-feedback">Add Custom Category:</label>
+							<input
+								type="text"
+								id="custom-feedback"
+								name="customCategory"
+								placeholder="Enter custom feedback category"
+							/>
+							<button
+								type="button"
+								class="btn btn-secondary"
+								onclick="addCustomCategory()"
+							>
+								Add
+							</button>
+						</div>
+						{% endcomment %}
+					</div>
+					<!-- Keyword and Genre Tagging Section -->
+					<div class="container">
+						<form action="#">
+							<div class="form-group">
+								<label for="genres">Genres</label>
+								<select name="genres" id="genres" class="selectpicker" multiple>
+									<option value="Action">Action</option>
+									<option value="Adventure">Adventure</option>
+									<option value="Children'sBooks">Children's Books</option>
+									<option value="CrimeMystery">Crime & Mystery</option>
+									<option value="Fantasy">Fantasy</option>
+									<option value="Historical">Historical</option>
+									<option value="Horror">Horror</option>
+									<option value="Romance">Romance</option>
+									<option value="SciFi">SciFi</option>
+									<option value="Thriller">Thriller</option>
+									<option value="YoungAdult">Young Adult</option>
+									<option value="Western">Western</option>
+									<option value="Speculative">Speculative</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
+						</form>
+					</div>
+					<!-- KELSEA: I commented this out because I'm thinking we should hold off on adding this feature. If we have time to figure this out, it's still here. -->
+					{% comment %}
+					<div class="form-group">
+						<label for="keywords">Keywords:</label>
+						<input
+							type="text"
+							id="keywords"
+							name="keywords"
+							placeholder="Enter relevant keywords"
+						/>
+					</div>
+					{% endcomment %}
+					<!-- Submit Button -->
+					<button type="submit" class="btn btn-primary">
+						Submit Manuscript
+					</button>
+				</form>
+			</main>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$(".selectpicker").selectpicker();
+			});
+		</script>
+	</body>
 </html>

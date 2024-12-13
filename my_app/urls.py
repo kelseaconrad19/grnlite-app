@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.views.generic import TemplateView
 from . import views
 
 app_name = 'my_app'
@@ -75,7 +76,7 @@ urlpatterns = [
     path('author-dashboard/', views.author_dashboard, name='author-dashboard'),
     path('my-books/', views.my_books, name='my-books'),
     path('find-beta-readers/', views.find_beta_readers, name='find-beta-readers'),
-    path('manuscript-submission/', views.manuscript_submission, name='manuscript-submission'),
+    path('author-dashboard/manuscript-submission/', TemplateView.as_view(template_name="Author Dashboard/manuscript-submission.html"), name='manuscript-submission'),
     path('feedback-summary/', views.feedback_summary, name='feedback-summary'),
     path('author-resource-library/', views.author_resource_library, name='author-resource-library'),
     path('author-community-groups/', views.author_community_groups, name='author-community-groups'),
