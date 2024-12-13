@@ -132,7 +132,11 @@ urlpatterns = [
         name="beta-reader-application-detail",
     ),
     # Reader Dashboard URLs
-    path("reader-dashboard/", views.reader_dashboard, name="reader-dashboard"),
+    re_path(
+        r"^reader-dashboard\.html$",
+        views.reader_dashboard,
+        name="reader-dashboard-html",
+    ),
     path("available-books/", views.available_books, name="available-books"),
     path("reader-feedback/", views.reader_feedback, name="reader-feedback"),
     path("reader-profile/", views.reader_profile, name="reader-profile"),
