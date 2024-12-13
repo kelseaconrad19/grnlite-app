@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "my_app",
+    "my_custom_app",
     "djoser",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",

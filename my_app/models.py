@@ -347,3 +347,8 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ManuscriptKeywords(models.Model):
+    manuscript = models.ForeignKey("Manuscript", on_delete=models.CASCADE)
+    keyword = models.ForeignKey("Keyword", on_delete=models.CASCADE)
