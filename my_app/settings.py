@@ -22,10 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-!5gyam@rx=%w*j2@^8zjd9xzvz76g)wsk&7)ej4dyv$=cx4uqh"
+SECRET_KEY = os.getenv(
+    "django-insecure-!5gyam@rx=%w*j2@^8zjd9xzvz76g)wsk&7)ej4dyv$=cx4uqh",
+    "DJANGO_SECRET_KEY",
+    "fallback-secret-key",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
 ALLOWED_HOSTS = os.getenv(
@@ -77,6 +81,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "my_app.urls"
 
+SITE_ID = 1
+
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -126,6 +133,7 @@ SIMPLE_JWT = {
 }
 
 # OAuth settings
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "your-google-client-id"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "your-google-client-secret"
 
@@ -204,6 +212,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
