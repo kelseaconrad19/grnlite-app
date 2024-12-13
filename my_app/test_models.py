@@ -1,7 +1,7 @@
 import os
 import django
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'grnlite.settings')  
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "grnlite.settings")
 django.setup()
 
 from django.test import TestCase
@@ -18,14 +18,19 @@ class TestProfileModel(TestCase):
         self.user = User.objects.create_user(username="testuser", password="testpass")
 
         # Create a profile
-        self.profile = Profile.objects.create(user=self.user, profile_img="path/to/image.jpg")
+        self.profile = Profile.objects.create(
+            user=self.user, profile_img="path/to/image.jpg"
+        )
 
         # Create a genre
         self.genre = Genre.objects.create(name="Science Fiction")
 
         # Create a manuscript
         self.manuscript = Manuscript.objects.create(
-            author=self.user, title="Initial Manuscript", file_path="/path/to/file", status="draft"
+            author=self.user,
+            title="Initial Manuscript",
+            file_path="/path/to/file",
+            status="draft",
         )
 
     def test_profile_creation(self):
@@ -41,22 +46,29 @@ class TestProfileModel(TestCase):
     def test_manuscript_creation(self):
         # Create a new manuscript within the test
         Manuscript.objects.create(
-            author=self.user, title="Test Manuscript", file_path="/path/to/file", status="draft"
+            author=self.user,
+            title="Test Manuscript",
+            file_path="/path/to/file",
+            status="draft",
         )
         manuscripts = Manuscript.objects.all()
-        self.assertEqual(manuscripts.count(), 3) 
+        self.assertEqual(manuscripts.count(), 3)
 
     def test_manuscript_deletion(self):
         # Create a new manuscript specifically for this test
         manuscript_to_delete = Manuscript.objects.create(
-            author=self.user, title="Manuscript to Delete", file_path="/path/to/file", status="draft"
+            author=self.user,
+            title="Manuscript to Delete",
+            file_path="/path/to/file",
+            status="draft",
         )
 
         manuscript_to_delete.delete()
         manuscripts = Manuscript.objects.all()
 
         # Expect 2 manuscripts remaining: the one from setUp() and the one from test_manuscript_creation()
-        self.assertEqual(manuscripts.count(), 2)  
+        self.assertEqual(manuscripts.count(), 2)
+
     def test_profile_update(self):
         self.profile.bio = "Updated bio"
         self.profile.save()

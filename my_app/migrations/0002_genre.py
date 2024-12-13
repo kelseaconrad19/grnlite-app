@@ -6,16 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('my_app', '0001_initial'),
+        ("my_app", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Genre',
+            name="Genre",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Name of the genre', max_length=100)),
-                ('description', models.TextField(blank=True, help_text='Description of the genre', null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(help_text="Name of the genre", max_length=100),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True, help_text="Description of the genre", null=True
+                    ),
+                ),
             ],
         ),
     ]
