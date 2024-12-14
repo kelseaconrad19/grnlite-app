@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="{% static 'Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="{% url 'main' %}" class="nav-item">Home</a>
+                <a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
                 <a href="{% url 'reader-dashboard-html' %}" class="nav-item active">Dashboard</a>
                 <a href="{% url 'available-books-html' %}" class="nav-item">Available Books</a>
                 <a href="{% url 'reader-feedback-html' %}" class="nav-item">Feedback</a>
