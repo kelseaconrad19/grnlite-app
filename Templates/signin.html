@@ -1,14 +1,15 @@
+{% load socialaccount %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    {% load static %}
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Login</title>
-    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/styles.css' %}">
     <style>
-        /* Centralized Styles */
         :root {
             --primary-color: #2A9D8F;
             --secondary-color: #264653;
@@ -35,7 +36,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Adjust navbar on scroll */
         .navbar.scrolled {
             padding: 0.5rem 2rem;
             background-color: rgba(255, 255, 255, 0.85);
@@ -78,7 +78,7 @@
             justify-content: center;
             padding: 2rem;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            margin-top: 80px; /* Add top margin to move form down from navbar */
+            margin-top: 80px;
         }
 
         .auth-card {
@@ -175,13 +175,11 @@
             text-decoration: underline;
         }
 
-        /* Navigation bar logo styling */
         .navbar .logo img {
             height: 80px;
             width: auto;
         }
 
-        /* OAuth button styles */
         .oauth-buttons {
             display: flex;
             justify-content: space-around;
@@ -214,10 +212,10 @@
     <nav class="navbar">
         <div class="nav-content">
             <a href="{% url 'my_app:home' %}" class="logo">
-                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo"> 
+                <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}" alt="Grn Lite Logo">
             </a>
             <div class="nav-links">
-                <a href="{% url 'my_app:home' %}"Home</a>
+                <a href="{% url 'my_app:home' %}">Home</a>
                 <a href="{% url 'my_app:signup' %}">Sign Up</a>
             </div>
         </div>
@@ -245,8 +243,7 @@
                 <button type="submit" class="auth-button">Sign In</button>
             </form>
 
-            <!-- OAuth Buttons -->
-            <div class="oauth-buttons">
+            <div class="oauth-buttons">            
                 <button class="google-btn" onclick="window.location.href='/auth/google'">Sign in with Google</button>
                 <button class="facebook-btn" onclick="window.location.href='/auth/facebook'">Sign in with Facebook</button>
             </div>
@@ -273,13 +270,9 @@
                 alert("Please select your role as Reader or Author.");
                 return;
             }
-            // TODO: Backend functionality: Send form data (email, password, user type) to backend (POST request to /login)
-            // Validate user login details (check email and password) in the backend
-
-            window.location.href = `${selectedUserType}-dashboard.html`; // Redirect to the user-specific dashboard upon successful login
+            window.location.href = `${selectedUserType}-dashboard.html`;
         });
 
-        // Add scroll event listener to add 'scrolled' class to the navbar
         window.addEventListener("scroll", function () {
             const navbar = document.querySelector(".navbar");
             if (window.scrollY > 0) {
@@ -289,7 +282,8 @@
             }
         });
     </script>
-    <script src="{% static 'redirectToAuthPage.js' %}"></script>
+    <script src="{% static 'Front_End/JS/author-signin.js' %}"></script>
+    <script src="{% static 'Front_End/JS/reader-signin.js' %}"></script>
 </body>
 
 </html>

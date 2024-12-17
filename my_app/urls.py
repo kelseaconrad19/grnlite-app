@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from . import views
 from .views import GoogleLoginView, UserProfileView
 from django.conf import settings
@@ -132,25 +132,35 @@ urlpatterns = [
         name="beta-reader-application-detail",
     ),
     # Reader Dashboard URLs
-    path("reader-dashboard/", views.reader_dashboard, name="reader-dashboard"),
-    path("available-books/", views.available_books, name="available-books"),
-    path("reader-feedback/", views.reader_feedback, name="reader-feedback"),
-    path("reader-profile/", views.reader_profile, name="reader-profile"),
+    re_path(
+        r"^reader-dashboard\.html$",
+        views.reader_dashboard,
+        name="reader-dashboard-html",
+    ),
+    path("available-books/", views.available_books, name="available-books-html"),
+    path("reader-feedback/", views.reader_feedback, name="reader-feedback-html"),
+    path("reader-profile/", views.reader_profile, name="reader-profile-html"),
     path(
         "reader-resource-library/",
         views.reader_resource_library,
-        name="reader-resource-library",
+        name="reader-resource-library-html",
     ),
     path(
-        "beta-reader-training/", views.beta_reader_training, name="beta-reader-training"
+        "beta-reader-training/",
+        views.beta_reader_training,
+        name="beta-reader-training-html",
     ),
     path(
         "beta-reader-performance-metrics/",
         views.beta_reader_performance_metrics,
-        name="beta-reader-performance-metrics",
+        name="beta-reader-performance-metrics-html",
     ),
-    path("reader-payment-page/", views.reader_payment_page, name="reader-payment-page"),
-    path("reader-settings/", views.reader_settings, name="reader-settings"),
+    path(
+        "reader-payment-page/",
+        views.reader_payment_page,
+        name="reader-payment-page-html",
+    ),
+    path("reader-settings/", views.reader_settings, name="reader-settings-html"),
     # Author Dashboard URLs
     path("author-dashboard/", views.author_dashboard, name="author-dashboard"),
     path("my-books/", views.my_books, name="my-books"),
@@ -174,6 +184,64 @@ urlpatterns = [
     path("author-profile/", views.author_profile, name="author-profile"),
     path("author-payment-page/", views.author_payment_page, name="author-payment-page"),
     path("author-settings/", views.author_settings, name="author-settings"),
+    path("reader-dashboard", views.reader_dashboard, name="reader-dashboard"),
+    path("available-books", views.available_books, name="available-books"),
+    path("reader-feedback", views.reader_feedback, name="reader-feedback"),
+    path("reader-profile", views.reader_profile, name="reader-profile"),
+    path(
+        "reader-resource-library",
+        views.reader_resource_library,
+        name="reader-resource-library",
+    ),
+    path(
+        "beta-reader-training",
+        views.beta_reader_training,
+        name="beta-reader-training",
+    ),
+    path(
+        "beta-reader-performance-metrics",
+        views.beta_reader_performance_metrics,
+        name="beta-reader-performance-metrics",
+    ),
+    path(
+        "reader-payment-page",
+        views.reader_payment_page,
+        name="reader-payment-page",
+    ),
+    path("reader-settings", views.reader_settings, name="reader-settings"),
+    path("author-dashboard", views.author_dashboard, name="author-dashboard"),
+    path("my-books", views.my_books, name="my-books"),
+    path(
+        "find-beta-readers",
+        views.find_beta_readers,
+        name="find-beta-readers",
+    ),
+    path(
+        "manuscript-submission",
+        views.manuscript_submission,
+        name="manuscript-submission",
+    ),
+    path(
+        "feedback-summary",
+        views.feedback_summary,
+        name="feedback-summary",
+    ),
+    path(
+        "author-resource-library",
+        views.author_resource_library,
+        name="author-resource-library",
+    ),
+    path(
+        "author-community-groups",
+        views.author_community_groups,
+        name="author-community-groups",
+    ),
+    path("author-profile", views.author_profile, name="author-profile"),
+    path(
+        "author-payment-page",
+        views.author_payment_page,
+        name="author-payment-page",
+    ),
 ]
 
 if settings.DEBUG:

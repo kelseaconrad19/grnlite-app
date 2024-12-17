@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grn Lite - Beta Reader Feedback</title>
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+    const feedbackForm = document.getElementById("feedback-form");
+
+    feedbackForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const manuscript = document.getElementById("manuscript-selection").value;
+        const plotFeedback = document.getElementById("plot-feedback").value.trim();
+        const charactersFeedback = document.getElementById("characters-feedback").value.trim();
+        const pacingFeedback = document.getElementById("pacing-feedback").value.trim();
+        const worldbuildingFeedback = document.getElementById("worldbuilding-feedback").value.trim();
+        const additionalComments = document.getElementById("additional-comments").value.trim();
+
+        const inManuscriptComments = [];
+
+        // Collect in-manuscript comments
+        document.querySelectorAll('.comment-target').forEach(commentBox => {
+            const commentText = commentBox.value.trim();
+            if (commentText) {
+                inManuscriptComments.push({ target: commentBox.dataset.target, comment: commentText });
+            }
+        });
+
+        if (!manuscript) {
+            alert("Please select a manuscript to provide feedback.");
+            return;
+        }
+
+        const feedback = {
+            manuscript,
+            plot: plotFeedback,
+            characters: charactersFeedback,
+            pacing: pacingFeedback,
+            worldbuilding: worldbuildingFeedback,
+            comments: additionalComments,
+            inManuscriptComments
+        };
+
+        console.log("Feedback submitted:", feedback);
+
+        // Mock API call
+        setTimeout(() => {
+            alert("Thank you for your feedback! It has been successfully submitted.");
+            feedbackForm.reset();
+        }, 1000);
+    });
+});
+    </script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static 'Images/Grn_Lite_Logo.png' %}" alt="Grn Lite Logo">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
+                <a href="{% url 'my_app:reader-dashboard-html' %}" class="nav-item active">Dashboard</a>
+                <a href="{% url 'my_app:available-books-html' %}" class="nav-item">Available Books</a>
+                <a href="{% url 'my_app:reader-feedback-html' %}" class="nav-item">Feedback</a>
+                <a href="{% url 'my_app:reader-profile-html' %}" class="nav-item">Profile</a>
+                <a href="{% url 'my_app:reader-resource-library-html' %}" class="nav-item">Resource Library</a>
+                <a href="{% url 'my_app:beta-reader-training-html' %}" class="nav-item">Training Module</a>
+                <a href="{% url 'my_app:beta-reader-performance-metrics-html' %}" class="nav-item active">Performance Metrics</a>
+                <a href="{% url 'my_app:reader-payment-page-html' %}" class="nav-item">Payments</a>
+                <a href="{% url 'my_app:reader-settings-html' %}" class="nav-item">Settings</a>
+                <a href="{% url 'my_app:logout' %}" class="nav-item">Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Submit Feedback</h1>
+                <p>Provide your feedback for the selected manuscript.</p>
+            </div>
+
+            <!-- Feedback Form -->
+            <form id="feedback-form" class="form-group">
+                <!-- Manuscript Selection -->
+                <div class="form-group">
+                    <label for="manuscript-selection">Select Manuscript:</label>
+                    <select id="manuscript-selection" required>
+                        <option value="" disabled selected>Select a manuscript</option>
+                        <option value="1">The Lost World</option>
+                        <option value="2">Unraveled Mysteries</option>
+                        <!-- Add more options dynamically -->
+                    </select>
+                </div>
+
+                <!-- Feedback Categories -->
+                <div class="form-group">
+                    <label for="plot-feedback">Plot Feedback:</label>
+                    <textarea id="plot-feedback" name="plot" placeholder="Provide feedback on the plot"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="characters-feedback">Characters Feedback:</label>
+                    <textarea id="characters-feedback" name="characters" placeholder="Provide feedback on the characters"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pacing-feedback">Pacing Feedback:</label>
+                    <textarea id="pacing-feedback" name="pacing" placeholder="Provide feedback on the pacing"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="worldbuilding-feedback">Worldbuilding Feedback:</label>
+                    <textarea id="worldbuilding-feedback" name="worldbuilding" placeholder="Provide feedback on worldbuilding"></textarea>
+                </div>
+
+                <!-- In-Manuscript Comments Section -->
+                <div class="form-group">
+                    <label>In-Manuscript Comments:</label>
+                    <div class="comment-box">
+                        <div>
+                            <p>Chapter 1 - Plot Development:</p>
+                            <textarea class="comment-target" data-target="chapter1-plot" placeholder="Add a comment about plot development here..."></textarea>
+                        </div>
+                        <div>
+                            <p>Chapter 2 - Characters:</p>
+                            <textarea class="comment-target" data-target="chapter2-characters" placeholder="Add a comment about characters here..."></textarea>
+                        </div>
+                        <!-- More sections can be added dynamically based on manuscript content -->
+                    </div>
+                </div>
+
+                <!-- Additional Comments -->
+                <div class="form-group">
+                    <label for="additional-comments">Additional Comments:</label>
+                    <textarea id="additional-comments" name="comments" placeholder="Share any additional thoughts or suggestions"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

@@ -6,3 +6,6 @@ dotenv
 // Ignore Python virtual environment files
 .venv
 // Ignore Python byte code files
+
+__pycache__/
+*.pyc
