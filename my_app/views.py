@@ -104,7 +104,7 @@ def author_dashboard(request):
 
 
 def my_books(request):
-    return render(request, "Author_Dashboard/my_books.html")
+    return render(request, "Author_Dashboard/my-books.html")
 
 
 def find_beta_readers(request):

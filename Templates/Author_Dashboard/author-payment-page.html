@@ -1,88 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grn Lite - Author Payment System</title>
-    {% load static %}
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Grn Lite - Author Payment System</title>
+		{% load static %}
 
-    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const paymentForm = document.getElementById("payment-form");
+		<link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}" />
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const paymentForm = document.getElementById("payment-form");
 
-            paymentForm.addEventListener("submit", (e) => {
-                e.preventDefault();
+				paymentForm.addEventListener("submit", (e) => {
+					e.preventDefault();
 
-                const readerId = document.getElementById("reader-id").value;
-                const paymentAmount = document.getElementById("payment-amount").value.trim();
+					const readerId = document.getElementById("reader-id").value;
+					const paymentAmount = document
+						.getElementById("payment-amount")
+						.value.trim();
 
-                if (!readerId || !paymentAmount) {
-                    alert("Please fill out all fields before submitting.");
-                    return;
-                }
+					if (!readerId || !paymentAmount) {
+						alert("Please fill out all fields before submitting.");
+						return;
+					}
 
-                const paymentData = {
-                    readerId,
-                    paymentAmount,
-                    status: "Pending",
-                    transactionId: `TXN-${Math.floor(Math.random() * 1000000)}`
-                };
+					const paymentData = {
+						readerId,
+						paymentAmount,
+						status: "Pending",
+						transactionId: `TXN-${Math.floor(Math.random() * 1000000)}`,
+					};
 
-                // Mock API call to process payment
-                setTimeout(() => {
-                    alert(`Payment of $${paymentAmount} to Beta Reader (ID: ${readerId}) has been processed successfully!`);
-                    paymentForm.reset();
-                }, 1000);
-            });
-        });
-    </script>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <img src="{% static 'Front_End/Images/Grn Lite Logo.png' %}" alt="Grn Lite Logo">
-            </div>
-            <nav class="sidebar-nav">
-                <a href="{% static 'Templates/main.html'%}" class="nav-item">Home</a>
-                <a href="{% static 'Templates/author-dashboard.html'%}" class="nav-item active">Dashboard</a>
-                <a href="{% static 'Templates/Author Dashboard/my_books.html'%}" class="nav-item">My Books</a>
-                <a href="{% static 'Templates/Author Dashboard/beta-reader-list.html'%}" class="nav-item">Find Beta Readers</a>
-                <a href="{% static 'Templates/Author Dashboard/manuscript-submission.html'%}" class="nav-item">Manuscript Submission</a> 
-                <a href="{% static 'Templates/Author Dashboard/feedback-summary.html'%}" class="nav-item">Feedback Summary</a> 
-                <a href="{% static 'Templates/Author Dashboard/author-resource-library.html'%}" class="nav-item">Resource Library</a> 
-                <a href="{% static 'Templates/Author Dashboard/author-community-groups.html'%}" class="nav-item">Community Groups</a> 
-                <a href="{% static 'Templates/Author Dashboard/author-profile.html'%}" class="nav-item">Profile</a>
-                <a href="{% static 'Templates/Author Dashboard/author-payment-page.html'%}" class="nav-item">Payments</a>
-                <a href="{% static 'Templates/Author Dashboard/author-settings.html'%}" class="nav-item">Settings</a>
-                <a href="{% static 'Templates/logout.html'%}" class="nav-item">Logout</a>
-            </nav>
-        </aside>
+					// Mock API call to process payment
+					setTimeout(() => {
+						alert(
+							`Payment of $${paymentAmount} to Beta Reader (ID: ${readerId}) has been processed successfully!`
+						);
+						paymentForm.reset();
+					}, 1000);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="dashboard-container">
+			<!-- Sidebar -->
+			<aside class="sidebar">
+				<div class="sidebar-header">
+					<img
+						src="{% static 'Front_End/Images/Grn Lite Logo.png' %}"
+						alt="Grn Lite Logo"
+					/>
+				</div>
+				<nav class="sidebar-nav">
+					<a href="{% static 'Templates/main.html'%}" class="nav-item">Home</a>
+					<a href="{% static 'author-dashboard.html'%}" class="nav-item active"
+						>Dashboard</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/my-books.html'%}"
+						class="nav-item"
+						>My Books</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/beta-reader-list.html'%}"
+						class="nav-item"
+						>Find Beta Readers</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/manuscript-submission.html'%}"
+						class="nav-item"
+						>Manuscript Submission</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/feedback-summary.html'%}"
+						class="nav-item"
+						>Feedback Summary</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/author-resource-library.html'%}"
+						class="nav-item"
+						>Resource Library</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/author-community-groups.html'%}"
+						class="nav-item"
+						>Community Groups</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/author-profile.html'%}"
+						class="nav-item"
+						>Profile</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/author-payment-page.html'%}"
+						class="nav-item"
+						>Payments</a
+					>
+					<a
+						href="{% static 'Templates/Author_Dashboard/author-settings.html'%}"
+						class="nav-item"
+						>Settings</a
+					>
+					<a href="{% static 'Templates/logout.html'%}" class="nav-item"
+						>Logout</a
+					>
+				</nav>
+			</aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1>Author Payment System</h1>
-                <p>Manage payments to beta readers for completed projects.</p>
-            </div>
+			<!-- Main Content -->
+			<main class="main-content">
+				<div class="content-header">
+					<h1>Author Payment System</h1>
+					<p>Manage payments to beta readers for completed projects.</p>
+				</div>
 
-            <!-- Payment Form -->
-            <form id="payment-form" class="form-group">
-                <div class="form-group">
-                    <label for="reader-id">Beta Reader ID:</label>
-                    <input type="text" id="reader-id" name="reader-id" placeholder="Enter Beta Reader ID" required>
-                </div>
+				<!-- Payment Form -->
+				<form id="payment-form" class="form-group">
+					<div class="form-group">
+						<label for="reader-id">Beta Reader ID:</label>
+						<input
+							type="text"
+							id="reader-id"
+							name="reader-id"
+							placeholder="Enter Beta Reader ID"
+							required
+						/>
+					</div>
 
-                <div class="form-group">
-                    <label for="payment-amount">Amount to Pay:</label>
-                    <input type="number" id="payment-amount" name="payment-amount" placeholder="Enter Payment Amount" min="0" required>
-                </div>
+					<div class="form-group">
+						<label for="payment-amount">Amount to Pay:</label>
+						<input
+							type="number"
+							id="payment-amount"
+							name="payment-amount"
+							placeholder="Enter Payment Amount"
+							min="0"
+							required
+						/>
+					</div>
 
-                <button type="submit" class="btn btn-primary">Submit Payment</button>
-            </form>
-        </main>
-    </div>
-</body>
+					<button type="submit" class="btn btn-primary">Submit Payment</button>
+				</form>
+			</main>
+		</div>
+	</body>
 </html>
