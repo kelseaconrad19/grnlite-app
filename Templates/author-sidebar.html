@@ -1,0 +1,40 @@
+<aside class="sidebar">
+	<div class="sidebar-header">
+		<img
+			src="{% static 'Front_End/Images/Grn Lite Logo.png' %}"
+			alt="Grn Lite Logo"
+		/>
+	</div>
+	<nav class="sidebar-nav">
+		<a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
+		<a href="{% url 'my_app:author-dashboard-html' %}" class="nav-item active"
+			>Dashboard</a
+		>
+		<a href="{% url 'my_app:my-books-html' %}" class="nav-item">My Books</a>
+		<a href="{% url 'my_app:find-beta-readers-html' %}" class="nav-item"
+			>Find Beta Readers</a
+		>
+		<a href="{% url 'my_app:manuscript-submission-html' %}" class="nav-item"
+			>Manuscript Submission</a
+		>
+		<a href="{% url 'my_app:feedback-summary-html' %}" class="nav-item"
+			>Feedback Summary</a
+		>
+		<a href="{% url 'my_app:author-resource-library-html' %}" class="nav-item"
+			>Resource Library</a
+		>
+		<a href="{% url 'my_app:author-community-groups-html' %}" class="nav-item"
+			>Community Groups</a
+		>
+		<a href="{% url 'my_app:author-profile-html' %}" class="nav-item"
+			>Profile</a
+		>
+		<a href="{% url 'my_app:author-payment-page-html' %}" class="nav-item"
+			>Payments</a
+		>
+		<a href="{% url 'my_app:author-settings-html' %}" class="nav-item"
+			>Settings</a
+		>
+		<a href="{% url 'my_app:logout' %}" class="nav-item">Logout</a>
+	</nav>
+</aside>

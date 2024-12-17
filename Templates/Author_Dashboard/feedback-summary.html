@@ -100,68 +100,7 @@
 	<body>
 		<div class="dashboard-container">
 			<!-- Sidebar -->
-			<aside class="sidebar">
-				<div class="sidebar-header">
-					<img
-						src="{% static 'Front_End/Images/Grn Lite Logo.png' %}"
-						alt="Grn Lite Logo"
-					/>
-				</div>
-				<nav class="sidebar-nav">
-					<a href="{% static 'Templates/main.html'%}" class="nav-item">Home</a>
-					<a href="{% static 'author-dashboard.html'%}" class="nav-item active"
-						>Dashboard</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/my-books.html'%}"
-						class="nav-item"
-						>My Books</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/beta-reader-list.html'%}"
-						class="nav-item"
-						>Find Beta Readers</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/manuscript-submission.html'%}"
-						class="nav-item"
-						>Manuscript Submission</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/feedback-summary.html'%}"
-						class="nav-item"
-						>Feedback Summary</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/author-resource-library.html'%}"
-						class="nav-item"
-						>Resource Library</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/author-community-groups.html'%}"
-						class="nav-item"
-						>Community Groups</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/author-profile.html'%}"
-						class="nav-item"
-						>Profile</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/author-payment-page.html'%}"
-						class="nav-item"
-						>Payments</a
-					>
-					<a
-						href="{% static 'Templates/Author_Dashboard/author-settings.html'%}"
-						class="nav-item"
-						>Settings</a
-					>
-					<a href="{% static 'Templates/logout.html'%}" class="nav-item"
-						>Logout</a
-					>
-				</nav>
-			</aside>
+			{% include 'author-sidebar.html' %}
 
 			<!-- Main Content -->
 			<main class="main-content">
