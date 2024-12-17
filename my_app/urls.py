@@ -91,7 +91,7 @@ urlpatterns = [
     
     # Author Settings URLs
     path(
-        "author-settings/",
+        "author-settings-view/",
         views.AuthorSettingsListCreateView.as_view(),
         name="author-settings-list",
     ),
@@ -177,11 +177,7 @@ urlpatterns = [
     path("reader-settings/", views.reader_settings, name="reader-settings-html"),
     
     # Author Dashboard URLs
-    re_path(
-        r"^author-dashboard\.html$",
-        views.author_dashboard,
-        name="author-dashboard-html",
-    ),
+    path("author-dashboard/", views.author_dashboard, name="author-dashboard-html"),
     path(
         "my-books/", 
         views.my_books, 
@@ -227,6 +223,11 @@ urlpatterns = [
         views.author_settings, 
         name="author-settings-html"
     ),
+    path(
+        "find-beta-readers/",
+        views.find_beta_readers,
+        name="find-beta-readers-html"
+    )
 ]
 
 if settings.DEBUG:

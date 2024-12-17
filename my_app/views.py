@@ -108,7 +108,7 @@ def my_books(request):
 
 
 def find_beta_readers(request):
-    return render(request, "Author_Dashboard/find-beta-readers.html")
+    return render(request, "Author_Dashboard/beta-reader-list.html")
 
 
 def manuscript_submission(request):
