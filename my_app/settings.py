@@ -22,13 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!5gyam@rx=%w*j2@^8zjd9xzvz76g)wsk&7)ej4dyv$=cx4uqh'
+SECRET_KEY = "django-insecure-!5gyam@rx=%w*j2@^8zjd9xzvz76g)wsk&7)ej4dyv$=cx4uqh"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost,grnlite.onrender.com').split(',')
+ALLOWED_HOSTS = os.getenv(
+    "DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,grnlite.onrender.com"
+).split(",")
 
 
 USE_TZ = True  # Ensure this is set
@@ -36,88 +38,131 @@ USE_TZ = True  # Ensure this is set
 # Application definition
 
 
-
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'my_app',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "my_app",
+    "my_custom_app",
     # 'corsheaders',
-    'rest_framework_simplejwt.token_blacklist',
-    'rest_framework_simplejwt',
-    'rest_framework.authtoken',
-    'djoser',
-    'drf_yasg',
-    'rest_framework_swagger',
+    "rest_framework_simplejwt.token_blacklist",
+    "rest_framework_simplejwt",
+    "rest_framework.authtoken",
+    "djoser",
+    "drf_yasg",
+    "rest_framework_swagger",
+    "social_django",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhtieNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhtieNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
-ROOT_URLCONF = 'my_app.urls'
+ROOT_URLCONF = "my_app.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'Templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "Templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'my_app.wsgi.application'
+WSGI_APPLICATION = "my_app.wsgi.application"
 
 DJOSER = {
-    'LOGIN_FIELD': 'email',
-    'USER_CREATE_PASSWORD_RETYPE': True,
-    'SERIALIZERS': {
-        'user_create': 'my_app.serializers.UserSerializer',
-        'user': 'my_app.serializers.UserSerializer',
-    }
+    "LOGIN_FIELD": "email",
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "SERIALIZERS": {
+        "user_create": "my_app.serializers.UserSerializer",
+        "user": "my_app.serializers.UserSerializer",
+    },
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ),
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+# JWT SETTING
+from datetime import timedelta
+
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('JWT',),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     # ... other JWT configuration options ...
+}
+
+# OAuth settings
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "your-google-client-id"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "your-google-client-secret"
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.google.GoogleOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+# Add your Google OAuth credentials
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        "OAUTH_PKCE_ENABLED": True,
+    }
 }
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db'
+    "default": dj_database_url.config(
+        default="postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db"
     )
-}    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'grnlite_postgresql',
-    # }
+}  # 'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'grnlite_postgresql',
+# }
 
 
 # Password validation
@@ -125,16 +170,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -142,9 +187,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -154,11 +199,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
