@@ -30,7 +30,7 @@
 	<body>
 		<div class="dashboard-container">
 			<!-- Sidebar -->
-			<{% include 'author-sidebar.html' %}
+			{% include 'author-sidebar.html' %}
 
 			<!-- Main Content -->
 			<main class="main-content">
@@ -38,7 +38,7 @@
 					<h1>Welcome Back, Author!</h1>
 					<button class="btn btn-primary">
 						<a
-							href="{% static 'Templates/Author_Dashboard/manuscript-submission.html'%}"
+							href="{% url 'manuscript-submission' %}"
 							style="color: white; text-decoration: none"
 							>Add New Title</a
 						>
@@ -68,7 +68,7 @@
 						<p>View and hire beta readers for your projects.</p>
 						<button class="btn btn-secondary">
 							<a
-								href="{% static 'Templates/Author_Dashboard/beta-reader-list.html'%}"
+								href="{% url 'beta-reader-list' %}"
 								style="color: white; text-decoration: none"
 								>Find Beta Readers</a
 							>
@@ -80,7 +80,7 @@
 						<p>Submit and manage your manuscripts here.</p>
 						<button class="btn btn-secondary">
 							<a
-								href="{% static 'Templates/Author_Dashboard/manuscript-submission.html'%}"
+								href="{% url 'manuscript-submission' %}"
 								style="color: white; text-decoration: none"
 								>Submit Manuscript</a
 							>
@@ -91,7 +91,7 @@
 						<p>View and analyze feedback for your projects.</p>
 						<button class="btn btn-secondary">
 							<a
-								href="{% static 'Templates/Author_Dashboard/feedback-summary.html'%}"
+								href="{% url 'feedback-summary' %}"
 								style="color: white; text-decoration: none"
 								>View Feedback</a
 							>
@@ -102,7 +102,7 @@
 						<p>Access and share writing resources here.</p>
 						<button class="btn btn-secondary">
 							<a
-								href="{% static 'Templates/Author_Dashboard/author-resource-library.html'%}"
+								href="{% url 'author-resource-library' %}"
 								style="color: white; text-decoration: none"
 								>Explore Resources</a
 							>
@@ -116,7 +116,7 @@
 						</p>
 						<button class="btn btn-secondary">
 							<a
-								href="{% static 'Templates/Author_Dashboard/author-community-groups.html'%}"
+								href="{% url 'author-community-groups' %}"
 								style="color: white; text-decoration: none"
 								>Join Community</a
 							>
@@ -132,7 +132,7 @@
 					</p>
 					<button class="btn btn-secondary">
 						<a
-							href="{% static 'Templates/Author_Dashboard/author-payment-page.html'%}"
+							href="{% url 'author-payment-page' %}"
 							style="color: white; text-decoration: none"
 							>Manage Payments</a
 						>
