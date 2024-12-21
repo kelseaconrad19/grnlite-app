@@ -120,11 +120,7 @@ urlpatterns = [
         name="notification-detail",
     ),
     # Beta Reader Application URLs
-    path(
-        "beta-reader-list/",
-        views.BetaReaderListCreateView.as_view(),
-        name="beta-reader-list-html",
-    ),
+    path("beta-reader-list/", views.beta_reader_list, name="beta-reader-list-html"),
     path(
         "beta-reader-applications/<int:pk>/",
         views.BetaReaderApplicationDetailView.as_view(),
