@@ -4,13 +4,11 @@ from .views import GoogleLoginView, UserProfileView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
 
 app_name = "my_app"
 
 urlpatterns = [
     path("", views.home, name="home"),
-    
     # User URLs
     path("signin/", views.signin, name="signin"),
     path("signup/", views.signup, name="signup"),
@@ -20,13 +18,11 @@ urlpatterns = [
     path("users/<int:pk>/", views.UserDetailView.as_view(), name="user-detail"),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
-    
     # Google OAuth2 URLs
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("auth/google/", GoogleLoginView.as_view(), name="google-login"),
     path("auth/profile/", UserProfileView.as_view(), name="user-profile"),
-    
     # Profile URLs
     path(
         "profiles/", views.ProfileListCreateView.as_view(), name="profile-list-create"
@@ -34,7 +30,6 @@ urlpatterns = [
     path(
         "profiles/<int:pk>/", views.ProfileDetailView.as_view(), name="profile-detail"
     ),
-    
     # Manuscript URLs
     path(
         "manuscripts/",
@@ -46,13 +41,11 @@ urlpatterns = [
         views.ManuscriptDetailView.as_view(),
         name="manuscript-detail",
     ),
-    
     # Keyword URLs
     path("keywords/", views.KeywordListCreateView.as_view(), name="keyword-list"),
     path(
         "keywords/<int:pk>/", views.KeywordDetailView.as_view(), name="keyword-detail"
     ),
-    
     # Feedback Question URLs
     path(
         "feedback-questions/",
@@ -64,7 +57,6 @@ urlpatterns = [
         views.FeedbackQuestionDetailView.as_view(),
         name="feedback-question-detail",
     ),
-    
     # Manuscript Feedback Preference URLs
     path(
         "manuscript-feedback-preferences/",
@@ -76,7 +68,6 @@ urlpatterns = [
         views.ManuscriptFeedbackPreferenceDetailView.as_view(),
         name="manuscript-feedback-preference-detail",
     ),
-    
     # Feedback Response URLs
     path(
         "feedback-responses/",
@@ -88,7 +79,6 @@ urlpatterns = [
         views.FeedbackResponseDetailView.as_view(),
         name="feedback-response-detail",
     ),
-    
     # Author Settings URLs
     path(
         "author-settings-view/",
@@ -100,7 +90,6 @@ urlpatterns = [
         views.AuthorSettingsDetailView.as_view(),
         name="author-settings-detail",
     ),
-    
     # Resource URLs
     path("resources/", views.ResourceListCreateView.as_view(), name="resource-list"),
     path(
@@ -108,7 +97,6 @@ urlpatterns = [
         views.ResourceDetailView.as_view(),
         name="resource-detail",
     ),
-    
     # Resource Interactions URLs
     path(
         "resource-interactions/",
@@ -120,7 +108,6 @@ urlpatterns = [
         views.ResourceInteractionDetailView.as_view(),
         name="resource-interaction-detail",
     ),
-    
     # Notification URLs
     path(
         "notifications/",
@@ -132,7 +119,6 @@ urlpatterns = [
         views.NotificationDetailView.as_view(),
         name="notification-detail",
     ),
-    
     # Beta Reader Application URLs
     path(
         "beta-reader-applications/",
@@ -144,7 +130,6 @@ urlpatterns = [
         views.BetaReaderApplicationDetailView.as_view(),
         name="beta-reader-application-detail",
     ),
-    
     # Reader Dashboard URLs
     re_path(
         r"^reader-dashboard\.html$",
@@ -175,29 +160,16 @@ urlpatterns = [
         name="reader-payment-page-html",
     ),
     path("reader-settings/", views.reader_settings, name="reader-settings-html"),
-    
     # Author Dashboard URLs
-    path("author-dashboard/", views.author_dashboard, name="author-dashboard-html"),
-    path(
-        "my-books/", 
-        views.my_books, 
-        name="my-books-html"
+    re_path(
+        r"^author-dashboard\.html$",
+        views.author_dashboard,
+        name="author-dashboard-html",
     ),
-    path(
-        "find-beta-readers/", 
-        views.find_beta_readers, 
-        name="find-beta-readers-html"
-    ),
-    path(
-        "author-profile/", 
-        views.author_profile, 
-        name="author-profile-html"
-    ),
-    path(
-        "feedback-summary/", 
-        views.feedback_summary, 
-        name="feedback-summary-html"
-    ),
+    path("my-books/", views.my_books, name="my-books-html"),
+    path("find-beta-readers/", views.find_beta_readers, name="find-beta-readers-html"),
+    path("author-profile/", views.author_profile, name="author-profile-html"),
+    path("feedback-summary/", views.feedback_summary, name="feedback-summary-html"),
     path(
         "manuscript-submission/",
         views.manuscript_submission,
@@ -214,20 +186,12 @@ urlpatterns = [
         name="author-community-groups-html",
     ),
     path(
-        "author-payment-page/", 
-        views.author_payment_page, 
-        name="author-payment-page-html"
+        "author-payment-page/",
+        views.author_payment_page,
+        name="author-payment-page-html",
     ),
-    path(
-        "author-settings/", 
-        views.author_settings, 
-        name="author-settings-html"
-    ),
-    path(
-        "find-beta-readers/",
-        views.find_beta_readers,
-        name="find-beta-readers-html"
-    )
+    path("author-settings/", views.author_settings, name="author-settings-html"),
+    path("find-beta-readers/", views.find_beta_readers, name="find-beta-readers-html"),
 ]
 
 if settings.DEBUG:
