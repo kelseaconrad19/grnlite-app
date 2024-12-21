@@ -121,9 +121,9 @@ urlpatterns = [
     ),
     # Beta Reader Application URLs
     path(
-        "beta-reader-applications/",
-        views.BetaReaderApplicationListCreateView.as_view(),
-        name="beta-reader-application-list",
+        "beta-reader-list/",
+        views.BetaReaderListCreateView.as_view(),
+        name="beta-reader-list-html",
     ),
     path(
         "beta-reader-applications/<int:pk>/",

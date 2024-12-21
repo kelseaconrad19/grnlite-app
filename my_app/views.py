@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.views.generic import ListView
 
 # from rest_framework.decorators import api_view, permission_classes
 from social_django.utils import load_strategy
@@ -23,6 +24,7 @@ from .models import (
     ResourceInteraction,
     Notification,
     BetaReaderApplication,
+    BetaReader,
 )
 from .serializers import (
     UserSerializer,
@@ -83,7 +85,7 @@ def reader_resource_library(request):
 
 
 def beta_reader_training(request):
-    return render(request, "Reader_Dashboard/beta-reader-training.html")
+    return render(request, "Author_Dashboard/beta-reader-training.html")
 
 
 def beta_reader_performance_metrics(request):
@@ -109,6 +111,11 @@ def my_books(request):
 
 def find_beta_readers(request):
     return render(request, "Author_Dashboard/beta-reader-list.html")
+
+
+def beta_reader_list(request):
+    beta_readers = BetaReader.objects.all()
+    return render(request, "beta-reader-list.html", {"beta_readers": beta_readers})
 
 
 def manuscript_submission(request):
@@ -339,6 +346,13 @@ class NotificationDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 # Beta Reader Application Views
+
+
+class BetaReaderListCreateView(ListView):
+    model = BetaReader
+    template_name = "beta-reader-list.html"
+
+
 class BetaReaderApplicationListCreateView(generics.ListCreateAPIView):
     queryset = BetaReaderApplication.objects.all()
     serializer_class = BetaReaderApplicationSerializer

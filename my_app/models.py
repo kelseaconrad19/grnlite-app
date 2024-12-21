@@ -335,6 +335,33 @@ class BetaReaderApplication(models.Model):
     )
 
 
+class BetaReader(models.Model):
+    user = models.OneToOneField(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="beta_reader_profile",
+        help_text="The user who is a beta reader",
+    )
+    experience = models.TextField(
+        null=True, blank=True, help_text="Summary of the beta reader's experience"
+    )
+    genres = models.ManyToManyField(
+        "Genre",
+        related_name="beta_readers",
+        blank=True,
+        help_text="Genres the beta reader is interested in",
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True, help_text="When the beta reader profile was created"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True, help_text="When the beta reader profile was last updated"
+    )
+
+    def __str__(self):
+        return self.user.username
+
+
 def __str__(self):
     return f"{self.beta_reader.username} applied for {self.manuscript.title}"
 
