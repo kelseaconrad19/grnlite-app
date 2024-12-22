@@ -157,15 +157,37 @@ SOCIALACCOUNT_PROVIDERS = {
         "AUTH_PARAMS": {
             "access_type": "online",
         },
-        "OAUTH_PKCE_ENABLED": True,
+        "OAUTH_PKCE_ENABLED": True,  # Enables PKCE for Google OAuth
     },
     "auth0": {
-        "DOMAIN": AUTH0_DOMAIN,
-        "CLIENT_ID": AUTH0_CLIENT_ID,
-        "SECRET": AUTH0_CLIENT_SECRET,
-        "SCOPE": ["openid", "profile", "email"],
+        "DOMAIN": os.getenv("AUTH0_DOMAIN"),  # Environment variable for Auth0 domain
+        "CLIENT_ID": os.getenv(
+            "AUTH0_CLIENT_ID"
+        ),  # Environment variable for Auth0 client ID
+        "SECRET": os.getenv(
+            "AUTH0_CLIENT_SECRET"
+        ),  # Environment variable for Auth0 client secret
+        "SCOPE": ["openid", "profile", "email"],  # Scopes for Auth0
     },
 }
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+    },
+}
+
 
 SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_details",
@@ -185,7 +207,9 @@ SOCIAL_AUTH_PIPELINE = (
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://grnlite_user:0v1tIbQ1j9I5Q62nyKsHgh2wICWGWCbE@dpg-ct53k8rv2p9s738tra60-a.ohio-postgres.render.com/grnlite_db"
+        default=os.getenv(
+            "DATABASE_URL"
+        )  # Fetch DATABASE_URL from environment variables
     )
 }
 
