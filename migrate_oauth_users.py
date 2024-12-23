@@ -1,7 +1,7 @@
 import os
 
 os.environ.setdefault(
-    "DJANGO_SETTINGS_MODULE", "grnlite.settings"
+    "DJANGO_SETTINGS_MODULE", "my_app.settings"
 )  # Replace with your project settings
 import django
 
