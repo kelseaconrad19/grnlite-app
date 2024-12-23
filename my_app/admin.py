@@ -29,8 +29,13 @@ class KeywordAdmin(admin.ModelAdmin):
 
 @admin.register(FeedbackQuestion)
 class FeedbackQuestionAdmin(admin.ModelAdmin):
-    list_display = ("question_text", "category", "is_active")
-    list_filter = ("category", "is_active")
+    list_display = ("question_text", "is_active")
+    list_filter = ("is_active",)
+    
+# @admin.register(FeedbackCategory)
+# class FeedbackCategoryAdmin(admin.ModelAdmin):
+#     list_display = ("name", "is_active")
+#     list_filter = ("name", "is_active")
 
 
 @admin.register(FeedbackResponse)

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.timezone import now
-from django.utils import timezone
+from django.utils.timezone import now
 
 
 class Profile(models.Model):
@@ -58,6 +58,30 @@ class Keyword(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_category_display()})"
+    
+# class FeedbackCategory(models.Model):
+#     name = models.CharField(max_length=100, unique=True, help_text="Feedback category name")
+#     description = models.TextField(null=True, blank=True, help_text="Description of the category")
+#     is_active = models.BooleanField(default=True, help_text="Is this category active and selectable?")
+
+#     def __str__(self):
+#         return self.name
+
+class FeedbackQuestion(models.Model):
+    # category = models.ForeignKey(
+    #     'my_app.FeedbackCategory',
+    #     on_delete=models.CASCADE,
+    #     related_name="questions",
+    #     help_text="The category this question belongs to",
+    # )
+    question_text = models.TextField(help_text="The text of the feedback question")
+    is_active = models.BooleanField(default=True, help_text="Is this question active and selectable?")
+
+    def __str__(self):
+        return f"{self.question_text}"
+    
+    class Meta:
+        abstract = False
 
 
 class Manuscript(models.Model):
@@ -69,18 +93,19 @@ class Manuscript(models.Model):
     ]
 
     author = models.ForeignKey(
-        get_user_model(),
+        User,
         on_delete=models.CASCADE,
         related_name="manuscripts",
         help_text="The author of the manuscript",
     )
-    title = models.CharField(max_length=200, null=False)
-    file_path = models.URLField(null=False)
+    title = models.CharField(max_length=200)
+    file_path = models.FileField(upload_to='uploads/manuscript/% Y/% m/% d/')
     status = models.CharField(
         max_length=30,
         choices=STATUS_CHOICES,
         default="draft",
         null=False,
+        blank=True,                                                                    
         help_text="Status of the manuscript",
     )
     keywords = models.ManyToManyField(
@@ -89,33 +114,32 @@ class Manuscript(models.Model):
         blank=True,
         help_text="Keywords associated with the manuscript",
     )
+    budget = models.IntegerField(null=False, default=0)
+    beta_readers_needed = models.IntegerField(null=False, default=0)
+    cover_art = models.FileField(null=True, blank=True, upload_to='uploads/cover_art/% Y/% m/% d/')
+    nda_required = models.BooleanField(null=False, blank=True, default=False)
+    nda_file = models.FileField(null=True, blank=True, upload_to='uploads/nda/% Y/% m/% d/')
+    plot_summary = models.TextField(max_length=1000, null=True)
+    created_at = models.DateTimeField(default=now, help_text="Timestamp of creation")
+    updated_at = models.DateTimeField(default=now, help_text="Timestamp of last update")
+    
+    # New fields for feedback categories and questions
+    # feedback_categories = models.ManyToManyField(
+    #     FeedbackCategory,
+    #     related_name="manuscripts",
+    #     blank=True,
+    #     help_text="Selected feedback categories for this manuscript",
+    # )
+    # feedback_questions = models.ManyToManyField(
+    #     FeedbackQuestion,
+    #     related_name="manuscripts",
+    #     blank=True,
+    #     help_text="Selected feedback questions for this manuscript",
+    # )
+    
 
     def __str__(self):
         return self.title
-
-
-class FeedbackQuestion(models.Model):
-    CATEGORY_CHOICES = [
-        ("developmental", "Developmental Edits"),
-        ("line_editing", "Line Editing"),
-        ("copy_editing", "Copy Editing"),
-    ]
-
-    category = models.CharField(
-        max_length=20,
-        choices=CATEGORY_CHOICES,
-        null=False,
-        help_text="Category of the feedback question",
-    )
-    question_text = models.TextField(
-        null=False, help_text="The text of the feedback question"
-    )
-    is_active = models.BooleanField(
-        default=True, help_text="Whether this question is currently in use"
-    )
-
-    def __str__(self):
-        return f"{self.get_category_display()}: {self.question_text}"
 
 
 class ManuscriptFeedbackPreference(models.Model):

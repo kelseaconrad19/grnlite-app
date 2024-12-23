@@ -1,14 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from .forms import ManuscriptSubmissionForm
 
 # from rest_framework.decorators import api_view, permission_classes
 from social_django.utils import load_strategy
 from social_core.backends.google import GoogleOAuth2
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.decorators import login_required
+
 
 
 from .models import (
@@ -110,9 +113,25 @@ def my_books(request):
 def find_beta_readers(request):
     return render(request, "Author_Dashboard/beta-reader-list.html")
 
+def manuscript_success(request):
+    return render(request, 'Author_Dashboard/manuscript-success.html')
 
-def manuscript_submission(request):
-    return render(request, "Author_Dashboard/manuscript-submission.html")
+@login_required
+def create_manuscript(request):
+    if request.method == "POST":
+        form = ManuscriptSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            manuscript = form.save(commit=False)  # Prevent immediate database save
+            manuscript.author = request.user     # Set the author to the logged-in user
+            manuscript.save()                    # Save to the database
+            form.save_m2m()  # Save many-to-many relationships like keywords
+            return redirect('my_app:manuscript-success')  # Redirect to the dashboard
+    else:
+        form = ManuscriptSubmissionForm()
+
+    return render(request, 'Author_Dashboard/manuscript-submission2.html', {'form': form})
+
+
 
 
 def feedback_summary(request):
