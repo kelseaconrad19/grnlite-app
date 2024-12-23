@@ -84,6 +84,10 @@ class Manuscript(models.Model):
         null=False,
         help_text="Status of the manuscript",
     )
+    nda_required = models.BooleanField(
+        default=False,  # Default value to avoid NOT NULL constraint errors
+        help_text="Indicates if an NDA is required for this manuscript",
+    )
     keywords = models.ManyToManyField(
         Keyword,
         related_name="manuscripts",

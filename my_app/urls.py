@@ -18,6 +18,7 @@ urlpatterns = [
     path("users/<int:pk>/", views.UserDetailView.as_view(), name="user-detail"),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
+    path("auth/", include("social_django.urls", namespace="social")),
     # Google OAuth2 URLs
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),

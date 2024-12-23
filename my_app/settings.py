@@ -77,7 +77,22 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "my_app.urls"
 
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.facebook.FacebookOAuth2"
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 SITE_ID = 1
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIALACCOUNT_EMAIL_REQUIRED = False
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 TEMPLATES = [
     {
@@ -134,14 +149,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv(
     "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", "default-value-or-None"
 )
 
-AUTHENTICATION_BACKENDS = (
-    "social_core.backends.google.GoogleOAuth2",
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-)
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+# LOGIN_REDIRECT_URL = "/"
+# LOGOUT_REDIRECT_URL = "/"
 
 AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN", "default-value-or-None")
 AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID", "default-value-or-None")
