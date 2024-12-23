@@ -79,7 +79,7 @@ ROOT_URLCONF = "my_app.urls"
 
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.google.GoogleOAuth2",
-    "social_core.backends.facebook.FacebookOAuth2"
+    "social_core.backends.facebook.FacebookOAuth2",
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
@@ -191,7 +191,7 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {
+        "social_core": {
             "handlers": ["console"],
             "level": "DEBUG",
         },
@@ -225,6 +225,9 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT"),
     }
 }
+
+print(f"DATABASE: {os.getenv('DB_NAME')} USER: {os.getenv('DB_USER')}")
+print(f"GOOGLE KEY: {os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')}")
 
 
 # Password validation
