@@ -62,6 +62,9 @@ class Keyword(models.Model):
 
 class Manuscript(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(
+        auto_now=True, help_text="The last time the manuscript was updated"
+    )
     STATUS_CHOICES = [
         ("draft", "Draft"),
         ("submitted", "Submitted"),
