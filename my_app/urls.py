@@ -201,7 +201,7 @@ urlpatterns = [
     path(
         "manuscript-submission/",
         views.create_manuscript,
-        name="create_manuscript",
+        name="manuscript-submission-html",
     ),
     path('manuscript-success/', views.manuscript_success, name='manuscript-success'),
     path(
