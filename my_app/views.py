@@ -91,7 +91,7 @@ def reader_resource_library(request):
 
 
 def beta_reader_training(request):
-    return render(request, "Author_Dashboard/beta-reader-training.html")
+    return render(request, "Reader_Dashboard/beta-reader-training.html")
 
 
 def beta_reader_performance_metrics(request):
