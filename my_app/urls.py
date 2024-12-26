@@ -33,6 +33,11 @@ urlpatterns = [
     ),
     # Manuscript URLs
     path(
+        "manuscrtipt-submission/",
+        views.manuscript_submission,
+        name="manuscript-submission-html",
+    ),
+    path(
         "manuscripts/",
         views.ManuscriptListCreateView.as_view(),
         name="manuscript-list-create",
