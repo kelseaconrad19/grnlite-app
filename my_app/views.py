@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.response import Response
@@ -105,9 +105,21 @@ def reader_settings(request):
 def author_dashboard(request):
     return render(request, "author-dashboard.html")
 
-
+@login_required
 def my_books(request):
-    return render(request, "Author_Dashboard/my-books.html")
+    manuscripts = Manuscript.objects.filter(author=request.user)
+    return render(request, "Author_Dashboard/my-books.html", {'manuscripts':manuscripts})
+
+@login_required
+def view_project(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
+    return render(request, 'Author_Dashboard/view-project.html', {'manuscript': manuscript})
+
+@login_required
+def delete_manuscript(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
+    manuscript.delete()
+    return redirect('my_app:my-books-html')
 
 
 def find_beta_readers(request):
@@ -130,8 +142,6 @@ def create_manuscript(request):
         form = ManuscriptSubmissionForm()
 
     return render(request, 'Author_Dashboard/manuscript-submission2.html', {'form': form})
-
-
 
 
 def feedback_summary(request):

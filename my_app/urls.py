@@ -193,6 +193,8 @@ urlpatterns = [
         views.author_profile, 
         name="author-profile-html"
     ),
+    path('manuscripts/<int:manuscript_id>/view/', views.view_project, name='view-project'),
+    path('manuscripts/<int:manuscript_id>/delete/', views.delete_manuscript, name='delete-manuscript'),
     path(
         "feedback-summary/", 
         views.feedback_summary, 

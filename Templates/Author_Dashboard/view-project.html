@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>View Project - {{ manuscript.title }}</title>
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}" />
+	</head>
+	<body>
+		<div class="dashboard-container">
+			{% include 'author-sidebar.html' %}
+			<main class="main-content">
+				<h1>{{ manuscript.title }}</h1>
+				<p><strong>Plot Summary:</strong> {{ manuscript.plot_summary }}</p>
+				{% if manuscript.cover_art %}
+				<img
+					src="{{ manuscript.cover_art.url }}"
+					alt="{{ manuscript.title }} Cover Art"
+				/>
+				{% endif %}
+				<a href="{{ manuscript.file_path.url }}" download
+					>Download Manuscript</a
+				>
+			</main>
+		</div>
+	</body>
+</html>
