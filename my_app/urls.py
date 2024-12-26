@@ -169,9 +169,10 @@ urlpatterns = [
     path("feedback-summary/", views.feedback_summary, name="feedback-summary-html"),
     path(
         "manuscript-submission/",
-        views.manuscript_submission,
-        name="manuscript-submission-html",
+        views.create_manuscript,
+        name="create_manuscript",
     ),
+    path("manuscript-success/", views.manuscript_success, name="manuscript-success"),
     path(
         "author-resource-library/",
         views.author_resource_library,
@@ -193,3 +194,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

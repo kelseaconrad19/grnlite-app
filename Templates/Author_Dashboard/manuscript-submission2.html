@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Create Manuscript</title>
+		<link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}" />
+	</head>
+	<body>
+		<h1>Create a New Manuscript</h1>
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %} {{ form.as_p }}
+			<!-- Renders the form fields -->
+			<button type="submit">Submit</button>
+		</form>
+	</body>
+</html>
