@@ -66,8 +66,12 @@ def logout(request):
 
 
 # Reader Dashboard Views
+# def reader_dashboard(request):
+#     return render(request, "reader-dashboard.html")
+
+
 def reader_dashboard(request):
-    return render(request, "reader-dashboard.html")
+    return render(request, "Reader_Dashboard/reader-dashboard.html")
 
 
 def available_books(request):

@@ -145,6 +145,7 @@ urlpatterns = [
     path("available-books/", views.available_books, name="available-books-html"),
     path("reader-feedback/", views.reader_feedback, name="reader-feedback-html"),
     path("reader-profile/", views.reader_profile, name="reader-profile-html"),
+    path("reader-dashboard/", views.reader_dashboard, name="reader-dashboard-html"),
     path(
         "reader-resource-library/",
         views.reader_resource_library,
@@ -176,11 +177,7 @@ urlpatterns = [
     path("find-beta-readers/", views.find_beta_readers, name="find-beta-readers-html"),
     path("author-profile/", views.author_profile, name="author-profile-html"),
     path("feedback-summary/", views.feedback_summary, name="feedback-summary-html"),
-    path(
-        "manuscript-submission/",
-        views.create_manuscript,
-        name="create_manuscript",
-    ),
+    path("manuscript-submission/", views.create_manuscript, name="create_manuscript"),
     path("manuscript-success/", views.manuscript_success, name="manuscript-success"),
     path(
         "author-resource-library/",
