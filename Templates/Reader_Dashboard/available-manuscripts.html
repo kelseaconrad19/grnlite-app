@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grn Lite - Available Books</title>
+    <title>Grn Lite - Available Manuscripts</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            fetch('/api/books/')
+            fetch('/api/manuscripts/')
                 .then(response => response.json())
-                .then(books => {
-                    renderBooks(books);
+                .then(manuscripts => {
+                    renderManuscripts(manuscripts);
                 });
 
-            const renderBooks = (books) => {
-                const bookList = document.getElementById("book-list");
-                bookList.innerHTML = "";
-                if (books.length === 0) {
-                    bookList.innerHTML = "<p>No books available. Adjust your filters or check back later.</p>";
+            const renderManuscripts = (manuscripts) => {
+                const manuscriptList = document.getElementById("manuscript-list");
+                manuscriptList.innerHTML = "";
+                if (manuscripts.length === 0) {
+                    manuscriptList.innerHTML = "<p>No manuscripts available. Adjust your filters or check back later.</p>";
                     return;
                 }
 
-                books.forEach((book) => {
-                    const bookItem = document.createElement("div");
-                    bookItem.classList.add("book-item");
-                    bookItem.innerHTML = `
-                        <img src="${book.cover}" alt="${book.title} Cover">
-                        <h4>${book.title}</h4>
-                        <p><strong>Genre:</strong> ${book.genre}</p>
-                        <p><strong>Length:</strong> ${book.length} pages</p>
-                        <p><strong>Chapters:</strong> ${book.chapters}</p>
-                        <p>${book.description}</p>
-                        <button class="btn btn-secondary" onclick="provideFeedback(${book.id})">Provide Feedback</button>
+                manuscripts.forEach((manuscript) => {
+                    const manuscriptItem = document.createElement("div");
+                    manuscriptItem.classList.add("manuscript-item");
+                    manuscriptItem.innerHTML = `
+                        <img src="${manuscript.cover}" alt="${manuscript.title} Cover">
+                        <h4>${manuscript.title}</h4>
+                        <p><strong>Genre:</strong> ${manuscript.genre}</p>
+                        <p><strong>Length:</strong> ${manuscript.length} pages</p>
+                        <p><strong>Chapters:</strong> ${manuscript.chapters}</p>
+                        <p>${manuscript.description}</p>
+                        <button class="btn btn-secondary" onclick="provideFeedback(${manuscript.id})">Provide Feedback</button>
                     `;
-                    bookList.appendChild(bookItem);
+                    manuscriptList.appendChild(manuscriptItem);
                 });
             };
 
-            const provideFeedback = (bookId) => {
-                window.location.href = `/feedback/${bookId}/`;
+            const provideFeedback = (manuscriptId) => {
+                window.location.href = `/feedback/${manuscriptId}/`;
             };
         });
     </script>
@@ -54,7 +54,7 @@
             <nav class="sidebar-nav">
                 <a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
                 <a href="{% url 'my_app:reader-dashboard-html' %}" class="nav-item active">Dashboard</a>
-                <a href="{% url 'my_app:available-books-html' %}" class="nav-item">Available Books</a>
+                <a href="{% url 'my_app:available-manuscripts-html' %}" class="nav-item">Available Manuscripts</a>
                 <a href="{% url 'my_app:reader-feedback-html' %}" class="nav-item">Feedback</a>
                 <a href="{% url 'my_app:reader-profile-html' %}" class="nav-item">Profile</a>
                 <a href="{% url 'my_app:reader-resource-library-html' %}" class="nav-item">Resource Library</a>
@@ -69,13 +69,13 @@
         <!-- Main Content -->
         <main class="main-content">
             <div class="content-header">
-                <h1>Available Books</h1>
-                <p>Browse and select books for feedback. Use filters to refine your search.</p>
+                <h1>Available Manuscripts</h1>
+                <p>Browse and select manuscripts for feedback. Use filters to refine your search.</p>
             </div>
 
             <!-- Filters Section -->
             <div class="filters">
-                <h3>Filter Books</h3>
+                <h3>Filter Manuscripts</h3>
                 <form id="filter-form" class="form-group">
                     <div class="form-group">
                         <label for="filter-genre">Genre:</label>
@@ -104,10 +104,10 @@
                 </form>
             </div>
 
-            <!-- Available Books Section -->
-            <div id="book-list" class="book-list">
-                <h3>Available Books</h3>
-                <!-- Books will be dynamically added here -->
+            <!-- Available Manuscripts Section -->
+            <div id="manuscript-list" class="manuscript-list">
+                <h3>Available Manuscripts</h3>
+                <!-- Manuscripts will be dynamically added here -->
             </div>
         </main>
     </div>

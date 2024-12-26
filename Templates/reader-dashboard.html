@@ -55,7 +55,7 @@
             <nav class="sidebar-nav">
                 <a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
                 <a href="{% url 'my_app:reader-dashboard-html' %}" class="nav-item active">Dashboard</a>
-                <a href="{% url 'my_app:available-books-html' %}" class="nav-item">Available Books</a>
+                <a href="{% url 'my_app:available-manuscripts-html' %}" class="nav-item">Available Manuscripts</a>
                 <a href="{% url 'my_app:reader-feedback-html' %}" class="nav-item">Feedback</a>
                 <a href="{% url 'my_app:reader-profile-html' %}" class="nav-item">Profile</a>
                 <a href="{% url 'my_app:reader-resource-library-html' %}" class="nav-item">Resource Library</a>
@@ -78,9 +78,9 @@
                 <div class="card">
                     <h3>Available Manuscripts</h3>
                     
-                    <p>View and filter books available for review.</p>
+                    <p>View and filter manuscripts available for review.</p>
                     <button class="btn btn-secondary">
-                        <a href="{% url 'my_app:available-books-html' %}" style="color: white; text-decoration: none;">View Projects</a>
+                        <a href="{% url 'my_app:available-manuscripts-html' %}" style="color: white; text-decoration: none;">View Projects</a>
                     </button>
                     <div id="manuscript-list" class="manuscript-list">
                         <!-- Manuscripts will be dynamically populated here -->
