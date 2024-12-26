@@ -167,6 +167,11 @@ urlpatterns = [
         name="reader-payment-page-html",
     ),
     path("reader-settings/", views.reader_settings, name="reader-settings-html"),
+    path("feedback/<int:book_id>/", views.feedback_form, name="feedback_form"),
+    path("feedback-success/", views.feedback_success, name="feedback-success"),
+    path("api/books/", views.get_books, name="get_books"),
+    path("api/feedback/", views.get_feedback, name="get_feedback"),
+    path("api/manuscripts/", views.get_manuscripts, name="get_manuscripts"),
     # Author Dashboard URLs
     re_path(
         r"^author-dashboard\.html$",

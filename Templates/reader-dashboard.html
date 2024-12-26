@@ -8,30 +8,49 @@
 
     <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <script>
-        // JavaScript to dynamically add notifications
-document.addEventListener("DOMContentLoaded", () => {
-    const notifications = [
-        "You’ve been invited to review: 'The Next Bestseller'.",
-        "Feedback reminder: 'A Tale of Two Worlds'.",
-        "New resource added: 'Writing Tips Guide'."
-    ];
+        document.addEventListener("DOMContentLoaded", () => {
+            const notifications = [
+                "You’ve been invited to review: 'The Next Bestseller'.",
+                "Feedback reminder: 'A Tale of Two Worlds'.",
+                "New resource added: 'Writing Tips Guide'."
+            ];
 
-    const notificationsList = document.getElementById("notifications-list");
+            const notificationsList = document.getElementById("notifications-list");
 
-    notifications.forEach((notification) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = notification;
-        notificationsList.appendChild(listItem);
-    });
-});
+            notifications.forEach((notification) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = notification;
+                notificationsList.appendChild(listItem);
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('/api/manuscripts/')
+                .then(response => response.json())
+                .then(manuscripts => {
+                    const manuscriptList = document.getElementById("manuscript-list");
+                    manuscripts.forEach(manuscript => {
+                        const listItem = document.createElement("div");
+                        listItem.classList.add("manuscript-item");
+                        listItem.innerHTML = `
+                            <img src="${manuscript.cover}" alt="${manuscript.title} Cover">
+                            <h3>${manuscript.title}</h3>
+                            <p>${manuscript.description}</p>
+                            <button onclick="location.href='/feedback/${manuscript.id}/'">Provide Feedback</button>
+                        `;
+                        manuscriptList.appendChild(listItem);
+                    });
+                });
+        });
     </script>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
+        <!-- {% include 'reader-sidebar.html' %} -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}"  alt="Grn Lite Logo">
+                <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}" alt="Grn Lite Logo">
             </div>
             <nav class="sidebar-nav">
                 <a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
@@ -52,16 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
         <main class="main-content">
             <div class="content-header">
                 <h1>Welcome Back, Beta Reader!</h1>
-                <p>View available projects, manage feedback, and connect with authors.</p>
+                <p>View available manuscripts, manage feedback, and connect with authors.</p>
             </div>
             <div class="dashboard-grid">
-                <!-- Available Projects -->
+                <!-- Available Manuscripts -->
                 <div class="card">
-                    <h3>Available Projects</h3>
+                    <h3>Available Manuscripts</h3>
+                    
                     <p>View and filter books available for review.</p>
                     <button class="btn btn-secondary">
                         <a href="{% url 'my_app:available-books-html' %}" style="color: white; text-decoration: none;">View Projects</a>
                     </button>
+                    <div id="manuscript-list" class="manuscript-list">
+                        <!-- Manuscripts will be dynamically populated here -->
+                    </div>
                 </div>
 
                 <!-- Current Feedback -->
@@ -81,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <a href="{% url 'my_app:reader-resource-library-html' %}" style="color: white; text-decoration: none;">Explore Resources</a>
                     </button>
                 </div>
+
                 <!-- Beta Reader Training Module -->
                 <div class="card">
                     <h3>Beta Reader Training Module</h3>

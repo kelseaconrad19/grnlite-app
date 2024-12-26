@@ -32,7 +32,8 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
-    "DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,grnlite.onrender.com"
+    "DJANGO_ALLOWED_HOSTS",
+    "127.0.0.1,localhost,grnlite.onrender.com,.render.com,0.0.0.0",
 ).split(",")
 
 USE_TZ = True  # Ensure this is set
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "my_app",
     "my_custom_app",
-    # 'corsheaders',
+    "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework_simplejwt",
     "rest_framework.authtoken",

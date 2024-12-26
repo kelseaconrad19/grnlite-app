@@ -5,83 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - Available Books</title>
     {% load static %}
-
     <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-    const books = [
-        {
-            id: 1,
-            title: "The Lost World",
-            genre: "Sci-Fi",
-            length: 300,
-            chapters: 20,
-            description: "A thrilling science fiction novel about time travel.",
-            cover: "https://via.placeholder.com/100"
-        },
-        {
-            id: 2,
-            title: "Unraveled Mysteries",
-            genre: "Mystery",
-            length: 250,
-            chapters: 18,
-            description: "A detective novel filled with twists and turns.",
-            cover: "https://via.placeholder.com/100"
-        }
-    ];
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('/api/books/')
+                .then(response => response.json())
+                .then(books => {
+                    renderBooks(books);
+                });
 
-    const bookList = document.getElementById("book-list");
+            const renderBooks = (books) => {
+                const bookList = document.getElementById("book-list");
+                bookList.innerHTML = "";
+                if (books.length === 0) {
+                    bookList.innerHTML = "<p>No books available. Adjust your filters or check back later.</p>";
+                    return;
+                }
 
-    const renderBooks = (filteredBooks) => {
-        bookList.innerHTML = ""; 
-        if (filteredBooks.length === 0) {
-            bookList.innerHTML = "<p>No books available. Adjust your filters or check back later.</p>";
-            return;
-        }
+                books.forEach((book) => {
+                    const bookItem = document.createElement("div");
+                    bookItem.classList.add("book-item");
+                    bookItem.innerHTML = `
+                        <img src="${book.cover}" alt="${book.title} Cover">
+                        <h4>${book.title}</h4>
+                        <p><strong>Genre:</strong> ${book.genre}</p>
+                        <p><strong>Length:</strong> ${book.length} pages</p>
+                        <p><strong>Chapters:</strong> ${book.chapters}</p>
+                        <p>${book.description}</p>
+                        <button class="btn btn-secondary" onclick="provideFeedback(${book.id})">Provide Feedback</button>
+                    `;
+                    bookList.appendChild(bookItem);
+                });
+            };
 
-        filteredBooks.forEach((book) => {
-            const bookItem = document.createElement("div");
-            bookItem.classList.add("book-item");
-            bookItem.innerHTML = `
-                <img src="${book.cover}" alt="${book.title} Cover">
-                <h4>${book.title}</h4>
-                <p><strong>Genre:</strong> ${book.genre}</p>
-                <p><strong>Length:</strong> ${book.length} pages</p>
-                <p><strong>Chapters:</strong> ${book.chapters}</p>
-                <p>${book.description}</p>
-                <button class="btn btn-secondary" onclick="provideFeedback(${book.id})">Provide Feedback</button>
-            `;
-            bookList.appendChild(bookItem);
+            const provideFeedback = (bookId) => {
+                window.location.href = `/feedback/${bookId}/`;
+            };
         });
-    };
-
-    const applyFilters = () => {
-        const genre = document.getElementById("filter-genre").value;
-        const keywords = document.getElementById("filter-keywords").value.toLowerCase();
-        const length = parseInt(document.getElementById("filter-length").value, 10);
-        const chapters = parseInt(document.getElementById("filter-chapters").value, 10);
-
-        const filteredBooks = books.filter((book) => {
-            const matchesGenre = genre ? book.genre === genre : true;
-            const matchesKeywords = keywords
-                ? book.title.toLowerCase().includes(keywords) || book.description.toLowerCase().includes(keywords)
-                : true;
-            const matchesLength = length ? book.length <= length : true;
-            const matchesChapters = chapters ? book.chapters <= chapters : true;
-
-            return matchesGenre && matchesKeywords && matchesLength && matchesChapters;
-        });
-
-        renderBooks(filteredBooks);
-    };
-
-    const provideFeedback = (bookId) => {
-        alert(`You selected book ID: ${bookId} for feedback.`);
-    };
-
-    renderBooks(books);
-});
-
     </script>
 </head>
 <body>
@@ -103,7 +63,7 @@
                 <a href="{% url 'my_app:reader-payment-page-html' %}" class="nav-item">Payments</a>
                 <a href="{% url 'my_app:reader-settings-html' %}" class="nav-item">Settings</a>
                 <a href="{% url 'my_app:logout' %}" class="nav-item">Logout</a>
-            </nav> 
+            </nav>
         </aside>
 
         <!-- Main Content -->

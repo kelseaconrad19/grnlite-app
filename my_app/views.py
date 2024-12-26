@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.response import Response
@@ -6,6 +6,10 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .forms import ManuscriptSubmissionForm
 from django.views.generic import ListView
+from django.http import JsonResponse
+from .models import Manuscript, Book, Feedback
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # from rest_framework.decorators import api_view, permission_classes
 from social_django.utils import load_strategy
@@ -115,6 +119,18 @@ def my_books(request):
     return render(request, "Author_Dashboard/my-books.html")
 
 
+def get_books(request):
+    books = Manuscript.objects.all().values(
+        "id", "title", "genre", "length", "chapters", "description", "cover"
+    )
+    return JsonResponse(list(books), safe=False)
+
+
+def get_manuscripts(request):
+    manuscripts = Manuscript.objects.all().values("id", "title", "description", "cover")
+    return JsonResponse(list(manuscripts), safe=False)
+
+
 def find_beta_readers(request):
     return render(request, "Author_Dashboard/beta-reader-list.html")
 
@@ -143,6 +159,75 @@ def create_manuscript(request):
     return render(
         request, "Author_Dashboard/manuscript-submission2.html", {"form": form}
     )
+
+
+def feedback_form(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == "POST":
+        feedback_data = request.POST  # Get all POST data
+
+        # Create a new Feedback instance
+        feedback = Feedback.objects.create(
+            book=book,
+            user=request.user,
+            plot=feedback_data.get("plot"),
+            characters=feedback_data.get("characters"),
+            pacing=feedback_data.get("pacing"),
+            worldbuilding=feedback_data.get("worldbuilding"),
+            comments=feedback_data.get("comments"),
+            # ... any other fields you want to save ...
+        )
+
+        # Process inManuscriptComments (assuming it's a JSON string)
+        in_manuscript_comments = feedback_data.get("inManuscriptComments")
+        if in_manuscript_comments:
+            # ... logic to parse and store inManuscriptComments ...
+            # (This depends on your data structure and how you want to store it)
+            pass
+
+        # Option 1: Redirect to a success page
+        return redirect("feedback_success")
+
+        # Option 2: Return a JSON response (for AJAX)
+        # return JsonResponse({'success': True})
+
+    return render(request, "reader_feedback.html", {"book": book})
+
+
+@csrf_exempt
+@login_required
+def submit_feedback(request):
+    if request.method == "POST":
+        manuscript_id = request.POST.get("manuscript")
+        plot_feedback = request.POST.get("plot")
+        characters_feedback = request.POST.get("characters")
+        pacing_feedback = request.POST.get("pacing")
+        worldbuilding_feedback = request.POST.get("worldbuilding")
+        additional_comments = request.POST.get("comments")
+
+        manuscript = Manuscript.objects.get(id=manuscript_id)
+        feedback = Feedback.objects.create(
+            manuscript=manuscript,
+            reader=request.user,
+            plot=plot_feedback,
+            characters=characters_feedback,
+            pacing=pacing_feedback,
+            worldbuilding=worldbuilding_feedback,
+            comments=additional_comments,
+        )
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False}, status=400)
+
+
+def feedback_success(request):
+    return render(request, "feedback_success.html")
+
+
+def get_books(request):
+    books = Book.objects.all()
+    book_list = [{"id": book.id, "title": book.title} for book in books]
+    return JsonResponse(book_list, safe=False)
 
 
 def feedback_summary(request):
