@@ -135,6 +135,10 @@ def find_beta_readers(request):
     return render(request, "Author_Dashboard/beta-reader-list.html")
 
 
+def beta_reader_list(request):
+    return render(request, "Author_Dashboard/beta-reader-list.html")
+
+
 def manuscript_submission(request):
     return render(request, "Author_Dashboard/manuscript-submission.html")
 
