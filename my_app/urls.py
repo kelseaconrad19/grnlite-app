@@ -183,6 +183,7 @@ urlpatterns = [
         name="author-dashboard-html",
     ),
     path("my-manuscripts/", views.my_manuscripts, name="my-manuscripts-html"),
+    path("my-books/", views.my_books, name="my-books-html"),
     path("find-beta-readers/", views.find_beta_readers, name="find-beta-readers-html"),
     path("author-profile/", views.author_profile, name="author-profile-html"),
     path("feedback-summary/", views.feedback_summary, name="feedback-summary-html"),
