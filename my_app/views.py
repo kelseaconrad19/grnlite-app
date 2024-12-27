@@ -143,8 +143,8 @@ def manuscript_success(request):
     return render(request, "Author_Dashboard/manuscript-success.html")
 
 
-def my_books_view(request):
-    return render(request, "my-books.html")
+def my_books(request):
+    return render(request, "Author_Dashboard/my-books.html")
 
 
 @login_required
