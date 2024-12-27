@@ -174,7 +174,7 @@ urlpatterns = [
     path("feedback/<int:manuscript_id>/", views.feedback_form, name="feedback_form"),
     path("feedback-success/", views.feedback_success, name="feedback-success"),
     path("api/manuscripts/", views.get_manuscripts, name="get_manuscripts"),
-    path("api/feedback/", views.get_feedback, name="get_feedback"),
+    path("api/feedback/", views.reader_feedback, name="reader_feedback"),
     path("api/manuscripts/", views.get_manuscripts, name="get_manuscripts"),
     # Author Dashboard URLs
     re_path(

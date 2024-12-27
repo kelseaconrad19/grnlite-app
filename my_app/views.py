@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .forms import ManuscriptSubmissionForm
 from django.views.generic import ListView
 from django.http import JsonResponse
-from .models import Manuscript, Book, Feedback
+from .models import Manuscript, Feedback
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
@@ -78,8 +78,8 @@ def reader_dashboard(request):
     return render(request, "reader-dashboard.html")
 
 
-def available_books(request):
-    return render(request, "Reader_Dashboard/available-books.html")
+def available_manuscripts(request):
+    return render(request, "Reader_Dashboard/available-manuscripts.html")
 
 
 def reader_feedback(request):
@@ -115,15 +115,15 @@ def author_dashboard(request):
     return render(request, "author-dashboard.html")
 
 
-def my_books(request):
-    return render(request, "Author_Dashboard/my-books.html")
+def my_manuscripts(request):
+    return render(request, "Author_Dashboard/my-manuscripts.html")
 
 
-def get_books(request):
-    books = Manuscript.objects.all().values(
+def get_manuscripts(request):
+    manuscripts = Manuscript.objects.all().values(
         "id", "title", "genre", "length", "chapters", "description", "cover"
     )
-    return JsonResponse(list(books), safe=False)
+    return JsonResponse(list(manuscripts), safe=False)
 
 
 def get_manuscripts(request):
@@ -161,15 +161,15 @@ def create_manuscript(request):
     )
 
 
-def feedback_form(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
+def feedback_form(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id)
 
     if request.method == "POST":
         feedback_data = request.POST  # Get all POST data
 
         # Create a new Feedback instance
         feedback = Feedback.objects.create(
-            book=book,
+            manuscript=manuscript,
             user=request.user,
             plot=feedback_data.get("plot"),
             characters=feedback_data.get("characters"),
@@ -192,7 +192,7 @@ def feedback_form(request, book_id):
         # Option 2: Return a JSON response (for AJAX)
         # return JsonResponse({'success': True})
 
-    return render(request, "reader_feedback.html", {"book": book})
+    return render(request, "reader_feedback.html", {"manuscript": manuscript})
 
 
 @csrf_exempt
@@ -224,10 +224,12 @@ def feedback_success(request):
     return render(request, "feedback_success.html")
 
 
-def get_books(request):
-    books = Book.objects.all()
-    book_list = [{"id": book.id, "title": book.title} for book in books]
-    return JsonResponse(book_list, safe=False)
+def get_manuscripts(request):
+    manuscripts = Manuscript.objects.all()
+    manuscript_list = [
+        {"id": manuscript.id, "title": manuscript.title} for manuscript in manuscripts
+    ]
+    return JsonResponse(manuscript_list, safe=False)
 
 
 def feedback_summary(request):
