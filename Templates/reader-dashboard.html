@@ -22,9 +22,7 @@
                 listItem.textContent = notification;
                 notificationsList.appendChild(listItem);
             });
-        });
 
-        document.addEventListener("DOMContentLoaded", () => {
             fetch('/api/manuscripts/')
                 .then(response => response.json())
                 .then(manuscripts => {
@@ -47,7 +45,7 @@
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
-        <!-- {% include 'reader-sidebar.html' %} -->
+        
         <aside class="sidebar">
             <div class="sidebar-header">
                 <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}" alt="Grn Lite Logo">
