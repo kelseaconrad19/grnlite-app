@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .forms import ManuscriptSubmissionForm
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from django.http import JsonResponse
 from .models import Manuscript, Feedback
 from django.views.decorators.csrf import csrf_exempt
@@ -464,6 +464,10 @@ class NotificationDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 # Beta Reader Application Views
+class BetaReaderListCreateView(CreateView):
+    template_name = "Author_Dashboard/beta-reader-list.html"
+    model = BetaReader
+    fields = "__all__"
 
 
 class BetaReaderListCreateView(ListView):

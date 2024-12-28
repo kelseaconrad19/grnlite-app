@@ -1,6 +1,12 @@
 from django.urls import path, include, re_path
 from . import views
-from .views import GoogleLoginView, UserProfileView, BetaReaderListCreateView
+from .views import (
+    GoogleLoginView,
+    UserProfileView,
+    BetaReaderListCreateView,
+    find_beta_readers,
+    beta_reader_list,
+)
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -130,6 +136,11 @@ urlpatterns = [
         "beta_reader_list/",
         BetaReaderListCreateView.as_view(),
         name="beta-reader-list-html",
+    ),
+    path("find_beta_readers/", find_beta_readers, name="find-beta-readers"),
+    # Optional: Different URL for the function-based beta_reader_list view
+    path(
+        "beta_reader_list_function/", beta_reader_list, name="beta-reader-list-function"
     ),
     path(
         "beta-reader-applications/<int:pk>/",
