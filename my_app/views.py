@@ -136,8 +136,8 @@ def find_beta_readers(request):
 
 
 def beta_reader_list(request):
-    return HttpResponse("Debug: View is called")  # Temporary debug statement
-    # return render(request, "Author_Dashboard/beta-reader-list.html")
+    # return HttpResponse("Debug: View is called")  # Temporary debug statement
+    return render(request, "Author_Dashboard/beta-reader-list.html")
 
 
 def manuscript_submission(request):
