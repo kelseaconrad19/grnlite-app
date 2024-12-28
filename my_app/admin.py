@@ -1,4 +1,5 @@
 from django.contrib import admin
+from allauth.socialaccount.models import SocialAccount
 from .models import (
     Manuscript,
     Profile,
@@ -10,7 +11,17 @@ from .models import (
     Resource,
     BetaReaderApplication,
     ResourceInteraction,
+    MyModel,
 )
+
+
+# admin.site.register(SocialAccount)
+
+
+# admin.site.register(MyModel)
+@admin.register(MyModel)
+class MyModelAdmin(admin.ModelAdmin):
+    list_display = ["field1"]
 
 
 @admin.register(Manuscript)
@@ -31,11 +42,6 @@ class KeywordAdmin(admin.ModelAdmin):
 class FeedbackQuestionAdmin(admin.ModelAdmin):
     list_display = ("question_text", "is_active")
     list_filter = ("is_active",)
-    
-# @admin.register(FeedbackCategory)
-# class FeedbackCategoryAdmin(admin.ModelAdmin):
-#     list_display = ("name", "is_active")
-#     list_filter = ("name", "is_active")
 
 
 @admin.register(FeedbackResponse)

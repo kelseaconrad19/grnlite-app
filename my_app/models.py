@@ -41,6 +41,13 @@ class Profile(models.Model):
     )
 
 
+class MyModel(models.Model):
+    field1 = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = "my_table_name"
+
+
 class Keyword(models.Model):
     name = models.CharField(
         max_length=100, null=False, help_text="Keyword for tagging manuscripts"
