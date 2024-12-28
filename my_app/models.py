@@ -2,7 +2,25 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.timezone import now
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.timezone import now
+
+
+class CustomUser(AbstractUser):
+    groups = models.ManyToManyField(Group, related_name="customuser_set", blank=True)
+    user_permissions = models.ManyToManyField(
+        Permission, related_name="customuser_set", blank=True
+    )
+
+
+class CustomUserGroup(models.Model):
+    custom_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+
+class CustomUserPermission(models.Model):
+    custom_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
 
 
 class Profile(models.Model):

@@ -146,6 +146,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv(
     "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", "default-value-or-None"
 )
 
+AUTH_USER_MODEL = "my_app.CustomUser"
 
 # LOGIN_REDIRECT_URL = "/"
 # LOGOUT_REDIRECT_URL = "/"
