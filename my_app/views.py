@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .forms import ManuscriptSubmissionForm
 from django.views.generic import ListView, CreateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Manuscript, Feedback
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -136,7 +136,8 @@ def find_beta_readers(request):
 
 
 def beta_reader_list(request):
-    return render(request, "Author_Dashboard/beta-reader-list.html")
+    return HttpResponse("Debug: View is called")  # Temporary debug statement
+    # return render(request, "Author_Dashboard/beta-reader-list.html")
 
 
 def manuscript_submission(request):
