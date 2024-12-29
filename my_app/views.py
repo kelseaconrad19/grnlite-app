@@ -484,3 +484,12 @@ class BetaReaderApplicationListCreateView(generics.ListCreateAPIView):
 class BetaReaderApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BetaReaderApplication.objects.all()
     serializer_class = BetaReaderApplicationSerializer
+
+
+from django.template.loader import get_template
+
+try:
+    get_template("Author_Dashboard/beta-reader-list.html")
+    print("Template exists and is accessible.")
+except Exception as e:
+    print(f"Error: {e}")
