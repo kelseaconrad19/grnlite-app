@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.response import Response
@@ -114,6 +114,21 @@ def reader_settings(request):
 def author_dashboard(request):
     return render(request, "author-dashboard.html")
 
+@login_required
+def my_books(request):
+    manuscripts = Manuscript.objects.filter(author=request.user)
+    return render(request, "Author_Dashboard/my-books.html", {'manuscripts':manuscripts})
+
+@login_required
+def view_project(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
+    return render(request, 'Author_Dashboard/view-project.html', {'manuscript': manuscript})
+
+@login_required
+def delete_manuscript(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
+    manuscript.delete()
+    return redirect('my_app:my-books-html')
 
 def my_manuscripts(request):
     return render(request, "Author_Dashboard/my-manuscripts.html")

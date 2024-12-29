@@ -59,8 +59,8 @@
 					</p>
 				</div>
 
-				<!-- Add New Book Section -->
 				<!-- We don't need this section because this will be the manuscript-submission page -->
+				<!-- Add New Book Section -->
 				{% comment %}
 				<div class="add-book-section">
 					<h3>Add New Book</h3>
@@ -114,50 +114,27 @@
 				<!-- Book List Section -->
 				<div id="book-list" class="book-list">
 					<h1>My Books</h1>
-					<p>Here are all the manuscripts you have uploaded:</p>
-					<div class="books-container">
-						{% for manuscript in manuscripts %}
-						<div class="book-card">
-							<h3>{{ manuscript.title }}</h3>
-							<p>
-								<strong>Keywords:</strong> {{ manuscript.keywords.all|join:", "
-								}}
-							</p>
-							<p>
-								<strong>Plot Summary:</strong> {{ manuscript.plot_summary }}
-							</p>
-							{% if manuscript.cover_art %}
-							<img
-								src="{{ manuscript.cover_art.url }}"
-								alt="{{ manuscript.title }} Cover Art"
-							/>
-							{% endif %}
-							<a
-								href="{% url 'my_app:view-project' manuscript.id %}"
-								class="btn btn-primary"
-								>View Project</a
-							>
-							<form
-								action="{% url 'my_app:delete-manuscript' manuscript.id %}"
-								method="post"
-								style="display: inline"
-							>
-								{% csrf_token %}
-								<button type="submit" class="btn btn-danger">
-									Delete Project
-								</button>
-							</form>
-							<a href="{{ manuscript.file_path.url }}" download
-								>Download Manuscript</a
-							>
-						</div>
-						{% empty %}
-						<!-- Example book link -->
-						<p>You haven't uploaded any manuscripts yet.</p>
-						{% endfor %}
-					</div>
-				</div>
-				<!-- New books will be dynamically added here -->
+            <p>Here are all the manuscripts you have uploaded:</p>
+            <div class="books-container">
+                {% for manuscript in manuscripts %}
+                    <div class="book-card">
+                        <h3>{{ manuscript.title }}</h3>
+                        <p><strong>Keywords:</strong> {{ manuscript.keywords.all|join:", " }}</p>
+                        <p><strong>Plot Summary:</strong> {{ manuscript.plot_summary }}</p>
+                        {% if manuscript.cover_art %}
+                            <img src="{{ manuscript.cover_art.url }}" alt="{{ manuscript.title }} Cover Art">
+                        {% endif %}
+                        <a href="{% url 'my_app:view-project' manuscript.id %}" class="btn btn-primary">View Project</a>
+                        <form action="{% url 'my_app:delete-manuscript' manuscript.id %}" method="post" style="display: inline;">
+													{% csrf_token %}
+													<button type="submit" class="btn btn-danger">Delete Project</button>
+											</form>
+                        <a href="{{ manuscript.file_path.url }}" download>Download Manuscript</a>
+                    </div>
+                {% empty %}
+                    <p>You haven't uploaded any manuscripts yet.</p>
+                {% endfor %}
+            </div>
 			</main>
 		</div>
 	</body>
