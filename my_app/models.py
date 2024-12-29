@@ -224,7 +224,6 @@ class Manuscript(models.Model):
     cover_art = models.FileField(
         null=True, blank=True, upload_to="uploads/cover_art/% Y/% m/% d/"
     )
-    nda_required = models.BooleanField(null=False, blank=True, default=False)
     nda_file = models.FileField(
         null=True, blank=True, upload_to="uploads/nda/% Y/% m/% d/"
     )
