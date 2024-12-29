@@ -68,12 +68,6 @@ class Keyword(models.Model):
 #         return self.name
 
 class FeedbackQuestion(models.Model):
-    # category = models.ForeignKey(
-    #     'my_app.FeedbackCategory',
-    #     on_delete=models.CASCADE,
-    #     related_name="questions",
-    #     help_text="The category this question belongs to",
-    # )
     question_text = models.TextField(help_text="The text of the feedback question")
     is_active = models.BooleanField(default=True, help_text="Is this question active and selectable?")
 
