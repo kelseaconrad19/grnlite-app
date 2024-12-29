@@ -29,7 +29,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
-    "127.0.0.1,localhost,grnlite.onrender.com,.render.com,0.0.0.0",
+    "127.0.0.1,localhost,grnlite.onrender.com,.render.com,0.0.0.0,",
 ).split(",")
 
 USE_TZ = True  # Ensure this is set
@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.auth0",
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,9 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8000",
+    "http://localhost:8080",
+    "http://localhost:5000",
 ]
 
 # JWT SETTING
@@ -201,6 +205,7 @@ LOGGING = {
     },
 }
 
+SOCIALACCOUNT_ADAPTER = "myapp.adapters.MySocialAccountAdapter"
 
 SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_details",
