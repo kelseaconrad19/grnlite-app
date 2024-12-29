@@ -137,6 +137,7 @@ urlpatterns = [
         BetaReaderListCreateView.as_view(),
         name="beta-reader-list-html",
     ),
+    path("beta_reader_list/", views.beta_reader_list, name="beta-reader-list"),
     path("find_beta_readers/", find_beta_readers, name="find-beta-readers"),
     # Optional: Different URL for the function-based beta_reader_list view
     path(
