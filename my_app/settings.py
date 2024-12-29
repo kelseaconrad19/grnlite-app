@@ -189,6 +189,11 @@ LOGGING = {
         },
     },
     "loggers": {
+        "django.template": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
         "social_core": {
             "handlers": ["console"],
             "level": "DEBUG",
