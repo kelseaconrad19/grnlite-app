@@ -240,6 +240,22 @@ def get_manuscripts(request):
     ]
     return JsonResponse(manuscript_list, safe=False)
 
+@login_required
+def my_books(request):
+    manuscripts = Manuscript.objects.filter(author=request.user)
+    return render(request, "Author_Dashboard/my-books.html", {'manuscripts':manuscripts})
+
+@login_required
+def view_project(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
+    return render(request, 'Author_Dashboard/view-project.html', {'manuscript': manuscript})
+
+@login_required
+def delete_manuscript(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
+    manuscript.delete()
+    return redirect('my_app:my-books-html')
+
 
 def feedback_summary(request):
     return render(request, "Author_Dashboard/feedback-summary.html")

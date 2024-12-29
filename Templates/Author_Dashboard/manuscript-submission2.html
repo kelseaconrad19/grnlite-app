@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -5,11 +6,19 @@
 		<link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}" />
 	</head>
 	<body>
-		<h1>Create a New Manuscript</h1>
-		<form method="post" enctype="multipart/form-data">
-			{% csrf_token %} {{ form.as_p }}
-			<!-- Renders the form fields -->
-			<button type="submit">Submit</button>
-		</form>
+		<div class="dashboard-container">
+			<!-- Sidebar -->
+			{% include 'author-sidebar.html' %}
+			<div class="main-content">
+				<div class="content-header">
+					<h1>Create a New Manuscript</h1>
+				</div>
+				<form method="post" enctype="multipart/form-data" class="profile-form">
+					{% csrf_token %} {{ form.as_p }}
+					<!-- Renders the form fields -->
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+		</div>
 	</body>
 </html>
