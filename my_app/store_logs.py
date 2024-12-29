@@ -76,8 +76,11 @@ def main():
     token = get_oauth_token(client_id, client_secret, token_url)
     log_data = fetch_log_data(api_url, token)
 
-    for log_entry in log_data:
-        process_and_store_log(log_entry)
+    if log_data:
+        for log_entry in log_data:
+            process_and_store_log(log_entry)
+    else:
+        print("No log data found.")
 
 
 if __name__ == "__main__":
