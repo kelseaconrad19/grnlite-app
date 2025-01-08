@@ -219,6 +219,14 @@ def feedback_form(request, manuscript_id):
     return render(request, "reader_feedback.html", {"manuscript": manuscript})
 
 
+@login_required
+def active_titles_count(request):
+    """View to count active titles (draft manuscripts) for the logged-in user."""
+    draft_count = Manuscript.objects.filter(author=request.user, status="draft").count()
+    print(f"Draft Count: {draft_count}")
+    return JsonResponse({"draft_count": draft_count})
+
+
 @csrf_exempt
 @login_required
 def submit_feedback(request):

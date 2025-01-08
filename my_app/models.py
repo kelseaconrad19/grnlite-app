@@ -95,64 +95,6 @@ class Keyword(models.Model):
 #         return self.name
 
 
-class Manuscript(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(
-        auto_now=True, help_text="The last time the manuscript was updated"
-    )
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    cover = models.ImageField(upload_to="covers/")
-    STATUS_CHOICES = [
-        ("draft", "Draft"),
-        ("submitted", "Submitted"),
-        ("in_review", "In Review"),
-        ("completed", "Completed"),
-    ]
-
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="manuscripts",
-        help_text="The author of the manuscript",
-    )
-    title = models.CharField(max_length=200)
-    file_path = models.FileField(upload_to="uploads/manuscript/% Y/% m/% d/")
-    status = models.CharField(
-        max_length=30,
-        choices=STATUS_CHOICES,
-        default="draft",
-        null=False,
-        blank=True,
-        help_text="Status of the manuscript",
-    )
-    nda_required = models.BooleanField(
-        default=False,  # Default value to avoid NOT NULL constraint errors
-        help_text="Indicates if an NDA is required for this manuscript",
-    )
-    keywords = models.ManyToManyField(
-        Keyword,
-        related_name="manuscripts",
-        blank=True,
-        help_text="Keywords associated with the manuscript",
-    )
-    budget = models.IntegerField(null=False, default=0)
-    beta_readers_needed = models.IntegerField(null=False, default=0)
-    cover_art = models.FileField(
-        null=True, blank=True, upload_to="uploads/cover_art/% Y/% m/% d/"
-    )
-    nda_required = models.BooleanField(null=False, blank=True, default=False)
-    nda_file = models.FileField(
-        null=True, blank=True, upload_to="uploads/nda/% Y/% m/% d/"
-    )
-    plot_summary = models.TextField(max_length=1000, null=True)
-    created_at = models.DateTimeField(default=now, help_text="Timestamp of creation")
-    updated_at = models.DateTimeField(default=now, help_text="Timestamp of last update")
-
-    def __str__(self):
-        return self.title
-
-
 class Feedback(models.Model):
     manuscript = models.ForeignKey(
         "Manuscript", on_delete=models.CASCADE, related_name="feedbacks"
@@ -218,6 +160,7 @@ class Manuscript(models.Model):
         related_name="manuscripts",
         blank=True,
         help_text="Keywords associated with the manuscript",
+        through='Manuscript_keywords'
     )
     budget = models.IntegerField(null=False, default=0)
     beta_readers_needed = models.IntegerField(null=False, default=0)
@@ -244,7 +187,11 @@ class Manuscript(models.Model):
     #     blank=True,
     #     help_text="Selected feedback questions for this manuscript",
     # )
-
+    @classmethod
+    def count_drafts(cls, user):
+        """Count the number of manuscripts with 'draft' status for a specific user."""
+        return cls.objects.filter(author=user, status="draft").count()
+    
     def __str__(self):
         return self.title
 
@@ -261,6 +208,13 @@ class ManuscriptFeedbackPreference(models.Model):
 
     def __str__(self):
         return f"{self.manuscript.title} - {self.question.question_text}"
+    
+class Manuscript_keywords(models.Model):
+    manuscript = models.ForeignKey(Manuscript, on_delete=models.CASCADE)
+    keyword = models.ForeignKey('Keyword', on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = "my_app_manuscript_keywords"
 
 
 class FeedbackResponse(models.Model):

@@ -6,6 +6,7 @@ from .views import (
     BetaReaderListCreateView,
     find_beta_readers,
     beta_reader_list,
+    active_titles_count
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -39,11 +40,6 @@ urlpatterns = [
     ),
     # Manuscript URLs
     path(
-        "manuscrtipt-submission/",
-        views.manuscript_submission,
-        name="manuscript-submission-html",
-    ),
-    path(
         "manuscripts/",
         views.ManuscriptListCreateView.as_view(),
         name="manuscript-list-create",
@@ -53,6 +49,7 @@ urlpatterns = [
         views.ManuscriptDetailView.as_view(),
         name="manuscript-detail",
     ),
+    path("active-titles/", active_titles_count, name="active-titles"),
     # Keyword URLs
     path("keywords/", views.KeywordListCreateView.as_view(), name="keyword-list"),
     path(
