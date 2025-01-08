@@ -50,6 +50,7 @@ urlpatterns = [
         name="manuscript-detail",
     ),
     path("active-titles/", active_titles_count, name="active-titles"),
+    path("notifications/", views.get_notifications, name="notifications"),
     # Keyword URLs
     path("keywords/", views.KeywordListCreateView.as_view(), name="keyword-list"),
     path(

@@ -226,6 +226,14 @@ def active_titles_count(request):
     print(f"Draft Count: {draft_count}")
     return JsonResponse({"draft_count": draft_count})
 
+@login_required
+def get_notifications(request):
+    """View to get notifications for the logged-in user."""
+    notifications = Notification.objects.filter(user=request.user).values(
+        "id", "message", "timestamp"
+    )
+    return JsonResponse(list(notifications), safe=False)
+
 
 @csrf_exempt
 @login_required
