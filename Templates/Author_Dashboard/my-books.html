@@ -52,7 +52,7 @@
 			<!-- Main Content -->
 			<main class="main-content">
 				<div class="content-header">
-					<h1>My Books</h1>
+					<h1 class="book-list-h1" >My Books</h1>
 					<p>
 						Manage your books, view past submissions, and keep track of your
 						projects.
@@ -112,24 +112,28 @@
 				{% endcomment %}
 
 				<!-- Book List Section -->
-				<div id="book-list" class="book-list">
-					<h1>My Books</h1>
-            <p>Here are all the manuscripts you have uploaded:</p>
-            <div class="books-container">
+				<h2>Here are all the manuscripts you have uploaded:</h2>
+				<div id="book-list" class="">
+            <div class="books-container book-list">
                 {% for manuscript in manuscripts %}
-                    <div class="book-card">
-                        <h3>{{ manuscript.title }}</h3>
-                        <p><strong>Keywords:</strong> {{ manuscript.keywords.all|join:", " }}</p>
-                        <p><strong>Plot Summary:</strong> {{ manuscript.plot_summary }}</p>
-                        {% if manuscript.cover_art %}
-                            <img src="{{ manuscript.cover_art.url }}" alt="{{ manuscript.title }} Cover Art">
-                        {% endif %}
-                        <a href="{% url 'my_app:view-project' manuscript.id %}" class="btn btn-primary">View Project</a>
+									<div class="book-card">
+										<div class="book-info">
+												<h3>Title:</h3>
+													<p class="manuscript-information">{{ manuscript.title }}</p>
+												<h3>Keywords: </h3>
+												<p class="manuscript-information">{{ manuscript.keywords.all|join:", " }}</p>
+												<h3>Plot Summary:</h3>
+												<p class="manuscript-information-sm">{{ manuscript.plot_summary }}</p>
+										</div>
+                    {% if manuscript.cover_art %}
+                        <img src="{{ manuscript.cover_art.url }}" alt="{{ manuscript.title }} Cover Art">
+                    {% endif %}
+										<a href="{% url 'my_app:view-project' manuscript.id %}" class="btn btn-primary" style="font-size: 1rem;">View Book</a>
+										<a href="{{ manuscript.file_path.url }}" class="btn" style="background-color: blue; font-size: 1rem;" download>Download Book</a>
                         <form action="{% url 'my_app:delete-manuscript' manuscript.id %}" method="post" style="display: inline;">
 													{% csrf_token %}
-													<button type="submit" class="btn btn-danger">Delete Project</button>
+													<button type="submit" class="btn" style="background-color: red; color: white; padding: 10px 15px; font-size: 1rem;">Delete Book</button>
 											</form>
-                        <a href="{{ manuscript.file_path.url }}" download>Download Manuscript</a>
                     </div>
                 {% empty %}
                     <p>You haven't uploaded any manuscripts yet.</p>

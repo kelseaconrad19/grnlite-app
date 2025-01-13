@@ -112,7 +112,7 @@ def reader_settings(request):
 
 # Author Dashboard Views
 def author_dashboard(request):
-    return render(request, "author-dashboard.html")
+    return render(request, "author-dashboard.html", {"user": request.user})
 
 @login_required
 def my_books(request):
@@ -375,8 +375,6 @@ class UserProfileView(APIView):
 
 
 # User Views
-
-
 class UserListCreateView(generics.ListCreateAPIView):
     """
     GET: List all users.

@@ -12,6 +12,7 @@ from .models import (
     BetaReaderApplication,
     ResourceInteraction,
     MyModel,
+    Notification,
 )
 
 
