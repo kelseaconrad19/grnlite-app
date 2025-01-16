@@ -31,6 +31,7 @@ from .models import (
     Notification,
     BetaReaderApplication,
     BetaReader,
+    ReaderManuscript,
 )
 from .serializers import (
     UserSerializer,
@@ -124,6 +125,80 @@ def view_project(request, manuscript_id):
     manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
     return render(request, 'Author_Dashboard/view-project.html', {'manuscript': manuscript})
 
+def view_project_as_reader(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id)
+    return render(request, 'Reader_Dashboard/book-details.html', {'manuscript': manuscript})
+
+@login_required
+def choose_book(request, manuscript_id):
+    if request.method == 'POST':
+        reader = request.user
+        manuscript = get_object_or_404(Manuscript, id=manuscript_id)
+
+        existing_entry = ReaderManuscript.objects.filter(reader=reader, manuscript=manuscript).first()
+        if not existing_entry:
+            ReaderManuscript.objects.create(reader=reader, manuscript=manuscript, status='in_progress')
+
+        return redirect('my_app:reader-dashboard-html') 
+    
+@login_required
+def beta_reader_books(request):
+    reader_books = ReaderManuscript.objects.filter(reader=request.user)
+
+    return render(request, 'Reader_Dashboard/beta-reader-books.html', {
+        'reader_books': reader_books,
+    })
+    
+# @login_required
+def feedback_form(request, manuscript_id):
+    manuscript = get_object_or_404(Manuscript, id=manuscript_id)
+    questions = FeedbackQuestion.objects.filter(is_active=True)
+
+    if request.method == 'POST':
+        # Save responses for each question
+        for question in questions:
+            response_text = request.POST.get(f'question_{question.id}')
+            if response_text:
+                FeedbackResponse.objects.update_or_create(
+                    reader=request.user,
+                    manuscript=manuscript,
+                    question=question,
+                    defaults={'answer_text': response_text},
+                )
+        return redirect('my_app:beta-reader-books')  # Redirect back to the beta reader dashboard
+
+    return render(request, 'Reader_Dashboard/feedback-form.html', {
+        'manuscript': manuscript,
+        'questions': questions,
+    })
+
+@login_required
+def author_feedback(request):
+    # Fetch manuscripts authored by the logged-in user
+    manuscripts = Manuscript.objects.filter(author=request.user)
+
+    # Collect feedback responses for these manuscripts
+    feedback = FeedbackResponse.objects.filter(
+        manuscript__in=manuscripts
+    ).select_related('manuscript', 'reader', 'question')
+
+    # Group feedback by manuscript
+    feedback_by_manuscript = {}
+    for response in feedback:
+        if response.manuscript not in feedback_by_manuscript:
+            feedback_by_manuscript[response.manuscript] = []
+        feedback_by_manuscript[response.manuscript].append(response)
+    
+    # Debug the structure
+    for manuscript, feedbacks in feedback_by_manuscript.items():
+        print(f"Manuscript: {manuscript.title}")
+        for feedback in feedbacks:
+            print(f"    Question: {feedback.question.question_text}, Answer: {feedback.answer_text}")
+
+    return render(request, 'Author_Dashboard/feedback-overview.html', {
+        'feedback_by_manuscript': feedback_by_manuscript,
+    })
+
 @login_required
 def delete_manuscript(request, manuscript_id):
     manuscript = get_object_or_404(Manuscript, id=manuscript_id, author=request.user)
@@ -185,38 +260,38 @@ def create_manuscript(request):
     )
 
 
-def feedback_form(request, manuscript_id):
-    manuscript = get_object_or_404(Manuscript, id=manuscript_id)
+# def feedback_form(request, manuscript_id):
+#     manuscript = get_object_or_404(Manuscript, id=manuscript_id)
 
-    if request.method == "POST":
-        feedback_data = request.POST  # Get all POST data
+#     if request.method == "POST":
+#         feedback_data = request.POST  # Get all POST data
 
-        # Create a new Feedback instance
-        feedback = Feedback.objects.create(
-            manuscript=manuscript,
-            user=request.user,
-            plot=feedback_data.get("plot"),
-            characters=feedback_data.get("characters"),
-            pacing=feedback_data.get("pacing"),
-            worldbuilding=feedback_data.get("worldbuilding"),
-            comments=feedback_data.get("comments"),
-            # ... any other fields you want to save ...
-        )
+#         # Create a new Feedback instance
+#         feedback = Feedback.objects.create(
+#             manuscript=manuscript,
+#             user=request.user,
+#             plot=feedback_data.get("plot"),
+#             characters=feedback_data.get("characters"),
+#             pacing=feedback_data.get("pacing"),
+#             worldbuilding=feedback_data.get("worldbuilding"),
+#             comments=feedback_data.get("comments"),
+#             # ... any other fields you want to save ...
+#         )
 
-        # Process inManuscriptComments (assuming it's a JSON string)
-        in_manuscript_comments = feedback_data.get("inManuscriptComments")
-        if in_manuscript_comments:
-            # ... logic to parse and store inManuscriptComments ...
-            # (This depends on your data structure and how you want to store it)
-            pass
+#         # Process inManuscriptComments (assuming it's a JSON string)
+#         in_manuscript_comments = feedback_data.get("inManuscriptComments")
+#         if in_manuscript_comments:
+#             # ... logic to parse and store inManuscriptComments ...
+#             # (This depends on your data structure and how you want to store it)
+#             pass
 
-        # Option 1: Redirect to a success page
-        return redirect("feedback_success")
+#         # Option 1: Redirect to a success page
+#         return redirect("feedback_success")
 
-        # Option 2: Return a JSON response (for AJAX)
-        # return JsonResponse({'success': True})
+#         # Option 2: Return a JSON response (for AJAX)
+#         # return JsonResponse({'success': True})
 
-    return render(request, "reader_feedback.html", {"manuscript": manuscript})
+#     return render(request, "Reader_Dashboard/feedback-form.html", {"manuscript": manuscript})
 
 
 @login_required
@@ -267,9 +342,43 @@ def feedback_success(request):
 def get_manuscripts(request):
     manuscripts = Manuscript.objects.all()
     manuscript_list = [
-        {"id": manuscript.id, "title": manuscript.title} for manuscript in manuscripts
+        {
+            'id': manuscript.id,
+            'title': manuscript.title,
+            'author': manuscript.author.get_full_name() or manuscript.author.username,
+            'keywords': [keyword.name for keyword in manuscript.keywords.all()],
+            'plot_summary': manuscript.plot_summary,
+            'cover_art': manuscript.cover_art.url if manuscript.cover_art else None,
+            'file_path': manuscript.file_path.url if manuscript.file_path else None,
+        }
+        for manuscript in manuscripts
     ]
-    return JsonResponse(manuscript_list, safe=False)
+    return JsonResponse({'manuscripts': manuscript_list}, safe=False)
+
+def get_reader_manuscripts(request):
+    reader_manuscripts = ReaderManuscript.objects.filter(reader=request.user, status='in_progress')
+    manuscripts_data = [
+        {
+            'id': rm.manuscript.id,
+            'title': rm.manuscript.title,
+            'author': rm.manuscript.author.get_full_name() or rm.manuscript.author.username,
+            'plot_summary': rm.manuscript.plot_summary,
+            'cover_art': rm.manuscript.cover_art.url if rm.manuscript.cover_art else None,
+        }
+        for rm in reader_manuscripts
+    ]
+    return JsonResponse({'manuscripts': manuscripts_data})
+
+@csrf_exempt
+def choose_manuscript(request, manuscript_id):
+    if request.method == 'POST':
+        reader = request.user
+        manuscript = Manuscript.objects.get(id=manuscript_id)
+
+        # Create a ReaderManuscript entry
+        ReaderManuscript.objects.create(reader=reader, manuscript=manuscript, status='in_progress')
+
+        return JsonResponse({'message': 'Manuscript added to your reading list.'})
 
 @login_required
 def my_books(request):

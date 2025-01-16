@@ -157,6 +157,10 @@ urlpatterns = [
         views.available_manuscripts,
         name="available-manuscripts-html",
     ),
+    path('book-details/<int:manuscript_id>/', views.view_project_as_reader, name='view-project'),
+    path('choose-book/<int:manuscript_id>/', views.choose_book, name='choose-book'),
+    path('beta-reader-books/', views.beta_reader_books, name='beta-reader-books'),
+    path('feedback-form/<int:manuscript_id>/', views.feedback_form, name='feedback-form'),
     path("reader-feedback/", views.reader_feedback, name="reader-feedback-html"),
     path("reader-profile/", views.reader_profile, name="reader-profile-html"),
     path("reader-dashboard/", views.reader_dashboard, name="reader-dashboard-html"),
@@ -182,8 +186,12 @@ urlpatterns = [
     ),
     path("reader-settings/", views.reader_settings, name="reader-settings-html"),
     path("feedback/<int:manuscript_id>/", views.feedback_form, name="feedback_form"),
+    
     path("feedback-success/", views.feedback_success, name="feedback-success"),
     path("api/manuscripts/", views.get_manuscripts, name="get_manuscripts"),
+    path('api/reader-manuscripts/', views.get_reader_manuscripts, name='get_reader_manuscripts'),
+    path('api/choose-manuscript/<int:manuscript_id>/', views.choose_manuscript, name='choose_manuscript'),
+    path('author-feedback/', views.author_feedback, name='author-feedback'),
     path("api/feedback/", views.reader_feedback, name="reader_feedback"),
     path("api/manuscripts/", views.get_manuscripts, name="get_manuscripts"),
     # Author Dashboard URLs

@@ -34,22 +34,23 @@
 			<nav class="sidebar-nav">
 				<a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
 				<a
-					href="{% url 'my_app:author-dashboard-html' %}"
+					href="{% url 'my_app:reader-dashboard-html' %}"
 					class="nav-item"
 					>Dashboard</a
 				>
-				<a href="{% url 'my_app:manuscript-submission-html' %}" class="nav-item"
-					>Submit a Manuscript</a
+				<a href="{% url 'my_app:available-manuscripts-html' %}" class="nav-item"
+					>Available Manuscripts</a
 				>
-				<a href="{% url 'my_app:my-books-html' %}" class="nav-item">My Books</a>
-				
-				<a href="{% url 'my_app:author-feedback' %}" class="nav-item"
-					>View Feedback</a
+				<a href="{% url 'my_app:beta-reader-books' %}" class="nav-item"
+					>My Books</a
+				>
+				<a href="{% url 'my_app:reader-settings-html' %}" class="nav-item"
+					>Settings</a
 				>
 				<a href="{% url 'my_app:logout' %}" class="nav-item">Logout</a>
 			</nav>
 		</aside>
-		<main>
+    <main>
 			{% block body %}
 			{% endblock %}
 		</main>

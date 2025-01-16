@@ -1,115 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grn Lite - Available Manuscripts</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch('/api/manuscripts/')
-                .then(response => response.json())
-                .then(manuscripts => {
-                    renderManuscripts(manuscripts);
-                });
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Grn Lite - Available Manuscripts</title>
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}" />
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				fetch("/api/manuscripts/")
+					.then((response) => response.json())
+					.then((data) => {
+						const manuscriptList = document.getElementById(
+							"available-manuscripts",
+						);
+						data.manuscripts.forEach((manuscript) => {
+							const manuscriptDiv = document.createElement("div");
+							manuscriptDiv.classList.add("manuscript-item");
+							manuscriptDiv.innerHTML = `
+							${
+								manuscript.cover_art
+									? `<img src="${manuscript.cover_art}" alt="${manuscript.title} Cover Art" style="width: 150px;"/>`
+									: ""
+							}
+												<h3>${manuscript.title}</h3>
+												<p><strong>Author:</strong> ${manuscript.author || "Unknown"}</p>
+										<a href="/book-details/${
+											manuscript.id
+										}/" class="btn btn-primary">View Book Details</a>
+										`;
+							manuscriptList.appendChild(manuscriptDiv);
+						});
+					});
 
-            const renderManuscripts = (manuscripts) => {
-                const manuscriptList = document.getElementById("manuscript-list");
-                manuscriptList.innerHTML = "";
-                if (manuscripts.length === 0) {
-                    manuscriptList.innerHTML = "<p>No manuscripts available. Adjust your filters or check back later.</p>";
-                    return;
-                }
+				const provideFeedback = (manuscriptId) => {
+					window.location.href = `/feedback/${manuscriptId}/`;
+				};
+			});
+		</script>
+		<style>
+			.content-header h1 {
+				font-size: 2rem;
+				color: #2c3e50;
+				text-align: center;
+			}
 
-                manuscripts.forEach((manuscript) => {
-                    const manuscriptItem = document.createElement("div");
-                    manuscriptItem.classList.add("manuscript-item");
-                    manuscriptItem.innerHTML = `
-                        <img src="${manuscript.cover}" alt="${manuscript.title} Cover">
-                        <h4>${manuscript.title}</h4>
-                        <p><strong>Genre:</strong> ${manuscript.genre}</p>
-                        <p><strong>Length:</strong> ${manuscript.length} pages</p>
-                        <p><strong>Chapters:</strong> ${manuscript.chapters}</p>
-                        <p>${manuscript.description}</p>
-                        <button class="btn btn-secondary" onclick="provideFeedback(${manuscript.id})">Provide Feedback</button>
-                    `;
-                    manuscriptList.appendChild(manuscriptItem);
-                });
-            };
+			.dashboard-grid .card {
+				border: 1px solid #ddd;
+				border-radius: 10px;
+				background-color: #fefefe;
+				padding: 15px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			}
 
-            const provideFeedback = (manuscriptId) => {
-                window.location.href = `/feedback/${manuscriptId}/`;
-            };
-        });
-    </script>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}" alt="Grn Lite Logo">
-            </div>
-            <nav class="sidebar-nav">
-                <a href="{% url 'my_app:home' %}" class="nav-item">Home</a>
-                <a href="{% url 'my_app:reader-dashboard-html' %}" class="nav-item active">Dashboard</a>
-                <a href="{% url 'my_app:available-manuscripts-html' %}" class="nav-item">Available Manuscripts</a>
-                <a href="{% url 'my_app:reader-feedback-html' %}" class="nav-item">Feedback</a>
-                <a href="{% url 'my_app:reader-profile-html' %}" class="nav-item">Profile</a>
-                <a href="{% url 'my_app:reader-resource-library-html' %}" class="nav-item">Resource Library</a>
-                <a href="{% url 'my_app:beta-reader-training-html' %}" class="nav-item">Training Module</a>
-                <a href="{% url 'my_app:beta-reader-performance-metrics-html' %}" class="nav-item active">Performance Metrics</a>
-                <a href="{% url 'my_app:reader-payment-page-html' %}" class="nav-item">Payments</a>
-                <a href="{% url 'my_app:reader-settings-html' %}" class="nav-item">Settings</a>
-                <a href="{% url 'my_app:logout' %}" class="nav-item">Logout</a>
-            </nav>
-        </aside>
+			.dashboard-grid .card:hover {
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				transform: translateY(-5px);
+			}
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1>Available Manuscripts</h1>
-                <p>Browse and select manuscripts for feedback. Use filters to refine your search.</p>
-            </div>
+			.manuscript-item p {
+				margin-bottom: 10px !important;
+			}
 
-            <!-- Filters Section -->
-            <div class="filters">
-                <h3>Filter Manuscripts</h3>
-                <form id="filter-form" class="form-group">
-                    <div class="form-group">
-                        <label for="filter-genre">Genre:</label>
-                        <select id="filter-genre" name="genre">
-                            <option value="">All Genres</option>
-                            <option value="Fiction">Fiction</option>
-                            <option value="Non-Fiction">Non-Fiction</option>
-                            <option value="Mystery">Mystery</option>
-                            <option value="Sci-Fi">Sci-Fi</option>
-                            <option value="Fantasy">Fantasy</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="filter-keywords">Keywords:</label>
-                        <input type="text" id="filter-keywords" name="keywords" placeholder="Enter keywords">
-                    </div>
-                    <div class="form-group">
-                        <label for="filter-length">Length (pages):</label>
-                        <input type="number" id="filter-length" name="length" placeholder="Enter max length">
-                    </div>
-                    <div class="form-group">
-                        <label for="filter-chapters">Chapters:</label>
-                        <input type="number" id="filter-chapters" name="chapters" placeholder="Enter max chapters">
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
-                </form>
-            </div>
+			.manuscript-item button {
+				background-color: #3498db;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				padding: 10px 20px;
+				cursor: pointer;
+				margin-bottom: 20px;
+			}
 
-            <!-- Available Manuscripts Section -->
-            <div id="manuscript-list" class="manuscript-list">
-                <h3>Available Manuscripts</h3>
-                <!-- Manuscripts will be dynamically added here -->
-            </div>
-        </main>
-    </div>
-</body>
+			#available-manuscripts {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				grid-gap: 20px;
+				justify-content: center;
+				max-width: 100%;
+				margin: 0 auto;
+			}
+
+			.manuscript-item img {
+				border-radius: 5px;
+				width: 100%;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="dashboard-container">
+			<!-- Sidebar -->
+			{% include 'reader-sidebar.html' %}
+
+			<!-- Main Content -->
+			<main class="main-content">
+				<div class="content-header">
+					<h1>Available Manuscripts</h1>
+					<p>
+						Browse and select manuscripts for feedback. Use filters to refine
+						your search.
+					</p>
+				</div>
+
+				<!-- Filters Section -->
+				<div class="filters">
+					<h3>Filter Manuscripts</h3>
+					<form id="filter-form" class="form-group">
+						<div class="form-group">
+							<label for="filter-genre">Genre:</label>
+							<select id="filter-genre" name="genre">
+								<option value="">All Genres</option>
+								<option value="Fiction">Fiction</option>
+								<option value="Non-Fiction">Non-Fiction</option>
+								<option value="Mystery">Mystery</option>
+								<option value="Sci-Fi">Sci-Fi</option>
+								<option value="Fantasy">Fantasy</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="filter-keywords">Keywords:</label>
+							<input
+								type="text"
+								id="filter-keywords"
+								name="keywords"
+								placeholder="Enter keywords"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="filter-length">Length (pages):</label>
+							<input
+								type="number"
+								id="filter-length"
+								name="length"
+								placeholder="Enter max length"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="filter-chapters">Chapters:</label>
+							<input
+								type="number"
+								id="filter-chapters"
+								name="chapters"
+								placeholder="Enter max chapters"
+							/>
+						</div>
+						<button
+							type="button"
+							class="btn btn-primary"
+							onclick="applyFilters()"
+						>
+							Apply Filters
+						</button>
+					</form>
+				</div>
+
+				<!-- Available Manuscripts Section -->
+				<div class="card">
+					<h3>Available Manuscripts</h3>
+
+					<p>View manuscripts available for review.</p>
+
+					<div id="available-manuscripts" class="manuscript-list">
+						<!-- Manuscripts will be dynamically populated here -->
+					</div>
+				</div>
+			</main>
+		</div>
+	</body>
 </html>

@@ -13,6 +13,7 @@ from .models import (
     ResourceInteraction,
     MyModel,
     Notification,
+    ReaderManuscript,
 )
 
 
@@ -70,3 +71,9 @@ class BetaReaderApplicationAdmin(admin.ModelAdmin):
     list_display = ("manuscript", "beta_reader", "status", "application_date")
     list_filter = ("status", "application_date")
     search_fields = ("manuscript__title", "beta_reader__username")
+    
+@admin.register(ReaderManuscript)
+class ReaderManuscriptAdmin(admin.ModelAdmin):
+    list_display = ('reader', 'manuscript', 'status', 'updated_at')
+    list_filter = ('status',)
+    search_fields = ('reader__username', 'manuscript__title')
