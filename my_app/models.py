@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.timezone import now
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class CustomUser(AbstractUser):
@@ -27,7 +29,7 @@ class Profile(models.Model):
     ROLE_CHOICES = [
         ("author", "Author"),
         ("beta_reader", "Beta Reader"),
-        ("editor", "Editor"),
+        ("admin", "Admin"),
     ]
 
     role = models.CharField(
@@ -37,26 +39,18 @@ class Profile(models.Model):
         help_text="Role of the user",
     )
     user = models.OneToOneField(
-        get_user_model(),  # Dynamically references the default User model
+        User,  # Reference the default User model
         on_delete=models.CASCADE,
         help_text="User who owns the profile",
     )
-    profile_img = models.ImageField(
-        upload_to="profile_images/",
-        null=True,
-        blank=True,
-        help_text="User's profile picture",
-    )
+    def is_author(self):
+        return self.role == 'author'
 
-    bio = models.TextField(
-        null=True, blank=True, help_text="Short biography for the user"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True, help_text="When the user account was created"
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, help_text="When the user account was last updated"
-    )
+    def is_reader(self):
+        return self.role == 'beta_reader'
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
 
 
 class MyModel(models.Model):
@@ -105,6 +99,12 @@ class Feedback(models.Model):
     pacing = models.TextField(null=True, blank=True)
     worldbuilding = models.TextField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
+    
+class FeedbackTopic(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class FeedbackQuestion(models.Model):
@@ -112,6 +112,7 @@ class FeedbackQuestion(models.Model):
     is_active = models.BooleanField(
         default=True, help_text="Is this question active and selectable?"
     )
+    topic = models.ForeignKey(FeedbackTopic, on_delete=models.CASCADE, related_name="questions", null=True, blank=True)
 
     def __str__(self):
         return f"{self.question_text}"
@@ -120,59 +121,31 @@ class FeedbackQuestion(models.Model):
         abstract = False
 
 
+    
+
 class Manuscript(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(
-        auto_now=True, help_text="The last time the manuscript was updated"
-    )
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    cover = models.ImageField(upload_to="covers/")
     STATUS_CHOICES = [
         ("draft", "Draft"),
         ("submitted", "Submitted"),
         ("in_review", "In Review"),
         ("completed", "Completed"),
     ]
+    title = models.CharField(max_length=255)
+    file_path = models.FileField(upload_to="manuscripts/")
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="draft", null=False, blank=True, help_text="Status of the manuscript")
+    keywords = models.ManyToManyField("Keyword", blank=True, through="Manuscript_keywords")
+    feedback_topics = models.ManyToManyField("FeedbackTopic", blank=True)
+    budget = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    beta_readers_needed = models.PositiveIntegerField(null=True, blank=True)
+    cover_art = models.ImageField(upload_to="cover_art/", null=True, blank=True)
+    nda_required = models.BooleanField(default=False)
+    nda_file = models.FileField(upload_to="nda_files/", null=True, blank=True)
+    plot_summary = models.TextField(null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="manuscripts")
 
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="manuscripts",
-        help_text="The author of the manuscript",
-    )
-    title = models.CharField(max_length=200)
-    file_path = models.FileField(upload_to="uploads/manuscript/% Y/% m/% d/")
-    status = models.CharField(
-        max_length=30,
-        choices=STATUS_CHOICES,
-        default="draft",
-        null=False,
-        blank=True,
-        help_text="Status of the manuscript",
-    )
-    nda_required = models.BooleanField(
-        default=False,  # Default value to avoid NOT NULL constraint errors
-        help_text="Indicates if an NDA is required for this manuscript",
-    )
-    keywords = models.ManyToManyField(
-        Keyword,
-        related_name="manuscripts",
-        blank=True,
-        help_text="Keywords associated with the manuscript",
-        through='Manuscript_keywords'
-    )
-    budget = models.IntegerField(null=False, default=0)
-    beta_readers_needed = models.IntegerField(null=False, default=0)
-    cover_art = models.FileField(
-        null=True, blank=True, upload_to="uploads/cover_art/% Y/% m/% d/"
-    )
-    nda_file = models.FileField(
-        null=True, blank=True, upload_to="uploads/nda/% Y/% m/% d/"
-    )
-    plot_summary = models.TextField(max_length=1000, null=True)
-    created_at = models.DateTimeField(default=now, help_text="Timestamp of creation")
-    updated_at = models.DateTimeField(default=now, help_text="Timestamp of last update")
+    def __str__(self):
+        return self.title
+    
 
     # New fields for feedback categories and questions
     # feedback_categories = models.ManyToManyField(
@@ -487,3 +460,12 @@ class Genre(models.Model):
 class ManuscriptKeywords(models.Model):
     manuscript = models.ForeignKey("Manuscript", on_delete=models.CASCADE)
     keyword = models.ForeignKey("Keyword", on_delete=models.CASCADE)
+    
+@receiver(post_save, sender=User)  # Replace `User` with `CustomUser` if you're using a custom user model
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    instance.profile.save()

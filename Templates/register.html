@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grn Lite - Sign Up</title>
+    <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
+    <style>
+        .role-selection {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .role-selection .btn {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .role-selection .btn-primary {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .role-selection .btn-secondary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .role-selection .btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        .bubble-choice {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Sign Up</h1>
+                <p>Join the Grn Lite community</p>
+            </div>
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password1">Password</label>
+                <input type="password" id="password1" name="password1" required>
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" id="password2" name="password2" required>
+            </div>
+        
+            <!-- Single Hidden Role Input -->
+            <input type="hidden" name="role" id="role" value="">
+        
+            <!-- Role Selection -->
+            <div class="role-selection">
+                <button type="button" onclick="setRole('reader')">Reader</button>
+                <button type="button" onclick="setRole('author')">Author</button>
+            </div>
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+          </form>
+            <div class="auth-footer">
+                <p>Already have an account? <a href="{% url 'my_app:signin' %}">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      function setRole(role) {
+        const roleInput = document.getElementById("role");
+        roleInput.value = role; // Set the role value
+        console.log(`Role set to: ${role}`); // Debugging
+    }
+    </script>
+</body>
+
+</html>

@@ -11,5 +11,8 @@
   "description": "",
   "dependencies": {
     "express-oauth2-jwt-bearer": "^1.6.0"
+  },
+  "devDependencies": {
+    "prettier-plugin-django": "^0.5.18"
   }
 }

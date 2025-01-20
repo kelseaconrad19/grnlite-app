@@ -17,8 +17,8 @@ app_name = "my_app"
 urlpatterns = [
     path("", views.home, name="home"),
     # User URLs
-    path("signin/", views.signin, name="signin"),
-    path("signup/", views.signup, name="signup"),
+    path("signin/", views.user_signin, name="signin"),
+    path("signup/", views.user_signup, name="signup"),
     path("login/", views.login, name="login"),
     path("logout/", views.logout, name="logout"),
     path("users/", views.UserListCreateView.as_view(), name="user-list-create"),

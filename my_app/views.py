@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .forms import ManuscriptSubmissionForm
+from .forms import AuthorRegistrationForm, ManuscriptSubmissionForm, ReaderRegistrationForm
 from django.views.generic import ListView, CreateView
 from django.http import JsonResponse, HttpResponse
 from .models import Manuscript, Feedback
@@ -115,6 +115,87 @@ def reader_settings(request):
 def author_dashboard(request):
     return render(request, "author-dashboard.html", {"user": request.user})
 
+def user_signup(request):
+    if request.method == "POST":
+        role = request.POST.get("role")
+        print(f"Role received: {role}")  # Debugging role
+        print(f"Form data: {request.POST}")  # Debug form data
+
+        if role == "author":
+            form = AuthorRegistrationForm(request.POST)
+        elif role == "reader":
+            form = ReaderRegistrationForm(request.POST)
+        else:
+            return render(request, "register.html", {"error": "Invalid role selected."})
+
+        if form.is_valid():
+            user = form.save()
+            print(f"User created: {user.username}, Role: {role}")
+            return redirect("my_app:signin")  # Redirect to the signin page
+        else:
+            print(f"Form data received: {request.POST}")
+            print(f"Form errors: {form.errors}")  # Debug form errors
+    else:
+        form = AuthorRegistrationForm()  # Default form
+
+    return render(request, "register.html", {"form": form})
+def user_signup(request):
+    if request.method == "POST":
+        role = request.POST.get("role")
+        print(f"Role received: {role}")  # Debug role
+        print(f"Form data: {request.POST}")  # Debug form data
+
+        if not role:
+            return render(request, "register.html", {"error": "Please select a role."})
+
+        # Choose the appropriate form based on the role
+        form = (
+            AuthorRegistrationForm(request.POST)
+            if role == "author"
+            else ReaderRegistrationForm(request.POST)
+        )
+
+        if form.is_valid():
+            user = form.save()
+            print(f"User created: {user.username}, Role: {role}")
+            return redirect("my_app:signin")  # Redirect to signin page
+        else:
+            print(f"Form errors: {form.errors}")  # Debug form errors
+
+    else:
+        form = AuthorRegistrationForm()  # Default form
+
+    return render(request, "register.html", {"form": form})
+
+@login_required
+def user_signin(request):
+    role = request.user.profile.role  # Assuming role is stored in Profile
+    if role == "author":
+        return redirect("my_app:author_dashboard-html")
+    elif role == "reader":
+        return redirect("my_app:reader_dashboard-html")
+    return redirect("my_app:home")  # Default fallback
+
+def author_signup(request):
+    if request.method == "POST":
+        form = AuthorRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("my_app:author-dashboard-html")
+    else:
+        form = AuthorRegistrationForm()
+    return render(request, "signup.html", {"form": form})
+        
+def reader_signup(request):
+    if request.method == "POST":
+        form = ReaderRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("my_app:reader-dashboard-html")
+    else:
+        form = ReaderRegistrationForm()
+    return render(request, 'signup.html', {'form': form})
+
 @login_required
 def my_books(request):
     manuscripts = Manuscript.objects.filter(author=request.user)
@@ -149,28 +230,32 @@ def beta_reader_books(request):
         'reader_books': reader_books,
     })
     
-# @login_required
+@login_required
 def feedback_form(request, manuscript_id):
+    # Get the manuscript
     manuscript = get_object_or_404(Manuscript, id=manuscript_id)
-    questions = FeedbackQuestion.objects.filter(is_active=True)
 
-    if request.method == 'POST':
-        # Save responses for each question
-        for question in questions:
-            response_text = request.POST.get(f'question_{question.id}')
-            if response_text:
-                FeedbackResponse.objects.update_or_create(
-                    reader=request.user,
-                    manuscript=manuscript,
-                    question=question,
-                    defaults={'answer_text': response_text},
-                )
-        return redirect('my_app:beta-reader-books')  # Redirect back to the beta reader dashboard
+    # Group questions by their topic
+    feedback_topics = manuscript.feedback_topics.all()
+    questions_by_topic = {
+        topic: FeedbackQuestion.objects.filter(topic=topic, is_active=True)
+        for topic in feedback_topics
+    }
 
-    return render(request, 'Reader_Dashboard/feedback-form.html', {
-        'manuscript': manuscript,
-        'questions': questions,
-    })
+    if request.method == "POST":
+        for topic, questions in questions_by_topic.items():
+            for question in questions:
+                response_text = request.POST.get(f"question_{question.id}")
+                if response_text:
+                    # Save feedback response logic here
+                    pass
+        return redirect("my_app:beta-reader-books")
+
+    return render(
+        request,
+        "Reader_Dashboard/feedback-form.html",
+        {"manuscript": manuscript, "questions_by_topic": questions_by_topic},
+    )
 
 @login_required
 def author_feedback(request):

@@ -14,6 +14,7 @@ from .models import (
     MyModel,
     Notification,
     ReaderManuscript,
+    FeedbackTopic
 )
 
 
@@ -42,8 +43,9 @@ class KeywordAdmin(admin.ModelAdmin):
 
 @admin.register(FeedbackQuestion)
 class FeedbackQuestionAdmin(admin.ModelAdmin):
-    list_display = ("question_text", "is_active")
-    list_filter = ("is_active",)
+    list_display = ("question_text", "is_active", "topic")
+    list_filter = ("is_active", "topic")
+    search_fields = ("question_text", "topic")
 
 
 @admin.register(FeedbackResponse)
@@ -77,3 +79,8 @@ class ReaderManuscriptAdmin(admin.ModelAdmin):
     list_display = ('reader', 'manuscript', 'status', 'updated_at')
     list_filter = ('status',)
     search_fields = ('reader__username', 'manuscript__title')
+    
+@admin.register(FeedbackTopic)
+class FeedbackTopicAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)     

@@ -40,6 +40,105 @@
 				updateActiveTitles();
 			});
 		</script>
+		<style>
+			.dashboard-container {
+				display: flex;
+				flex-direction: row;
+				height: 100vh;
+			}
+
+			.main-content {
+				flex: 1;
+				padding: 20px;
+			}
+
+			.content-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			.content-header h1 {
+				font-size: 2.8rem !important;
+				color: #2c3e50;
+			}
+
+			.dashboard-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr !important;
+				grid-auto-rows: 400px !important;
+				gap: 20px;
+			}
+
+			.dashboard-grid .card {
+				display: flex; /* Enables flexbox on the card */
+				flex-direction: column; /* Ensures the content stacks vertically */
+				justify-content: center; /* Centers content vertically */
+				align-items: center; /* Centers content horizontally */
+				text-align: center; /* Centers text inside the card */
+				border: 1px solid #ddd;
+				border-radius: 10px;
+				background-color: #fefefe;
+				padding: 15px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+				height: 100%; /* Ensures the card takes the full height of its container */
+		}
+
+			.card {
+				border: 2px solid #4caf50 !important;
+				border-radius: 10px;
+				background-color: #fefefe;
+				padding: 15px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			}
+
+			.card:hover {
+				box-shadow: 0 4px 8px #000000;
+				transform: translateY(-5px);
+			}
+
+			.card h3 {
+				font-size: 2.2rem !important;
+				color: #2c3e50;
+				margin-bottom: 10px;
+			}
+
+			.card p {
+				font-size: 1.5rem !important;
+				color: #333;
+				margin: 20px 0 !important;
+			}
+
+			.card button {
+				background-color: #4CAF50;
+				color: white;
+				border: none;
+				border-radius: 5px !important;
+				padding: 10px 20px !important;
+				font-size: 1.3rem !important;
+				cursor: pointer;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			}
+
+			.card button:hover {
+				background-color:rgb(66, 150, 69);
+			}
+			.content-header button {
+				background-color: #4CAF50 !important;
+				color: white;
+				border: none;
+				border-radius: 5px !important;
+				padding: 10px 20px !important;
+				font-size: 1.3rem !important;
+				cursor: pointer;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+			}
+
+			.content-header button:hover {
+				background-color:rgb(66, 150, 69) !important;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="dashboard-container">
@@ -66,7 +165,7 @@
 						<p id="active-titles-count">Loading...</p>
 						<button class="btn btn-secondary">
 							<a
-								href="{% url 'my_app:feedback-summary-html' %}"
+								href="{% url 'my_app:my-books-html' %}"
 								style="color: white; text-decoration: none"
 								>View Books</a
 							>
