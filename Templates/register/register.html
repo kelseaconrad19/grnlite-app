@@ -8,16 +8,60 @@
     <title>Grn Lite - Sign Up</title>
     <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <style>
+        /* Inline styles for demonstration */
+        nav {
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        nav .brand-logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        nav .brand-logo:hover {
+            text-decoration: none;
+        }
         /* Container styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f6f9;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+        }
+
+        #id_username {
+            margin-bottom: 10px !important;
+        }
+
+        body nav {
+            width: 100%;
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+
+        body h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin: 20px 0 !important;
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
         }
 
         .form-container {
@@ -26,13 +70,6 @@
             padding: 30px;
             width: 400px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        #register-h1 {
-            text-align: center;
-            font-size: 3rem;
-            color:rgb(227, 97, 17);
-            margin-bottom: 20px;
         }
 
         /* Form styling */
@@ -44,8 +81,9 @@
 
         label {
             font-weight: bold;
+            font-size: 1.3rem;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin: 10px 0 !important;
         }
 
         input, select {
@@ -54,6 +92,7 @@
             border: 1px solid #dcdcdc;
             border-radius: 5px;
             outline: none;
+            bo
         }
 
         input:focus, select:focus {
@@ -63,7 +102,7 @@
 
         /* Button styling */
         button {
-            background-color: #4caf50;
+            background-color: #4caf50 !important;
             color: white;
             font-size: 1rem;
             padding: 10px;
@@ -109,13 +148,15 @@
 </head>
 
 <body>
-  <h1 id="register-h1"> Register a New User</h1>
-  <form class="form-with-validation" action="/register/" method="post">
+<nav>
+    <a href="/">Home</a>
+</nav>
+<h1>Register a New User</h1>
+<form class="form-with-validation" method="POST">
     {% csrf_token %}
-    {{form.as_p}}
+    {{ form.as_p }}  <!-- Automatically renders all form fields -->
     <button type="submit">Register</button>
-  </form>
-  
+</form>
 </body>
 
 </html>

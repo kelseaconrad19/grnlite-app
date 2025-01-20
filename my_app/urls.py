@@ -11,6 +11,7 @@ from .views import (
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from register import views as v
 
 app_name = "my_app"
 
@@ -18,8 +19,8 @@ urlpatterns = [
     path("", views.home, name="home"),
     # User URLs
     path("signin/", views.user_signin, name="signin"),
-    path("signup/", views.user_signup, name="signup"),
-    path("login/", views.login, name="login"),
+    path("register/", v.register, name="register"),
+    path("login/", v.login_view, name="login"),
     path("logout/", views.logout, name="logout"),
     path("users/", views.UserListCreateView.as_view(), name="user-list-create"),
     path("users/<int:pk>/", views.UserDetailView.as_view(), name="user-detail"),
@@ -31,6 +32,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("auth/google/", GoogleLoginView.as_view(), name="google-login"),
     path("auth/profile/", UserProfileView.as_view(), name="user-profile"),
+    path("api/manuscripts/", views.manuscripts_api, name="manuscripts_api"),
     # Profile URLs
     path(
         "profiles/", views.ProfileListCreateView.as_view(), name="profile-list-create"
@@ -50,6 +52,7 @@ urlpatterns = [
         name="manuscript-detail",
     ),
     path("active-titles/", active_titles_count, name="active-titles"),
+    path("api/completed-reviews/", views.get_completed_reviews_count, name="completed-reviews-count"),
     path("notifications/", views.get_notifications, name="notifications"),
     # Keyword URLs
     path("keywords/", views.KeywordListCreateView.as_view(), name="keyword-list"),

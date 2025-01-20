@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grn Lite - By Authors For Readers</title>
     <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
-    <script src="{% static 'Front_End/JS/redirectToAuthPage.js' %}"></script>
-    <img src="{% static 'Front_End/Images/Grn_Lite_Logo.png' %}" alt="Logo">
+    {% comment %} <script src="{% static 'Front_End/JS/redirectToAuthPage.js' %}"></script> {% endcomment %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
@@ -44,10 +43,10 @@
             top: 0;
             width: 100%;
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 0.2rem 1rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             transition: all 0.3s ease;
+            height: 117px;
         }
 
         .navbar.scrolled {
@@ -84,8 +83,8 @@
         }
 
         section {
-            min-height: 100vh;
-            padding: 6rem 2rem;
+            min-height: 80vh;
+            padding: 3rem 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -104,6 +103,7 @@
 
         .hero-content {
             max-width: 800px;
+            padding-top: 117px;
         }
 
         .hero-content h1 {
@@ -116,6 +116,12 @@
             margin-bottom: 2rem;
         }
 
+        .section-content h1 {
+            font-size: 4rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
         .cta-button {
             display: inline-block;
             padding: 1rem 2rem;
@@ -124,6 +130,8 @@
             text-decoration: none;
             border-radius: 5px;
             transition: transform 0.3s ease;
+            font-family: 'Playwrite DE Grund Thin', sans-serif;
+            font-size: 1.2rem;
         }
 
         .cta-button:hover {
@@ -132,6 +140,7 @@
 
         #about {
             background-color: white;
+            
         }
 
         .about-grid {
@@ -160,6 +169,18 @@
         .contact-form {
             max-width: 600px;
             width: 100%;
+        }
+
+        .contact-form h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .contact-form label {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #f8f9fa;
         }
 
         .form-group {
@@ -221,21 +242,22 @@
                 <a href="#features">Features</a>
                 <a href="#about">About Us</a>
                 <a href="#contact">Contact Us</a>
-                <a href="{% url 'my_app:signup' %}">Sign Up</a>
-                <a href="{% url 'my_app:signin' %}">Log In</a>
+                <a href="{% url 'my_app:register' %}">Sign Up</a>
+                <a href="{% url 'my_app:login' %}">Log In</a>
             </div>
         </div>
     </nav>
 
     <section id="home">
-        <div class="hero-content" data-aos="fade-up">
+        <div class="hero-content">
             <h1>Welcome to Grn Lite</h1>
             <p>By Authors, For Readers</p>
-            <a href="{% url 'my_app:signup' %}" class="cta-button">Join Our Community</a>
+            <a href="{% url 'my_app:register' %}" class="cta-button">Join Our Community</a>
         </div>
     </section>
     <section id="features" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
         <div class="section-content">
+            <h1>Key Features</h1>
             <div class="feature-grid">
                 <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
                     <h2>Collaborative Feedback</h2>
@@ -336,7 +358,6 @@
         });
     </script>
 
-    <!-- <script src="{% static 'redirectToAuthPage.js' %}"></script> -->
 </body>
 
 </html>

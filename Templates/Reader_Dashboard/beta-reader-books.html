@@ -8,13 +8,20 @@
 		<link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}" />
 		<style>
 			.main-content h1 {
-				font-size: 2rem;
+				font-size: 2.2rem;
 				color: #2c3e50;
 				margin-bottom: 10px;
 			}
 			.main-content p {
 				margin-bottom: 10px;
 				width: 30%;
+			}
+
+			.manuscript-item h2 {
+				font-size: 2rem;
+				color: #34495e;
+				margin-bottom: 20px;
+				text-align: center;
 			}
 			.main-content a {
 				background-color: #3498db;
@@ -24,6 +31,32 @@
 				padding: 10px 20px;
 				margin-bottom: 20px;
 			}
+			.manuscript-item {
+				display: flex;
+				flex-direction: column;
+				width: 30%;
+				background: #f9f9f9;
+				margin-bottom: 20px;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+			}
+
+			.manuscript-item .cover-art {
+				display: flex;
+				justify-content: center;
+			}
+
+			.manuscript-item .btn {
+				margin-bottom: 10px;
+				text-align: center;
+			}
+
+			.manuscript-list{
+				display: flex;
+				flex-wrap: wrap;
+				gap: 20px;
+			}
 		</style>
 	</head>
 	<body>
@@ -32,10 +65,13 @@
 		<!-- Main Content -->
 		<main class="main-content">
 			<h1>Books You've Chosen</h1>
+			<div class="manuscript-list">
 			{% for reader_book in reader_books %}
 			<div class="manuscript-item">
-				<h3>{{ reader_book.manuscript.title }}</h3>
-				<p>{{ reader_book.manuscript.plot_summary }}</p>
+				<h2>{{ reader_book.manuscript.title }}</h2>
+				<div class="cover-art">
+					<img src="{{ reader_book.manuscript.cover_art.url }}" alt="{{ reader_book.manuscript.title }} Cover Art" style="width: 40%; margin-bottom: 10px;" />
+				</div>
 				<a
 					href="{{ reader_book.manuscript.file_path.url }}"
 					class="btn btn-primary"
@@ -51,6 +87,7 @@
 			{% empty %}
 			<p>You haven't chosen any books yet.</p>
 			{% endfor %}
+		</div>
 		</main>
 	</body>
 </html>

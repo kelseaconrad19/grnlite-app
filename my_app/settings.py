@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.auth0",
     "crispy_forms",
+    "register.apps.RegisterConfig",
 ]
 
 MIDDLEWARE = [

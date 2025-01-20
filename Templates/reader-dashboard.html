@@ -112,6 +112,10 @@
 	align-items: center;
 }
 
+.content-header h1 {
+	font-size: 2.8rem !important;
+}
+
 /* Manuscript items */
 .manuscript-item {
 	display: flex;
@@ -186,7 +190,7 @@
 			<!-- Main Content -->
 			<main class="main-content">
 				<div class="content-header">
-					<h1>Welcome Back, Beta Reader!</h1>
+					<h1>Welcome Back, {{user.first_name|default:user.username }}!</h1>
 					<p>View available manuscripts and manage feedback.</p>
 				</div>
 				<div class="dashboard-grid">

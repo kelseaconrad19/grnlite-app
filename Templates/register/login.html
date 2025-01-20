@@ -5,19 +5,62 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grn Lite - Sign Up</title>
+    <title>Grn Lite - Login</title>
     <link rel="stylesheet" href="{% static 'Front_End/CSS/styles.css' %}">
     <style>
+        nav {
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        nav .brand-logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        nav .brand-logo:hover {
+            text-decoration: none;
+        }
         /* Container styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f6f9;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+        }
+
+        #id_username {
+            margin-bottom: 10px !important;
+        }
+
+        body nav {
+            width: 100%;
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+
+        body h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin: 20px 0 !important;
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
         }
 
         .form-container {
@@ -28,24 +71,19 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        #register-h1 {
-            text-align: center;
-            font-size: 3rem;
-            color:rgb(227, 97, 17);
-            margin-bottom: 20px;
-        }
-
         /* Form styling */
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            width: 50%;
         }
 
         label {
             font-weight: bold;
+            font-size: 1.3rem;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin: 10px 0 !important;
         }
 
         input, select {
@@ -54,6 +92,8 @@
             border: 1px solid #dcdcdc;
             border-radius: 5px;
             outline: none;
+            width: 100%;
+            margin-bottom: 10px;
         }
 
         input:focus, select:focus {
@@ -63,7 +103,7 @@
 
         /* Button styling */
         button {
-            background-color: #4caf50;
+            background-color: #4caf50 !important;
             color: white;
             font-size: 1rem;
             padding: 10px;
@@ -109,13 +149,22 @@
 </head>
 
 <body>
-  <h1 id="register-h1"> Register a New User</h1>
-  <form class="form-with-validation" action="/register/" method="post">
+<nav>
+    <a href="/">Home</a>
+</nav>
+<h1>Login</h1>
+<form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Register</button>
-  </form>
-  
+    {{ form.as_p }}  <!-- Automatically renders the username and password fields -->
+    <button type="submit">Login</button>
+</form>
+
+<!-- Optional: Display error messages -->
+{% if form.errors %}
+    <div class="error-messages">
+        <p>{{ form.non_field_errors }}</p>
+    </div>
+{% endif %}
 </body>
 
 </html>

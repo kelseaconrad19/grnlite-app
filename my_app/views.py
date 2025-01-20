@@ -10,6 +10,7 @@ from django.http import JsonResponse, HttpResponse
 from .models import Manuscript, Feedback
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.contrib.auth.forms import UserCreationForm
 
 # from rest_framework.decorators import api_view, permission_classes
 from social_django.utils import load_strategy
@@ -68,6 +69,16 @@ def login(request):
 
 def logout(request):
     return render(request, "logout.html")
+
+def register_view(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("my_app:author_dashboard.html")
+    else:
+        form = UserCreationForm()
+    return render(request, "register.html", {"form": form})
 
 
 # Reader Dashboard Views
@@ -171,9 +182,9 @@ def user_signup(request):
 def user_signin(request):
     role = request.user.profile.role  # Assuming role is stored in Profile
     if role == "author":
-        return redirect("my_app:author_dashboard-html")
+        return redirect("my_app:author-dashboard-html")
     elif role == "reader":
-        return redirect("my_app:reader_dashboard-html")
+        return redirect("my_app:reader-dashboard-html")
     return redirect("my_app:home")  # Default fallback
 
 def author_signup(request):
@@ -195,6 +206,30 @@ def reader_signup(request):
     else:
         form = ReaderRegistrationForm()
     return render(request, 'signup.html', {'form': form})
+
+def manuscripts_api(request):
+    keywords = request.GET.get('keywords')
+    author = request.GET.get('author')
+    manuscripts = Manuscript.objects.all()
+    
+    if keywords:
+        manuscripts = manuscripts.filter(keywords__name__icontains=keywords)
+    if author:
+        manuscripts = manuscripts.filter(author__username__icontains=author)
+
+    data = {
+        "manuscripts": [
+            {
+                "id": m.id,
+                "title": m.title,
+                "author": m.author.username if m.author else "Unknown",  # Serialize author as username
+                "keywords": [kw.name for kw in m.keywords.all()],  # Serialize keywords as a list of names
+                "cover_art": m.cover_art.url if m.cover_art else None
+            }
+            for m in manuscripts
+        ]
+    }
+    return JsonResponse(data)
 
 @login_required
 def my_books(request):
@@ -247,8 +282,12 @@ def feedback_form(request, manuscript_id):
             for question in questions:
                 response_text = request.POST.get(f"question_{question.id}")
                 if response_text:
-                    # Save feedback response logic here
-                    pass
+                    FeedbackResponse.objects.create(
+                        manuscript=manuscript,
+                        reader=request.user,
+                        question=question,
+                        answer_text=response_text)
+            manuscript.status = "reviewed"
         return redirect("my_app:beta-reader-books")
 
     return render(
@@ -385,6 +424,19 @@ def active_titles_count(request):
     draft_count = Manuscript.objects.filter(author=request.user, status="draft").count()
     print(f"Draft Count: {draft_count}")
     return JsonResponse({"draft_count": draft_count})
+
+def get_completed_reviews_count(request):
+    # Get the logged-in author's manuscripts
+    manuscripts = Manuscript.objects.filter(author=request.user)
+
+    # Count the completed reviews associated with those manuscripts
+    completed_reviews_count = FeedbackResponse.objects.filter(
+        manuscript__in=manuscripts,  # Filter by author's manuscripts
+        reviewed=True,           # Assuming `is_completed` marks review completion
+    ).count()
+
+    # Return the count as JSON
+    return JsonResponse({"completed_reviews_count": completed_reviews_count})
 
 @login_required
 def get_notifications(request):

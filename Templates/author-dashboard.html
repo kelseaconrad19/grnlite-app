@@ -39,6 +39,22 @@
 				// Call the function to update the tile
 				updateActiveTitles();
 			});
+			fetch("/api/completed-reviews/")
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
+        const reviewsCountElement = document.getElementById("completed-reviews-count");
+        reviewsCountElement.textContent = `${data.completed_reviews_count} reviews completed`;
+    })
+    .catch((error) => {
+        console.error("Error fetching completed reviews count:", error);
+        const reviewsCountElement = document.getElementById("completed-reviews-count");
+        reviewsCountElement.textContent = "Error loading reviews count";
+    });
 		</script>
 		<style>
 			.dashboard-container {
@@ -171,9 +187,9 @@
 							>
 						</button>
 					</div>
-					<div class="card">
+					<div class="dashboard-card">
 						<h3>Completed Reviews</h3>
-						<p>12 reviews received</p>
+						<p id="completed-reviews-count">Loading...</p>
 						<button class="btn btn-secondary">
 							<a
 								href="{% url 'my_app:author-feedback' %}"
