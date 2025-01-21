@@ -33,6 +33,8 @@ urlpatterns = [
     path("auth/google/", GoogleLoginView.as_view(), name="google-login"),
     path("auth/profile/", UserProfileView.as_view(), name="user-profile"),
     path("api/manuscripts/", views.manuscripts_api, name="manuscripts_api"),
+    path("beta-readers/<int:pk>/", views.beta_reader_public_profile, name="beta_reader_public_profile"),
+    path("api/feedback-count/", views.get_feedback_count, name="feedback-count"),
     # Profile URLs
     path(
         "profiles/", views.ProfileListCreateView.as_view(), name="profile-list-create"
@@ -52,7 +54,6 @@ urlpatterns = [
         name="manuscript-detail",
     ),
     path("active-titles/", active_titles_count, name="active-titles"),
-    path("api/completed-reviews/", views.get_completed_reviews_count, name="completed-reviews-count"),
     path("notifications/", views.get_notifications, name="notifications"),
     # Keyword URLs
     path("keywords/", views.KeywordListCreateView.as_view(), name="keyword-list"),
@@ -133,13 +134,7 @@ urlpatterns = [
         name="notification-detail",
     ),
     # Beta Reader Application URLs
-    path(
-        "beta_reader_list/",
-        BetaReaderListCreateView.as_view(),
-        name="beta-reader-list-html",
-    ),
-    path("beta_reader_list/", views.beta_reader_list, name="beta-reader-list"),
-    path("find_beta_readers/", find_beta_readers, name="find-beta-readers"),
+    path("find_beta_readers/", views.find_beta_readers, name="find-beta-readers"),
     # Optional: Different URL for the function-based beta_reader_list view
     path(
         "beta_reader_list_function/", beta_reader_list, name="beta-reader-list-function"

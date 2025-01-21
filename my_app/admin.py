@@ -14,7 +14,8 @@ from .models import (
     MyModel,
     Notification,
     ReaderManuscript,
-    FeedbackTopic
+    FeedbackTopic, 
+    BetaReader,
 )
 
 
@@ -47,6 +48,11 @@ class FeedbackQuestionAdmin(admin.ModelAdmin):
     list_filter = ("is_active", "topic")
     search_fields = ("question_text", "topic")
 
+@admin.register(BetaReader)
+class BetaReaderAdmin(admin.ModelAdmin):
+    list_display = ('profile', 'experience', 'rating', 'total_reviews')
+    search_fields = ('profile__user__username', 'experience')
+    list_filter = ('keywords',)
 
 @admin.register(FeedbackResponse)
 class FeedbackResponseAdmin(admin.ModelAdmin):

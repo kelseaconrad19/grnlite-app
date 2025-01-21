@@ -77,6 +77,51 @@ class Keyword(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_category_display()})"
+    
+class BetaReader(models.Model):
+    profile = models.OneToOneField(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name="beta_reader_profile",
+        help_text="The profile associated with this beta reader",
+    )
+    experience = models.TextField(
+        null=True, blank=True, help_text="Summary of the beta reader's experience"
+    )
+    keywords = models.ManyToManyField(
+        "Keyword",
+        related_name="beta_readers",
+        blank=True,
+        help_text="Keywords the beta reader is interested in",
+    )
+    rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Average rating for this beta reader"
+    )
+    total_reviews = models.PositiveIntegerField(
+        default=0, help_text="Total number of reviews completed by the beta reader"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True, help_text="When the beta reader profile was created"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True, help_text="When the beta reader profile was last updated"
+    )
+
+    def __str__(self):
+        return f"{self.profile.user.username} - Beta Reader"
+
+    def update_rating(self, new_rating):
+        """
+        Updates the average rating based on a new rating.
+        """
+        total_ratings = self.total_reviews * (self.rating or 0)
+        self.total_reviews += 1
+        self.rating = (total_ratings + new_rating) / self.total_reviews
+        self.save()
 
 
 # class FeedbackCategory(models.Model):
@@ -142,6 +187,12 @@ class Manuscript(models.Model):
     nda_file = models.FileField(upload_to="nda_files/", null=True, blank=True)
     plot_summary = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="manuscripts")
+    
+    class Meta:
+        permissions = [
+            ("can_view_reader_dashboard", "Can view reader dashboard"),
+            ("can_view_author_dashboard", "Can view author dashboard"),
+        ]
 
     def __str__(self):
         return self.title
@@ -211,6 +262,8 @@ class Manuscript_keywords(models.Model):
     
     class Meta:
         db_table = "my_app_manuscript_keywords"
+    def __str__(self):
+        return f"{self.manuscript.title} - {self.keyword.name}"
 
 
 class FeedbackResponse(models.Model):
@@ -416,47 +469,6 @@ class BetaReaderApplication(models.Model):
     )
 
 
-class BetaReader(models.Model):
-    user = models.OneToOneField(
-        get_user_model(),
-        on_delete=models.CASCADE,
-        related_name="beta_reader_profile",
-        help_text="The user who is a beta reader",
-    )
-    experience = models.TextField(
-        null=True, blank=True, help_text="Summary of the beta reader's experience"
-    )
-    genres = models.ManyToManyField(
-        "Genre",
-        related_name="beta_readers",
-        blank=True,
-        help_text="Genres the beta reader is interested in",
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True, help_text="When the beta reader profile was created"
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, help_text="When the beta reader profile was last updated"
-    )
-
-    def __str__(self):
-        return self.user.username
-
-
-def __str__(self):
-    return f"{self.beta_reader.username} applied for {self.manuscript.title}"
-
-
-class Genre(models.Model):
-    name = models.CharField(max_length=100, null=False, help_text="Name of the genre")
-    description = models.TextField(
-        null=True, blank=True, help_text="Description of the genre"
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class ManuscriptKeywords(models.Model):
     manuscript = models.ForeignKey("Manuscript", on_delete=models.CASCADE)
     keyword = models.ForeignKey("Keyword", on_delete=models.CASCADE)
@@ -469,3 +481,8 @@ def create_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
     instance.profile.save()
+    
+@receiver(post_save, sender=Profile)
+def create_beta_reader(sender, instance, created, **kwargs):
+    if created and instance.role == "beta_reader":
+        BetaReader.objects.create(profile=instance)

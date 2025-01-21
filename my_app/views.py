@@ -1,3 +1,5 @@
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import generics
 from django.contrib.auth.models import User
@@ -16,7 +18,9 @@ from django.contrib.auth.forms import UserCreationForm
 from social_django.utils import load_strategy
 from social_core.backends.google import GoogleOAuth2
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 
 
 from .models import (
@@ -85,7 +89,8 @@ def register_view(request):
 # def reader_dashboard(request):
 #     return render(request, "reader-dashboard.html")
 
-
+@login_required
+@permission_required("my_app.can_view_reader_dashboard", raise_exception=True)
 def reader_dashboard(request):
     return render(request, "reader-dashboard.html")
 
@@ -123,6 +128,8 @@ def reader_settings(request):
 
 
 # Author Dashboard Views
+@login_required
+@permission_required("my_app.can_view_author_dashboard", raise_exception=True)
 def author_dashboard(request):
     return render(request, "author-dashboard.html", {"user": request.user})
 
@@ -230,6 +237,22 @@ def manuscripts_api(request):
         ]
     }
     return JsonResponse(data)
+
+def beta_reader_list(request):
+    query = request.GET.get("query", "")
+    keyword = request.GET.get("keyword", "")
+
+    beta_readers = BetaReader.objects.all()
+
+    if query:
+        beta_readers = beta_readers.filter(
+            Q(profile__user__username__icontains=query) |
+            Q(experience__icontains=query)
+        )
+    if keyword:
+        beta_readers = beta_readers.filter(keywords__name__icontains=keyword)
+
+    return render(request, "beta_readers/beta_reader_list.html", {"beta_readers": beta_readers})
 
 @login_required
 def my_books(request):
@@ -346,7 +369,22 @@ def get_manuscripts(request):
 
 
 def find_beta_readers(request):
-    return render(request, "Author_Dashboard/beta-reader-list.html")
+    min_rating = request.GET.get("min_rating", 0)  # Default to 0 if not provided
+    keyword = request.GET.get("keyword", "")      # Default to an empty string
+
+    # Query beta readers
+    beta_readers = BetaReader.objects.all()
+
+    # Filter by minimum rating
+    if min_rating:
+        beta_readers = beta_readers.filter(rating__gte=float(min_rating))
+
+    # Filter by keyword
+    if keyword:
+        beta_readers = beta_readers.filter(keywords__name__icontains=keyword)
+
+    # Render the results in a template
+    return render(request, "find_beta_readers.html", {"beta_readers": beta_readers})
 
 
 def beta_reader_list(request):
@@ -384,40 +422,6 @@ def create_manuscript(request):
     )
 
 
-# def feedback_form(request, manuscript_id):
-#     manuscript = get_object_or_404(Manuscript, id=manuscript_id)
-
-#     if request.method == "POST":
-#         feedback_data = request.POST  # Get all POST data
-
-#         # Create a new Feedback instance
-#         feedback = Feedback.objects.create(
-#             manuscript=manuscript,
-#             user=request.user,
-#             plot=feedback_data.get("plot"),
-#             characters=feedback_data.get("characters"),
-#             pacing=feedback_data.get("pacing"),
-#             worldbuilding=feedback_data.get("worldbuilding"),
-#             comments=feedback_data.get("comments"),
-#             # ... any other fields you want to save ...
-#         )
-
-#         # Process inManuscriptComments (assuming it's a JSON string)
-#         in_manuscript_comments = feedback_data.get("inManuscriptComments")
-#         if in_manuscript_comments:
-#             # ... logic to parse and store inManuscriptComments ...
-#             # (This depends on your data structure and how you want to store it)
-#             pass
-
-#         # Option 1: Redirect to a success page
-#         return redirect("feedback_success")
-
-#         # Option 2: Return a JSON response (for AJAX)
-#         # return JsonResponse({'success': True})
-
-#     return render(request, "Reader_Dashboard/feedback-form.html", {"manuscript": manuscript})
-
-
 @login_required
 def active_titles_count(request):
     """View to count active titles (draft manuscripts) for the logged-in user."""
@@ -425,18 +429,12 @@ def active_titles_count(request):
     print(f"Draft Count: {draft_count}")
     return JsonResponse({"draft_count": draft_count})
 
-def get_completed_reviews_count(request):
-    # Get the logged-in author's manuscripts
-    manuscripts = Manuscript.objects.filter(author=request.user)
-
-    # Count the completed reviews associated with those manuscripts
-    completed_reviews_count = FeedbackResponse.objects.filter(
-        manuscript__in=manuscripts,  # Filter by author's manuscripts
-        reviewed=True,           # Assuming `is_completed` marks review completion
-    ).count()
-
-    # Return the count as JSON
-    return JsonResponse({"completed_reviews_count": completed_reviews_count})
+@login_required
+def get_feedback_count(request):
+    if request.user.is_authenticated:
+        feedback_count = FeedbackResponse.objects.filter(manuscript__author=request.user).count()
+        return JsonResponse({"feedback_count": feedback_count}, status=200)
+    return JsonResponse({"error": "Unauthorized"}, status=401)
 
 @login_required
 def get_notifications(request):
@@ -533,6 +531,13 @@ def delete_manuscript(request, manuscript_id):
     manuscript.delete()
     return redirect('my_app:my-books-html')
 
+def beta_reader_public_profile(request, pk):
+    # Fetch the BetaReader instance by primary key (id)
+    beta_reader = get_object_or_404(BetaReader, pk=pk)
+
+    # Pass the BetaReader instance to the template
+    return render(request, "beta_readers/beta_reader_profile.html", {"beta_reader": beta_reader})
+
 
 def feedback_summary(request):
     return render(request, "Author_Dashboard/feedback-summary.html")
@@ -628,7 +633,7 @@ class UserListCreateView(generics.ListCreateAPIView):
     """
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserSerializer 
     permission_classes = [AllowAny]
 
 
@@ -777,10 +782,26 @@ class BetaReaderApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BetaReaderApplicationSerializer
 
 
-from django.template.loader import get_template
+@receiver(post_save, sender=User)  # Or CustomUser if you're using it
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        profile, profile_created = Profile.objects.get_or_create(user=instance)
 
-try:
-    get_template("Author_Dashboard/beta-reader-list.html")
-    print("Template exists and is accessible.")
-except Exception as e:
-    print(f"Error: {e}")
+        # Assign permissions based on role
+        if profile.role == "author":
+            assign_role_permissions(profile, "author")
+        elif profile.role == "beta_reader":
+            assign_role_permissions(profile, "beta_reader")
+
+def assign_role_permissions(profile, role):
+    content_type = ContentType.objects.get_for_model(Manuscript)
+    if role == "author":
+        permission = Permission.objects.get(
+            codename="can_view_author_dashboard", content_type=content_type
+        )
+    elif role == "beta_reader":
+        permission = Permission.objects.get(
+            codename="can_view_reader_dashboard", content_type=content_type
+        )
+
+    profile.user.user_permissions.add(permission)

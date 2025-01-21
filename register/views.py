@@ -30,14 +30,21 @@ def register(request):
             if user is not None:
                 print("User authenticated.")  # Debug authentication
                 auth_login(request, user)  # Log in user
-                return redirect("my_app:home")
+                
+                # Redirect based on the user's role
+                if role == "author":
+                    return redirect("my_app:author-dashboard-html")  # Author dashboard URL name
+                elif role == "beta_reader":
+                    return redirect("my_app:reader-dashboard-html")  # Beta reader dashboard URL name
+                else:
+                    return redirect("my_app:home")  # Default fallback for other roles
         else:
             print(f"Form errors: {form.errors}")  # Debug form errors
             return render(request, "register/register.html", {"form": form})
     else:
         form = RegisterForm()
     return render(request, "register/register.html", {"form": form})
-  
+
 def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
