@@ -134,11 +134,8 @@ urlpatterns = [
         name="notification-detail",
     ),
     # Beta Reader Application URLs
-    path("find_beta_readers/", views.find_beta_readers, name="find-beta-readers"),
+    path("beta_readers/", views.find_beta_readers, name="find-beta-readers-html"),
     # Optional: Different URL for the function-based beta_reader_list view
-    path(
-        "beta_reader_list_function/", beta_reader_list, name="beta-reader-list-function"
-    ),
     path(
         "beta-reader-applications/<int:pk>/",
         views.BetaReaderApplicationDetailView.as_view(),
@@ -202,7 +199,6 @@ urlpatterns = [
     path('manuscripts/<int:manuscript_id>/delete/', views.delete_manuscript, name='delete-manuscript'),
     path("my-manuscripts/", views.my_manuscripts, name="my-manuscripts-html"),
     path("my-books/", views.my_books, name="my-books-html"),
-    path("find-beta-readers/", views.find_beta_readers, name="find-beta-readers-html"),
     path("author-profile/", views.author_profile, name="author-profile-html"),
     path("feedback-summary/", views.feedback_summary, name="feedback-summary-html"),
     path("manuscript-submission/", views.create_manuscript, name="manuscript-submission-html"),
@@ -223,7 +219,6 @@ urlpatterns = [
         name="author-payment-page-html",
     ),
     path("author-settings/", views.author_settings, name="author-settings-html"),
-    path("find-beta-readers/", views.find_beta_readers, name="find-beta-readers-html"),
 ]
 
 if settings.DEBUG:

@@ -5,6 +5,10 @@ from my_app.models import Profile
 from django.contrib.auth.forms import AuthenticationForm
 from my_app.models import Profile
 
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+from my_app.models import Manuscript  # Replace with the correct model for permissions
+
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -20,9 +24,22 @@ def register(request):
             # Save role in the Profile model
             role = form.cleaned_data.get("role")
             profile, created = Profile.objects.get_or_create(user=user, defaults={"role": role})
+            print(f"Profile created: {created}; role is {role}")  # Debug profile creation
 
             if not created:
                 print(f"Profile already exists for user {user.username}")  # Debug profile existence
+
+            # Assign permissions based on the role
+            content_type = ContentType.objects.get_for_model(Manuscript)
+            if role == "author":
+                permission = Permission.objects.get(codename="can_view_author_dashboard", content_type=content_type)
+            elif role == "beta_reader":
+                permission = Permission.objects.get(codename="can_view_reader_dashboard", content_type=content_type)
+            else:
+                permission = None
+
+            if permission:
+                user.user_permissions.add(permission)
 
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password1")

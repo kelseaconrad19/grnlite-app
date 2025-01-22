@@ -369,22 +369,7 @@ def get_manuscripts(request):
 
 
 def find_beta_readers(request):
-    min_rating = request.GET.get("min_rating", 0)  # Default to 0 if not provided
-    keyword = request.GET.get("keyword", "")      # Default to an empty string
-
-    # Query beta readers
-    beta_readers = BetaReader.objects.all()
-
-    # Filter by minimum rating
-    if min_rating:
-        beta_readers = beta_readers.filter(rating__gte=float(min_rating))
-
-    # Filter by keyword
-    if keyword:
-        beta_readers = beta_readers.filter(keywords__name__icontains=keyword)
-
-    # Render the results in a template
-    return render(request, "find_beta_readers.html", {"beta_readers": beta_readers})
+    return render(request, "Author_Dashboard/beta-reader-list.html")
 
 
 def beta_reader_list(request):
@@ -413,7 +398,7 @@ def create_manuscript(request):
             manuscript.author = request.user  # Set the author to the logged-in user
             manuscript.save()  # Save to the database
             form.save_m2m()  # Save many-to-many relationships like keywords
-            return redirect("my_app:manuscript-success")  # Redirect to the dashboard
+            return redirect("my_app:author-dashboard-html")  # Redirect to the dashboard
     else:
         form = ManuscriptSubmissionForm()
 

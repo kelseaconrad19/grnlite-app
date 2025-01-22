@@ -35,7 +35,6 @@ class Profile(models.Model):
     role = models.CharField(
         max_length=20,
         choices=ROLE_CHOICES,
-        default="author",
         help_text="Role of the user",
     )
     user = models.OneToOneField(

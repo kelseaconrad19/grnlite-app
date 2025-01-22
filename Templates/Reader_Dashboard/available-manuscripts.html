@@ -43,21 +43,23 @@
 								}
 		
 								data.manuscripts.forEach((manuscript) => {
-										const manuscriptDiv = document.createElement("div");
-										manuscriptDiv.classList.add("manuscript-item");
-										manuscriptDiv.innerHTML = `
-												${
-														manuscript.cover_art
-																? `<img src="${manuscript.cover_art}" alt="${manuscript.title} Cover Art" style="width: auto; height: 230px;"/>`
-																: ""
-												}
-												<h3>${manuscript.title}</h3>
-												<p><strong>Author:</strong> ${manuscript.author || "Unknown"}</p>
-												<p><strong>Keywords:</strong> ${manuscript.keywords.join(", ")}</p>
-												<a href="/book-details/${manuscript.id}/" class="btn btn-primary" style="margin-bottom: 30px;">View Book Details</a>
-										`;
-										manuscriptList.appendChild(manuscriptDiv);
-								});
+									const manuscriptDiv = document.createElement("div");
+									manuscriptDiv.classList.add("manuscript-item");
+							
+									// Check for cover art, and set a placeholder if not available
+									const coverArt = manuscript.cover_art
+											? manuscript.cover_art
+											: "/static/Front_End/Images/book-cover-placeholder.png";
+							
+									manuscriptDiv.innerHTML = `
+											<img src="${coverArt}" alt="${manuscript.title} Cover Art" style="width: 120px; height: 180px; object-fit: cover;" />
+											<h3>${manuscript.title}</h3>
+											<p><strong>Author:</strong> ${manuscript.author || "Unknown"}</p>
+											<p><strong>Keywords:</strong> ${manuscript.keywords ? manuscript.keywords.join(", ") : "None"}</p>
+											<a href="/feedback-form/${manuscript.id}/" class="btn feedback-btn">Feedback Form</a>
+									`;
+									manuscriptList.appendChild(manuscriptDiv);
+							});
 						})
 						.catch((error) => console.error("Error fetching manuscripts:", error));
 		}
