@@ -29,7 +29,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
-    "127.0.0.1,localhost,grnlite.onrender.com,.render.com,0.0.0.0,",
+    "127.0.0.1,localhost,grnlite-app.onrender.com,.render.com,0.0.0.0,",
 ).split(",")
 
 USE_TZ = True  # Ensure this is set
