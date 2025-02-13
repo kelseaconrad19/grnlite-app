@@ -38,7 +38,7 @@ class Profile(models.Model):
         help_text="Role of the user",
     )
     user = models.OneToOneField(
-        User,  # Reference the default User model
+        "my_app.CustomUser",  # Reference the default User model
         on_delete=models.CASCADE,
         help_text="User who owns the profile",
     )
