@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "False")
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
@@ -133,6 +133,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:8080",
     "http://localhost:5000",
+    "https://grnlite-app.onrender.com",
 ]
 
 # JWT SETTING
@@ -144,7 +145,6 @@ SIMPLE_JWT = {
 }
 
 # OAuth settings
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv(
     "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY", "default-value-or-None"
 )
@@ -207,6 +207,7 @@ LOGGING = {
         "django.db.backends": {
             "level": "DEBUG",
             "handlers": ["console"],
+        },
     },
 }
 
@@ -238,9 +239,6 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT"),
     }
 }
-
-print(f"DATABASE: {os.getenv('DB_NAME')} USER: {os.getenv('DB_USER')}")
-print(f"GOOGLE KEY: {os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')}")
 
 
 # Password validation
@@ -292,7 +290,7 @@ MEDIA_URL = "/media/"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smt.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
