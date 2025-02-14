@@ -1,5 +1,5 @@
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser, Group, Permission
@@ -38,7 +38,7 @@ class Profile(models.Model):
         help_text="Role of the user",
     )
     user = models.OneToOneField(
-        "my_app.CustomUser",  # Reference the default User model
+        get_user_model(),
         on_delete=models.CASCADE,
         help_text="User who owns the profile",
     )
@@ -471,8 +471,8 @@ class BetaReaderApplication(models.Model):
 class ManuscriptKeywords(models.Model):
     manuscript = models.ForeignKey("Manuscript", on_delete=models.CASCADE)
     keyword = models.ForeignKey("Keyword", on_delete=models.CASCADE)
-    
-@receiver(post_save, sender=User)  # Replace `User` with `CustomUser` if you're using a custom user model
+        
+@receiver(post_save, sender=get_user_model())  # ✅ Use the correct User model
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
