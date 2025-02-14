@@ -472,10 +472,13 @@ class ManuscriptKeywords(models.Model):
     manuscript = models.ForeignKey("Manuscript", on_delete=models.CASCADE)
     keyword = models.ForeignKey("Keyword", on_delete=models.CASCADE)
         
-@receiver(post_save, sender=get_user_model())  # ✅ Use the correct User model
+@receiver(post_save, sender=get_user_model())
 def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+    """
+    Creates a Profile only after the user is fully saved.
+    """
+    if created and instance.id:  # ✅ Ensure user exists before creating profile
+        Profile.objects.get_or_create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
