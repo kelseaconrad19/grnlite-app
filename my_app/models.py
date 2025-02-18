@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, transaction
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.timezone import now
@@ -477,14 +477,11 @@ def create_profile(sender, instance, created, **kwargs):
     """
     Creates a Profile only after the user is fully saved.
     """
-    if created and instance.id:  # ✅ Ensure user exists before creating profile
-        Profile.objects.get_or_create(user=instance)
+    if created:  # ✅ Ensure user exists before creating profile
+        transaction.on_commit(lambda: Profile.objects.get_or_create(user=instance))
 
-@receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    instance.profile.save()
     
 @receiver(post_save, sender=Profile)
 def create_beta_reader(sender, instance, created, **kwargs):
     if created and instance.role == "beta_reader":
-        BetaReader.objects.create(profile=instance)
+        transaction.on_commit(lambda: BetaReader.objects.get_or_create(profile=instance))
